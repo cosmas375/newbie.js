@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./style.css">
+  <script src="./newbie.js"></script>
+  <title>Newbie sandbox</title>
+</head>
+<body>
+  <button id="start">start</button>
+  <div data-newbie-target="1">1</div>
+  <div data-newbie-target="2">2</div>
+  <div data-newbie-target="3">3</div>
+
+  <div
+    id="hint-component"
+    class="hint-component"
+  >
+    <div
+      data-newbie-step-content
+      class="hint-component__content"
+    ></div>
+    <div class="hint-component__controls">
+      <button data-newbie-go-previous>prev</button>
+      <button data-newbie-go-next>next</button>
+    </div>
+  </div>
+
+  <script src="./index.js"></script>
+</body>
+</html>

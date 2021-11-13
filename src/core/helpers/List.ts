@@ -16,6 +16,7 @@ export class List implements IList<INode> {
     if (!this._head && !this._tail) {
       this._head = this._tail = node;
     } else {
+      node.previous = this._tail;
       this._tail.next = node;
       this._tail = node;
     }

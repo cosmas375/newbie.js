@@ -1,3 +1,4 @@
+import { IStepConfig, TStepTarget, TStepCallback } from '../helpers/Config';
 import getTargetElement from '../utils/getTargetElement';
 import getCallback from '../utils/getCallback';
 
@@ -9,20 +10,24 @@ export interface IStep {
 
 export class Step implements IStep {
   private _id: string;
-  private _target: TTarget;
+  private _target: TStepTarget;
+  private _component: Element;
+  private _content: string;
 
-  private _beforeMount(): TStepCallback {};
-  private _mounted(targetElement: Element): TStepCallback {};
-  private _beforeUnmount(targetElement: Element): TStepCallback {};
-  private _unmounted(): TStepCallback {};
+  private _beforeMount(): TStepCallback { };
+  private _mounted(targetElement: Element): TStepCallback { };
+  private _beforeUnmount(targetElement: Element): TStepCallback { };
+  private _unmounted(): TStepCallback { };
 
-  private _onError(err?: TStepError): TStepCallback {};
+  private _onError(err?: TStepError): TStepCallback { };
 
   private _targetElement: Element;
 
-  constructor(config: TStepConfig, { onError } = { onError: () => {} }) {
+  constructor(config: IStepConfig, { onError } = { onError: () => { } }) {
     this._id = String(config.id);
     this._target = config.target;
+    this._component = config.component;
+    this._content = config.content;
 
     this._beforeMount = getCallback(config.beforeMount);
     this._mounted = getCallback(config.beforeMount);
@@ -41,7 +46,7 @@ export class Step implements IStep {
     const targetElement = getTargetElement(this._target);
 
     if (!targetElement) {
-      this._onError(`Target for ${ this._id } not found!`);
+      this._onError(`Target for ${this._id} not found!`);
       return;
     }
 
@@ -74,33 +79,25 @@ export class Step implements IStep {
   }
 
   private _mountShadow(): void {
-    console.log('shadow mounted');
+    console.log(`shadow of ${this._id} mounted`);
   }
 
   private _mountHint(): void {
-    console.log('hint mounted');
+    const contentElement = this._component.querySelector('[data-newbie-step-content]');
+    if (!contentElement) {
+      return;
+    }
+    contentElement.innerHTML = this._content;
   }
 
   private _unmountShadow(): void {
-    console.log('shadow unmounted');
+    console.log(`shadow of ${this._id} unmounted`);
   }
 
   private _unmountHint(): void {
-    console.log('hint unmounted');
+    console.log(`hint ${this._id} unmounted`);
   }
 }
 
-export type TStepConfig = {
-  id: string,
-  target: TTarget,
-  beforeMount(): TStepCallback,
-  mounted(targetElement: Element): TStepCallback,
-  beforeUnmount(targetElement: Element): TStepCallback,
-  unmounted(): TStepCallback,
-}
-
-export type TStepCallback = void;
-
-export type TTarget = string | Element;
 
 type TStepError = string;

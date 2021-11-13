@@ -1,22 +1,25 @@
-import { IStep, TStepConfig, Step } from './Step';
+import { INewbieConfig, TCallback } from '../helpers/Config';
+import { IStep, Step } from './Step';
 import { IList, INode, List } from '../helpers/List';
 import validateConfig from '../utils/validateConfig';
 import getCallback from '../utils/getCallback';
+import resolveStepConfig from '../utils/resolveStepConfig';
 import _throw from '../utils/throw';
 
 export class Newbie {
   private _steps: IList<IStep>;
 
-  private _beforeStart(): TCallback {};
-  private _started(): TCallback {};
-  private _beforeFinish(): TCallback {};
-  private _finished(): TCallback {};
+  private _beforeStart(): TCallback { };
+  private _started(): TCallback { };
+  private _beforeFinish(): TCallback { };
+  private _finished(): TCallback { };
 
-  private _onError(err?: TError): TCallback {};
+  private _onError(err?: TError): TCallback { };
 
   private _currentStep: INode;
+  private _isStarted: boolean;
 
-  constructor(config: TConfig, settings?: TSettings) {
+  constructor(config: INewbieConfig, settings?: TSettings) {
     const error = validateConfig(config);
     if (error) {
       _throw(error);
@@ -35,22 +38,29 @@ export class Newbie {
       this._onError('No first step');
       return;
     }
-    this._goTo(firstStep.value);
+    this._goTo(firstStep);
+    this._isStarted = true;
 
     this._started();
   }
 
   public goNext(): void {
+    if (!this._isStarted) {
+      return;
+    }
     const nextStep = this._currentStep.next;
     if (!nextStep) {
       this.stop();
       return;
     }
-    this._goTo(nextStep.value);
+    this._goTo(nextStep);
   }
 
   public goPrevious(): void {
-    const previousStep = this._currentStep.next;
+    if (!this._isStarted) {
+      return;
+    }
+    const previousStep = this._currentStep.previous;
     if (!previousStep) {
       return;
     }
@@ -61,24 +71,25 @@ export class Newbie {
     this._beforeFinish();
 
     this._currentStep.value.unmount();
+    this._isStarted = false;
 
     this._finished();
   }
 
-  private _setSettings(settings: TSettings): void {
+  private _setSettings(settings: TSettings = {}): void {
     this._onError = getCallback(settings.onError);
   }
 
-  private _setSteps(config: TConfig): void {
+  private _setSteps(config: INewbieConfig): void {
     const list = new List();
     config.steps.forEach(stepConfig => {
-      const step = new Step(stepConfig, { onError: this._onError });
+      const step = new Step(resolveStepConfig(stepConfig, config), { onError: this._onError });
       list.add(step);
     });
     this._steps = list;
   }
 
-  private _setLifeCycleHooks(config: TConfig): void {
+  private _setLifeCycleHooks(config: INewbieConfig): void {
     this._beforeStart = getCallback(config.beforeStart);
     this._started = getCallback(config.started);
     this._beforeFinish = getCallback(config.beforeFinish);
@@ -86,23 +97,16 @@ export class Newbie {
   }
 
   private _goTo(newStep: INode): void {
-    this._currentStep.value.unmount();
+    if (this._currentStep) [
+      this._currentStep.value.unmount();
+    ]
     this._currentStep = newStep;
     this._currentStep.value.mount();
   }
-};
-
-export type TConfig = {
-  steps: TStepConfig[],
-  beforeStart?(): TCallback;
-  started?(): TCallback;
-  beforeFinish?(): TCallback;
-  finished?(): TCallback;
 };
 
 type TSettings = {
   onError?(): TCallback;
 };
 
-type TCallback = void;
 type TError = string;

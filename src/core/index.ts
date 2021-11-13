@@ -1,3 +1,9 @@
 import { Newbie } from './model/Newbie';
 
-export default Newbie;
+declare global {
+  interface Window {
+    Newbie: any;
+  }
+}
+
+window.Newbie = Newbie;
