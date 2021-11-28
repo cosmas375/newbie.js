@@ -58,8 +58,12 @@ class HtmlShadow extends AbstractShadow {
   private _classNameHtml = 'newbie-html-shadow';
   private _blockClassName = `${this._classNameHtml}__block`;
 
-  constructor(settings) {
+  private _offset: number;
+
+  constructor(settings: IShadowSettings) {
     super(settings);
+
+    this._offset = settings.offset || 0;
 
     this._createElements();
   }
@@ -108,19 +112,19 @@ class HtmlShadow extends AbstractShadow {
   private _update(target) {
     const targetRect = target.getBoundingClientRect();
 
-    this._blockT.style.height = `${targetRect.top}px`;
+    this._blockT.style.height = `${targetRect.top - this._offset}px`;
 
-    this._blockR.style.top = `${targetRect.top}px`;
-    this._blockR.style.left = `${targetRect.left + targetRect.width}px`;
-    this._blockR.style.width = `${window.innerWidth - (targetRect.left + targetRect.width)}px`;
-    this._blockR.style.height = `${targetRect.height}px`;
+    this._blockR.style.top = `${targetRect.top - this._offset}px`;
+    this._blockR.style.left = `${targetRect.left + targetRect.width + this._offset}px`;
+    this._blockR.style.width = `${window.innerWidth - (targetRect.left + targetRect.width + this._offset)}px`;
+    this._blockR.style.height = `${targetRect.height + 2 * this._offset}px`;
 
-    this._blockB.style.top = `${targetRect.top + targetRect.height}px`;
-    this._blockB.style.height = `${window.innerHeight - (targetRect.top + targetRect.height)}px`;
+    this._blockB.style.top = `${targetRect.top + targetRect.height + this._offset}px`;
+    this._blockB.style.height = `${window.innerHeight - (targetRect.top + targetRect.height + this._offset)}px`;
 
-    this._blockL.style.top = `${targetRect.top}px`;
-    this._blockL.style.width = `${targetRect.left}px`;
-    this._blockL.style.height = `${targetRect.height}px`;
+    this._blockL.style.top = `${targetRect.top - this._offset}px`;
+    this._blockL.style.width = `${targetRect.left - this._offset}px`;
+    this._blockL.style.height = `${targetRect.height + 2 * this._offset}px`;
   }
 
   private _show() {

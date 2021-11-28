@@ -9,12 +9,14 @@ export default function resolveStepConfig(stepConfig: IStepConfig, config: INewb
   if (!stepConfig.shadow) {
     stepConfig.shadow = config.shadow || { type: null, settings: {} };
   }
+  if (!stepConfig.shadow.type && stepConfig.shadow.type !== null) {
+    stepConfig.shadow.type = config.shadow.type;
+  }
+  if (!stepConfig.shadow.settings && config.shadow.type === stepConfig.shadow.type) {
+    stepConfig.shadow.settings = config.shadow.settings;
+  }
   if (!stepConfig.shadow.settings) {
-    if (config.shadow.type === stepConfig.shadow.type) {
-      stepConfig.shadow.settings = config.shadow.settings || {};
-    } else {
-      stepConfig.shadow.settings = {};
-    }
+    stepConfig.shadow.settings = {};
   }
   // end shadow
 

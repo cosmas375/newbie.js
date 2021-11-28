@@ -29,7 +29,8 @@ export interface IShadowConfig {
   settings: IShadowSettings,
 }
 export interface IShadowSettings {
-  rootComponent?: HTMLElement
+  rootComponent?: HTMLElement,
+  offset?: number,
 }
 
 

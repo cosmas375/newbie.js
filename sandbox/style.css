@@ -2,6 +2,14 @@ body {
   height: 200vh;
 }
 
+#start {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  font-size: 20px;
+  z-index: 2;
+}
+
 [data-newbie-target] {
   position: absolute;
   display: flex;

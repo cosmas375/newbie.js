@@ -13,12 +13,20 @@ const instance = new Newbie({
     target: '[data-newbie-target="2"]',
     content: 'fuck you',
     placement: 'left',
-    shadow: {},
+    shadow: {
+      type: null,
+    },
   }, {
     id: '3',
     target: '[data-newbie-target="3"]',
     content: 'fuck you bitch',
     placement: 'top-right',
+    shadow: {
+      type: 'html',
+      settings: {
+        offset: 10
+      }
+    },
   }]
 });
 
