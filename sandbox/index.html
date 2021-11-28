@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./main.css">
   <script src="./newbie.js"></script>
   <title>Newbie sandbox</title>
 </head>
@@ -15,16 +16,17 @@
   <div data-newbie-target="3">3</div>
 
   <div
-    id="hint-component"
-    class="hint-component"
+    id="newbie-hint"
+    class="newbie-hint"
   >
     <div
       data-newbie-step-content
-      class="hint-component__content"
+      class="newbie-hint__content"
     ></div>
-    <div class="hint-component__controls">
+    <div class="newbie-hint__controls">
       <button data-newbie-go-previous>prev</button>
       <button data-newbie-go-next>next</button>
+      <button data-newbie-stop>stop</button>
     </div>
   </div>
 

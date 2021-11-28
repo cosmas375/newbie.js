@@ -1,6 +1,4 @@
-import { TTarget } from "../model/Step";
-
-export default function getTargetElement(payload: TTarget): Element {
+export default function getTargetElement(payload): HTMLElement {
   const element = typeof payload === 'string'
     ? document.querySelector(payload)
     : payload;

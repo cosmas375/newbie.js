@@ -1,0 +1,36 @@
+.newbie-shadow {
+  display: none;
+  pointer-events: none;
+
+  &_visible {
+    display: block;
+  }
+}
+
+.newbie-html-shadow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  &__block {
+    position: absolute;
+    background-color: rgba(0,0,0,.3);
+
+    &_top {
+      width: 100%;
+      top: 0;
+      left: 0;
+    }
+
+    &_bottom {
+      width: 100%;
+      left: 0;
+    }
+
+    &_left {
+      left: 0;
+    }
+  }
+}

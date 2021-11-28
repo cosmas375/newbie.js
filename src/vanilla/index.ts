@@ -1,4 +1,5 @@
-import { Newbie } from './model/Newbie';
+import { Newbie } from '../core/model/Newbie';
+import '../assets/scss/shadow.scss';
 
 declare global {
   interface Window {

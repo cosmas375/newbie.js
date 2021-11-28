@@ -1,17 +1,17 @@
-export interface IList<Item> {
+export interface ILinkedList<Item> {
   add(item: Item): void;
   getFirst(): INode;
   getLast(): INode;
 }
 
-type TListValue = any;
+type TLinkedListValue = any;
 
-export class List implements IList<INode> {
+export class LinkedList implements ILinkedList<INode> {
   private _head: INode;
   private _tail: INode;
 
   public add(data) {
-    const node = new ListItem(data);
+    const node = new Node(data);
 
     if (!this._head && !this._tail) {
       this._head = this._tail = node;
@@ -32,21 +32,21 @@ export class List implements IList<INode> {
 }
 
 export interface INode {
-  value: TListValue;
+  value: TLinkedListValue;
   next: INode;
   previous: INode;
 }
 
-class ListItem implements INode {
-  private _value: TListValue;
+class Node implements INode {
+  private _value: TLinkedListValue;
   private _previous: INode;
   private _next: INode;
 
-  constructor(value: TListValue) {
+  constructor(value: TLinkedListValue) {
     this.value = value;
   }
 
-  public set value(value: TListValue) {
+  public set value(value: TLinkedListValue) {
     this._value = value;
   }
   public get value() {

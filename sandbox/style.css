@@ -33,3 +33,11 @@ body {
   left: 50px;
   background-color: rgb(255, 168, 168);
 }
+
+.newbie-hint {
+  padding: 20px;
+  display: none;
+  box-shadow: 0 0 10px black;
+  border-radius: 5px;
+  background-color: #fff;
+}

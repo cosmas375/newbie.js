@@ -19,6 +19,11 @@
   },
   "homepage": "https://github.com/cosmas375/newbie#readme",
   "devDependencies": {
+    "css-loader": "^6.5.1",
+    "mini-css-extract-plugin": "^2.4.5",
+    "postcss-loader": "^6.2.1",
+    "sass": "^1.43.5",
+    "sass-loader": "^12.3.0",
     "ts-loader": "^9.2.6",
     "typescript": "^4.4.4",
     "webpack": "^5.64.0",
