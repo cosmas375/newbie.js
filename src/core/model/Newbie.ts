@@ -14,18 +14,15 @@ export class Newbie {
   private _beforeFinish(): TCallback { };
   private _finished(): TCallback { };
 
-  private _onError(err?: TError): TCallback { };
-
   private _currentStep: INode;
   private _isStarted: boolean;
 
-  constructor(config: INewbieConfig, settings?: TSettings) {
+  constructor(config: INewbieConfig) {
     const error = validateConfig(config);
     if (error) {
       _throw(error);
     }
 
-    this._setSettings(settings);
     this._setSteps(config);
     this._setLifeCycleHooks(config);
   }
@@ -35,7 +32,7 @@ export class Newbie {
 
     const firstStep = this._steps.getFirst();
     if (!firstStep) {
-      this._onError('No first step');
+      _throw('No first step');
       return;
     }
     this._goTo(firstStep);
@@ -76,14 +73,10 @@ export class Newbie {
     this._finished();
   }
 
-  private _setSettings(settings: TSettings = {}): void {
-    this._onError = getCallback(settings.onError);
-  }
-
   private _setSteps(config: INewbieConfig): void {
     const list = new LinkedList();
     config.steps.forEach(stepConfig => {
-      const step = new Step(resolveStepConfig(stepConfig, config), { onError: this._onError });
+      const step = new Step(resolveStepConfig(stepConfig, config));
       list.add(step);
     });
     this._steps = list;
@@ -104,9 +97,3 @@ export class Newbie {
     this._currentStep.value.mount();
   }
 };
-
-type TSettings = {
-  onError?(): TCallback;
-};
-
-type TError = string;

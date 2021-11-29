@@ -1,51 +1,40 @@
-import { IStepConfig, TStepTarget, TStepCallback, TPosition } from '../helpers/Config';
+import { IStepConfig, TStepTarget, TStepCallback } from '../helpers/Config';
 import getTargetElement from '../utils/getTargetElement';
 import getCallback from '../utils/getCallback';
 import { IShadow, Shadow } from './Shadow';
+import { IHint, Hint } from './Hint';
+import _throw from '../utils/throw';
 
 export interface IStep {
-  id: string,
   mount(): void,
   unmount(): void,
 }
 
 export class Step implements IStep {
-  private _config: IStepConfig;
-
   private _id: string;
   private _target: TStepTarget;
-  private _component: HTMLElement;
-  private _content: string;
-  private _position: TPosition;
+
   private _shadow: IShadow;
+  private _hint: IHint;
 
   private _beforeMount(): TStepCallback { };
   private _mounted(targetElement: HTMLElement): TStepCallback { };
   private _beforeUnmount(targetElement: HTMLElement): TStepCallback { };
   private _unmounted(): TStepCallback { };
 
-  private _onError(err?: TStepError): TStepCallback { };
-
   private _targetElement: HTMLElement;
 
-  constructor(config: IStepConfig, { onError } = { onError: () => { } }) {
+  constructor(config: IStepConfig) {
     this._id = String(config.id);
     this._target = config.target;
-    this._component = config.component;
-    this._content = config.content;
-    this._position = config.position;
-
-    this._config = config;
+    this._shadow = Shadow.create(config.shadow.type, config.shadow.settings);
+    this._hint = Hint.create(config.hint);
+    this._hint.setContent(config.content);
 
     this._beforeMount = getCallback(config.beforeMount);
     this._mounted = getCallback(config.beforeMount);
     this._beforeUnmount = getCallback(config.beforeMount);
     this._unmounted = getCallback(config.beforeMount);
-    this._onError = getCallback(onError);
-  }
-
-  get id() {
-    return this._id;
   }
 
   public mount(): void {
@@ -54,11 +43,11 @@ export class Step implements IStep {
     const targetElement = getTargetElement(this._target);
 
     if (!targetElement) {
-      this._onError(`Target for step [${this._id}] was not found!`);
+      _throw(`Target for step [${this._id}] was not found!`);
       return;
     }
-
     this._targetElement = targetElement;
+
     this._scrollToTarget();
     this._mountShadow();
     this._mountOutline();
@@ -97,14 +86,10 @@ export class Step implements IStep {
       )
     );
 
-    window.scrollTo({
-      top,
-    });
+    window.scrollTo({ top });
   }
 
   private _mountShadow(): void {
-    const shadow = Shadow.create(this._config.shadow.type, this._config.shadow.settings);
-    this._shadow = shadow;
     this._shadow.mount(this._targetElement);
   }
 
@@ -113,18 +98,7 @@ export class Step implements IStep {
   }
 
   private _mountHint(): void {
-    const contentElement = this._component.querySelector('[data-newbie-step-content]');
-    if (!contentElement) {
-      return;
-    }
-    contentElement.innerHTML = this._content;
-    document.documentElement.append(this._component);
-    this._component.style.display = 'block';
-    this._component.style.position = 'absolute';
-    const targetRect = this._targetElement.getBoundingClientRect();
-    const offset = 10;
-    this._component.style.top = `${document.documentElement.scrollTop + targetRect.top + offset}px`;
-    this._component.style.left = `${targetRect.left + targetRect.width + offset}px`;
+    this._hint.mount(this._targetElement);
   }
 
   private _mountArrow(): void {
@@ -140,13 +114,12 @@ export class Step implements IStep {
   }
 
   private _unmountHint(): void {
-    this._component.style.display = 'none';
+    this._hint.unmount();
   }
 
   private _unmountArrow(): void {
     console.log(`arrow of ${this._id} unmounted`);
   }
 }
-
 
 type TStepError = string;

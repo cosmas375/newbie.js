@@ -1,8 +1,8 @@
 import { TShadow } from '../model/Shadow';
 
 export interface IConfig {
-  component: HTMLElement,
   shadow: IShadowConfig,
+  hint: IHintConfig,
 }
 
 export interface INewbieConfig extends IConfig {
@@ -17,7 +17,6 @@ export interface IStepConfig extends IConfig {
   id: string,
   target: TStepTarget,
   content: string,
-  position: TPosition,
   beforeMount(): TStepCallback,
   mounted(targetElement: HTMLElement): TStepCallback,
   beforeUnmount(targetElement: HTMLElement): TStepCallback,
@@ -27,6 +26,10 @@ export interface IStepConfig extends IConfig {
 export interface IShadowConfig {
   type: TShadow,
   settings: IShadowSettings,
+}
+export interface IHintConfig {
+  component: HTMLElement,
+  position?: Position,
 }
 export interface IShadowSettings {
   rootComponent?: HTMLElement,
@@ -40,4 +43,17 @@ export type TStepCallback = void;
 
 export type TStepTarget = string | HTMLElement;
 
-export type TPosition = 'top' | 'left' | 'bottom' | 'right';
+export enum Position {
+  Top = 'top',
+  TopLeft = 'top-left',
+  TopRight = 'top-right',
+  Right = 'right',
+  RightTop = 'right-top',
+  RightBottom = 'right-bottom',
+  Bottom = 'bottom',
+  BottomLeft = 'bottom-left',
+  BottomRight = 'bottom-right',
+  Left = 'left',
+  LeftTop = 'left-top',
+  LeftBottom = 'left-bottom',
+}

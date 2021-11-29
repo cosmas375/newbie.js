@@ -1,31 +1,39 @@
 const instance = new Newbie({
-  component: document.getElementById('newbie-hint'),
   shadow: {
     type: 'html',
+  },
+  hint: {
+    component: document.getElementById('newbie-hint'),
   },
   steps: [{
     id: '1',
     target: '[data-newbie-target="1"]',
     content: 'fuck',
-    placement: 'right',
+    hint: {
+      placement: 'right',
+    },
   }, {
     id: '2',
     target: '[data-newbie-target="2"]',
     content: 'fuck you',
-    placement: 'left',
     shadow: {
       type: null,
+    },
+    hint: {
+      placement: 'left',
     },
   }, {
     id: '3',
     target: '[data-newbie-target="3"]',
     content: 'fuck you bitch',
-    placement: 'top-right',
     shadow: {
       type: 'html',
       settings: {
         offset: 10
       }
+    },
+    hint: {
+      placement: 'top-right',
     },
   }]
 });

@@ -50,13 +50,12 @@ class NullShadow extends AbstractShadow {
 }
 
 class HtmlShadow extends AbstractShadow {
-  private _wrap: HTMLElement;
   private _blockT: HTMLElement;
   private _blockR: HTMLElement;
   private _blockB: HTMLElement;
   private _blockL: HTMLElement;
-  private _classNameHtml = 'newbie-html-shadow';
-  private _blockClassName = `${this._classNameHtml}__block`;
+  private _classNameHtml: string = 'newbie-html-shadow';
+  private _blockClassName: string = `${this._classNameHtml}__block`;
 
   private _offset: number;
 
@@ -64,13 +63,12 @@ class HtmlShadow extends AbstractShadow {
     super(settings);
 
     this._offset = settings.offset || 0;
-
-    this._createElements();
   }
 
   public mount(target) {
     super.mount(target);
 
+    this._createElements();
     this._update(target);
     this._show();
   }
@@ -84,29 +82,27 @@ class HtmlShadow extends AbstractShadow {
 
 
   private _createElements() {
-    this._wrap = document.createElement('div');
     this._blockT = document.createElement('div');
     this._blockR = document.createElement('div');
     this._blockB = document.createElement('div');
     this._blockL = document.createElement('div');
 
-    this._wrap.classList.add(this._className);
-    this._wrap.classList.add(this._classNameHtml);
-    this._blockT.classList.add(this._blockClassName, `${this._blockClassName}_top`);
-    this._blockR.classList.add(this._blockClassName, `${this._blockClassName}_right`);
-    this._blockB.classList.add(this._blockClassName, `${this._blockClassName}_bottom`);
-    this._blockL.classList.add(this._blockClassName, `${this._blockClassName}_left`);
+    this._blockT.classList.add(this._className, this._blockClassName, `${this._blockClassName}_top`);
+    this._blockR.classList.add(this._className, this._blockClassName, `${this._blockClassName}_right`);
+    this._blockB.classList.add(this._className, this._blockClassName, `${this._blockClassName}_bottom`);
+    this._blockL.classList.add(this._className, this._blockClassName, `${this._blockClassName}_left`);
 
-    this._wrap.append(this._blockT);
-    this._wrap.append(this._blockR);
-    this._wrap.append(this._blockB);
-    this._wrap.append(this._blockL);
-
-    this._rootComponent.append(this._wrap);
+    this._rootComponent.append(this._blockT);
+    this._rootComponent.append(this._blockR);
+    this._rootComponent.append(this._blockB);
+    this._rootComponent.append(this._blockL);
   }
 
   private _removeElements() {
-    this._wrap.remove();
+    this._blockT.remove();
+    this._blockR.remove();
+    this._blockB.remove();
+    this._blockL.remove();
   }
 
   private _update(target) {
@@ -128,10 +124,16 @@ class HtmlShadow extends AbstractShadow {
   }
 
   private _show() {
-    this._wrap.classList.add(this._classNameVisible);
+    this._blockT.classList.add(this._classNameVisible);
+    this._blockR.classList.add(this._classNameVisible);
+    this._blockB.classList.add(this._classNameVisible);
+    this._blockL.classList.add(this._classNameVisible);
   }
 
   private _hide() {
-    this._wrap.classList.remove(this._classNameVisible);
+    this._blockT.classList.remove(this._classNameVisible);
+    this._blockR.classList.remove(this._classNameVisible);
+    this._blockB.classList.remove(this._classNameVisible);
+    this._blockL.classList.remove(this._classNameVisible);
   }
 }
