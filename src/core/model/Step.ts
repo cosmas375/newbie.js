@@ -28,8 +28,10 @@ export class Step implements IStep {
     this._id = String(config.id);
     this._target = config.target;
     this._shadow = Shadow.create(config.shadow.type, config.shadow.settings);
-    this._hint = Hint.create(config.hint);
-    this._hint.setContent(config.content);
+
+    const hint = Hint.create(config.hint);
+    hint.setContent(config.content);
+    this._hint = hint;
 
     this._beforeMount = getCallback(config.beforeMount);
     this._mounted = getCallback(config.beforeMount);
@@ -50,7 +52,6 @@ export class Step implements IStep {
 
     this._scrollToTarget();
     this._mountShadow();
-    this._mountOutline();
     this._mountHint();
     this._mountArrow();
 
@@ -61,7 +62,6 @@ export class Step implements IStep {
     this._beforeUnmount(this._targetElement);
 
     this._unmountShadow();
-    this._unmountOutline();
     this._unmountHint();
     this._unmountArrow();
 
@@ -93,10 +93,6 @@ export class Step implements IStep {
     this._shadow.mount(this._targetElement);
   }
 
-  private _mountOutline(): void {
-    console.log(`outline of ${this._id} mounted`);
-  }
-
   private _mountHint(): void {
     this._hint.mount(this._targetElement);
   }
@@ -107,10 +103,6 @@ export class Step implements IStep {
 
   private _unmountShadow(): void {
     this._shadow.unmount();
-  }
-
-  private _unmountOutline(): void {
-    console.log(`outline of ${this._id} unmounted`);
   }
 
   private _unmountHint(): void {

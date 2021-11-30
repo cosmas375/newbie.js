@@ -1,5 +1,26 @@
 @import './variables';
 
+.newbie-hint-wrap {
+  position: absolute;
+  display: none;
+  width: 0;
+  height: 0;
+
+  &_visible {
+    display: flex;
+
+    & > div > * {
+      display: block;
+    }
+  }
+
+  &__inner {
+    position: absolute;
+    display: flex;
+  }
+}
+
 .newbie-hint {
+  width: 200px;
   z-index: $z-index-hint;
 }

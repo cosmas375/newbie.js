@@ -10,7 +10,7 @@ const instance = new Newbie({
     target: '[data-newbie-target="1"]',
     content: 'fuck',
     hint: {
-      placement: 'right',
+      position: 'bottom-right',
     },
   }, {
     id: '2',
@@ -20,7 +20,7 @@ const instance = new Newbie({
       type: null,
     },
     hint: {
-      placement: 'left',
+      position: 'left-top',
     },
   }, {
     id: '3',
@@ -33,7 +33,7 @@ const instance = new Newbie({
       }
     },
     hint: {
-      placement: 'top-right',
+      position: 'right-bottom',
     },
   }]
 });
