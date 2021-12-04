@@ -5,6 +5,7 @@
   display: none;
   width: 0;
   height: 0;
+  z-index: $z-index-hint;
 
   &_visible {
     display: flex;
@@ -22,5 +23,4 @@
 
 .newbie-hint {
   width: 200px;
-  z-index: $z-index-hint;
 }

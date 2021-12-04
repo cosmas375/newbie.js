@@ -13,6 +13,7 @@ export interface IStep {
 export class Step implements IStep {
   private _id: string;
   private _target: TStepTarget;
+  private _content: string;
 
   private _shadow: IShadow;
   private _hint: IHint;
@@ -28,10 +29,8 @@ export class Step implements IStep {
     this._id = String(config.id);
     this._target = config.target;
     this._shadow = Shadow.create(config.shadow.type, config.shadow.settings);
-
-    const hint = Hint.create(config.hint);
-    hint.setContent(config.content);
-    this._hint = hint;
+    this._hint = Hint.create(config.hint);
+    this._content = config.content;
 
     this._beforeMount = getCallback(config.beforeMount);
     this._mounted = getCallback(config.beforeMount);
@@ -94,6 +93,7 @@ export class Step implements IStep {
   }
 
   private _mountHint(): void {
+    this._hint.setContent(this._content);
     this._hint.mount(this._targetElement);
   }
 

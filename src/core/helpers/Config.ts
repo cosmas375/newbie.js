@@ -1,5 +1,3 @@
-import { TShadow } from '../model/Shadow';
-
 export interface IConfig {
   shadow: IShadowConfig,
   hint: IHintConfig,
@@ -24,7 +22,7 @@ export interface IStepConfig extends IConfig {
 }
 
 export interface IShadowConfig {
-  type: TShadow,
+  type,
   settings: IShadowSettings,
 }
 export interface IHintConfig {

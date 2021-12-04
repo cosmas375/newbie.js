@@ -6,6 +6,20 @@ const instance = new Newbie({
     component: document.getElementById('newbie-hint'),
   },
   steps: [{
+    id: '0',
+    target: '[data-newbie-target="1"]',
+    content: 'content for hint with svg shadow',
+    hint: {
+      position: 'bottom-right',
+    },
+    shadow: {
+      type: 'svg',
+      settings: {
+        offset: 10,
+        borderRadius: 10,
+      },
+    }
+  }, {
     id: '1',
     target: '[data-newbie-target="1"]',
     content: 'fuck',
