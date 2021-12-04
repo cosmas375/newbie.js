@@ -1,8 +1,8 @@
-import { IStepConfig, TStepTarget, TStepCallback } from '../helpers/Config';
-import getTargetElement from '../utils/getTargetElement';
+import { IStepConfig, TStepTarget, TStepCallback } from './Config';
 import getCallback from '../utils/getCallback';
-import { IShadow, Shadow } from './Shadow';
-import { IHint, Hint } from './Hint';
+import { IShadow } from './Shadow/ShadowFactory';
+import { ShadowFactory } from './Shadow/ShadowFactory';
+import { IHint, HintFactory } from './Hint/HintFactory';
 import _throw from '../utils/throw';
 
 export interface IStep {
@@ -28,8 +28,8 @@ export class Step implements IStep {
   constructor(config: IStepConfig) {
     this._id = String(config.id);
     this._target = config.target;
-    this._shadow = Shadow.create(config.shadow.type, config.shadow.settings);
-    this._hint = Hint.create(config.hint);
+    this._shadow = ShadowFactory.create(config.shadow.type, config.shadow.settings);
+    this._hint = HintFactory.create(config.hint);
     this._content = config.content;
 
     this._beforeMount = getCallback(config.beforeMount);
@@ -41,14 +41,7 @@ export class Step implements IStep {
   public mount(): void {
     this._beforeMount();
 
-    const targetElement = getTargetElement(this._target);
-
-    if (!targetElement) {
-      _throw(`Target for step [${this._id}] was not found!`);
-      return;
-    }
-    this._targetElement = targetElement;
-
+    this._getTargetElement();
     this._scrollToTarget();
     this._mountShadow();
     this._mountHint();
@@ -67,6 +60,19 @@ export class Step implements IStep {
     this._unmounted();
   }
 
+
+  private _getTargetElement() {
+    const element = typeof this._target === 'string'
+      ? document.querySelector(this._target)
+      : this._target;
+
+    if (!element) {
+      _throw(`Target for step [${this._id}] was not found!`);
+      return;
+    }
+
+    this._targetElement = element || null;
+  }
 
   private _scrollToTarget(): void {
     const targetRect = this._targetElement.getBoundingClientRect();
@@ -113,5 +119,3 @@ export class Step implements IStep {
     console.log(`arrow of ${this._id} unmounted`);
   }
 }
-
-type TStepError = string;

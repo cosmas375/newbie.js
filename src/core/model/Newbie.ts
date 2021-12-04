@@ -1,13 +1,12 @@
-import { INewbieConfig, TCallback } from '../helpers/Config';
+import { IConfig, Config, INewbieConfig, TCallback } from './Config';
 import { IStep, Step } from './Step';
 import { ILinkedList, INode, LinkedList } from '../helpers/LinkedList';
-import validateConfig from '../utils/validateConfig';
 import getCallback from '../utils/getCallback';
-import resolveStepConfig from '../utils/resolveStepConfig';
 import _throw from '../utils/throw';
 
 export class Newbie {
   private _steps: ILinkedList<IStep>;
+  private _config: IConfig;
 
   private _beforeStart(): TCallback { };
   private _started(): TCallback { };
@@ -18,7 +17,8 @@ export class Newbie {
   private _isStarted: boolean;
 
   constructor(config: INewbieConfig) {
-    const error = validateConfig(config);
+    this._config = new Config(config);
+    const error = this._config.validate();
     if (error) {
       _throw(error);
     }
@@ -76,7 +76,7 @@ export class Newbie {
   private _setSteps(config: INewbieConfig): void {
     const list = new LinkedList();
     config.steps.forEach(stepConfig => {
-      const step = new Step(resolveStepConfig(stepConfig, config));
+      const step = new Step(this._config.resolveStepConfig(stepConfig.id));
       list.add(step);
     });
     this._steps = list;

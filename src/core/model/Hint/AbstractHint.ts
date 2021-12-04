@@ -1,18 +1,7 @@
-import { Position } from "../helpers/Config";
+import { IHint } from "./HintFactory";
+import { Position } from "../Config";
 
-export interface IHint {
-  mount(targetElement: HTMLElement): void;
-  unmount(): void;
-  setContent(content: string): void;
-}
-
-export class Hint {
-  public static create(settings) {
-    return new SimpleHint(settings);
-  }
-}
-
-class AbstractHint implements IHint {
+export class AbstractHint implements IHint {
   private _position;
   private _targetElement;
   private _hintWrap;
@@ -48,92 +37,92 @@ class AbstractHint implements IHint {
     switch (this._position) {
       case Position.Top:
       default:
-        wrap.style.top = `${ document.documentElement.scrollTop + targetRect.top - offsetY }px`;
-        wrap.style.left = `${ targetRect.left + targetRect.width / 2 }px`;
+        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top - offsetY}px`;
+        wrap.style.left = `${targetRect.left + targetRect.width / 2}px`;
         wrap.style.alignItems = 'center';
         wrap.style.justifyContent = 'center';
         inner.style.bottom = '0px';
         break;
       case Position.TopLeft:
-        wrap.style.top = `${ document.documentElement.scrollTop + targetRect.top - offsetY }px`;
-        wrap.style.left = `${ targetRect.left }px`;
+        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top - offsetY}px`;
+        wrap.style.left = `${targetRect.left}px`;
         wrap.style.alignItems = 'center';
         wrap.style.justifyContent = 'flex-start';
         inner.style.bottom = '0px';
         inner.style.left = '0px';
         break;
       case Position.TopRight:
-        wrap.style.top = `${ document.documentElement.scrollTop + targetRect.top - offsetY }px`;
-        wrap.style.left = `${ targetRect.left + targetRect.width }px`;
+        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top - offsetY}px`;
+        wrap.style.left = `${targetRect.left + targetRect.width}px`;
         wrap.style.alignItems = 'center';
         wrap.style.justifyContent = 'flex-end';
         inner.style.bottom = '0px';
         inner.style.right = '0px';
         break;
       case Position.Right:
-        wrap.style.top = `${ document.documentElement.scrollTop + targetRect.top + targetRect.height / 2 }px`;
-        wrap.style.left = `${ targetRect.left + targetRect.width + offsetX }px`;
+        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top + targetRect.height / 2}px`;
+        wrap.style.left = `${targetRect.left + targetRect.width + offsetX}px`;
         wrap.style.alignItems = 'center';
         wrap.style.justifyContent = 'flex-start';
         inner.style.left = '0px';
         break;
       case Position.RightTop:
-        wrap.style.top = `${ document.documentElement.scrollTop + targetRect.top }px`;
-        wrap.style.left = `${ targetRect.left + targetRect.width + offsetX }px`;
+        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top}px`;
+        wrap.style.left = `${targetRect.left + targetRect.width + offsetX}px`;
         wrap.style.alignItems = 'flex-start';
         wrap.style.justifyContent = 'flex-start';
         inner.style.left = '0px';
         inner.style.top = '0px';
         break;
       case Position.RightBottom:
-        wrap.style.top = `${ document.documentElement.scrollTop + targetRect.top + targetRect.height }px`;
-        wrap.style.left = `${ targetRect.left + targetRect.width + offsetX }px`;
+        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top + targetRect.height}px`;
+        wrap.style.left = `${targetRect.left + targetRect.width + offsetX}px`;
         inner.style.alignItems = 'flex-end';
         inner.style.justifyContent = 'flex-start';
         inner.style.left = '0px';
         inner.style.bottom = '0px';
         break;
       case Position.Bottom:
-        wrap.style.top = `${ document.documentElement.scrollTop + targetRect.top + targetRect.height + offsetY }px`;
-        wrap.style.left = `${ targetRect.left + targetRect.width / 2 }px`;
+        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top + targetRect.height + offsetY}px`;
+        wrap.style.left = `${targetRect.left + targetRect.width / 2}px`;
         wrap.style.alignItems = 'flex-start';
         wrap.style.justifyContent = 'center';
         inner.style.top = '0px';
         break;
       case Position.BottomLeft:
-        wrap.style.top = `${ document.documentElement.scrollTop + targetRect.top + targetRect.height + offsetY }px`;
-        wrap.style.left = `${ targetRect.left }px`;
+        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top + targetRect.height + offsetY}px`;
+        wrap.style.left = `${targetRect.left}px`;
         wrap.style.alignItems = 'flex-start';
         wrap.style.justifyContent = 'flex-start';
         inner.style.top = '0px';
         inner.style.left = '0px';
         break;
       case Position.BottomRight:
-        wrap.style.top = `${ document.documentElement.scrollTop + targetRect.top + targetRect.height + offsetY }px`;
-        wrap.style.left = `${ targetRect.left + targetRect.width }px`;
+        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top + targetRect.height + offsetY}px`;
+        wrap.style.left = `${targetRect.left + targetRect.width}px`;
         wrap.style.alignItems = 'flex-start';
         wrap.style.justifyContent = 'flex-end';
         inner.style.top = '0px';
         inner.style.right = '0px';
         break;
       case Position.Left:
-        wrap.style.top = `${ document.documentElement.scrollTop + targetRect.top + targetRect.height / 2 }px`;
-        wrap.style.left = `${ targetRect.left - offsetX }px`;
+        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top + targetRect.height / 2}px`;
+        wrap.style.left = `${targetRect.left - offsetX}px`;
         wrap.style.alignItems = 'center';
         wrap.style.justifyContent = 'flex-end';
         inner.style.right = '0px';
         break;
       case Position.LeftTop:
-        wrap.style.top = `${ document.documentElement.scrollTop + targetRect.top }px`;
-        wrap.style.left = `${ targetRect.left - offsetX }px`;
+        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top}px`;
+        wrap.style.left = `${targetRect.left - offsetX}px`;
         wrap.style.alignItems = 'flex-start';
         wrap.style.justifyContent = 'flex-end';
         inner.style.right = '0px';
         inner.style.top = '0px';
         break;
       case Position.LeftBottom:
-        wrap.style.top = `${ document.documentElement.scrollTop + targetRect.top + targetRect.height }px`;
-        wrap.style.left = `${ targetRect.left - offsetX }px`;
+        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top + targetRect.height}px`;
+        wrap.style.left = `${targetRect.left - offsetX}px`;
         wrap.style.alignItems = 'flex-end';
         wrap.style.justifyContent = 'flex-end';
         inner.style.right = '0px';
@@ -155,29 +144,5 @@ class AbstractHint implements IHint {
   }
   protected _hide() {
     this._hintWrap.classList.remove('newbie-hint-wrap_visible');
-  }
-}
-
-export class SimpleHint extends AbstractHint {
-  private _component: HTMLElement;
-
-  constructor(settings) {
-    super(settings);
-
-    this._component = settings.component;
-  }
-
-  mount(targetElement) {
-    super.mount(targetElement);
-    super._mountHint(this._component);
-    super._show();
-  }
-
-  setContent(content: string = '') {
-    const contentElement = this._component.querySelector('[data-newbie-step-content]');
-    if (!contentElement) {
-      return;
-    }
-    contentElement.innerHTML = content;
   }
 }

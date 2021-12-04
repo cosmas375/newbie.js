@@ -21,7 +21,7 @@ const instance = new Newbie({
     }
   }, {
     id: '1',
-    target: '[data-newbie-target="1"]',
+    target: document.querySelector('[data-newbie-target="1"]'),
     content: 'fuck',
     hint: {
       position: 'bottom-right',
