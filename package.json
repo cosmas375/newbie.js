@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run build-vanilla",
+    "build": "npm run build-vanilla && npm run build-vue",
     "build-vanilla": "./node_modules/.bin/webpack --config webpack-vanilla.config.js --mode=production --no-devtool",
-    "watch-vanilla": "./node_modules/.bin/webpack --config webpack-vanilla.config.js --watch "
+    "watch-vanilla": "./node_modules/.bin/webpack --config webpack-vanilla.config.js --mode=development --watch ",
+    "build-vue": "sh build-vue.sh"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,10 @@
   },
   "homepage": "https://github.com/cosmas375/newbie#readme",
   "devDependencies": {
+    "@vue/cli": "^4.5.15",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
     "css-loader": "^6.5.1",
     "mini-css-extract-plugin": "^2.4.5",
     "postcss-loader": "^6.2.1",

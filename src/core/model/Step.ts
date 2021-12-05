@@ -2,7 +2,7 @@ import { IStepConfig, TStepTarget, TStepCallback } from './Config';
 import getCallback from '../utils/getCallback';
 import { IShadow } from './Shadow/ShadowFactory';
 import { ShadowFactory } from './Shadow/ShadowFactory';
-import { IHint, HintFactory } from './Hint/HintFactory';
+import { IHint, IHintFactory } from './Hint/HintFactory';
 import _throw from '../utils/throw';
 
 export interface IStep {
@@ -23,13 +23,14 @@ export class Step implements IStep {
   private _beforeUnmount(targetElement: HTMLElement): TStepCallback { };
   private _unmounted(): TStepCallback { };
 
+  private static _hintFactory: IHintFactory;
   private _targetElement: HTMLElement;
 
   constructor(config: IStepConfig) {
     this._id = String(config.id);
     this._target = config.target;
     this._shadow = ShadowFactory.create(config.shadow.type, config.shadow.settings);
-    this._hint = HintFactory.create(config.hint);
+    this._hint = Step._hintFactory.create(config.hint);
     this._content = config.content;
 
     this._beforeMount = getCallback(config.beforeMount);
@@ -58,6 +59,10 @@ export class Step implements IStep {
     this._unmountArrow();
 
     this._unmounted();
+  }
+
+  public static setHintFactory(factory: IHintFactory) {
+    this._hintFactory = factory;
   }
 
 
