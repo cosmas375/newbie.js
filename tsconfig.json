@@ -19,10 +19,6 @@
     // files to track  work from these directories
     "excludeDirectories": [
       "**/node_modules",
-      "_build"
-    ],
-    "excludeFiles": [
-      "build/fileWhichChangesOften.ts"
     ]
   }
 }

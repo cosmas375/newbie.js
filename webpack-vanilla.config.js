@@ -3,7 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const plugins = [
   new MiniCssExtractPlugin({
-    filename: '[name].css',
+    filename: 'newbie.css',
   }),
 ];
 
@@ -33,6 +33,7 @@ module.exports = {
     },
     output: {
         filename: 'newbie.js',
+        path: path.resolve('./dist/vanilla'),
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.jsx', '.js']
