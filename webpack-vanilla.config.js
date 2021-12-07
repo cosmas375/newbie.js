@@ -33,6 +33,7 @@ module.exports = {
         path: path.resolve('./dist/vanilla'),
     },
     resolve: {
+        modules: ['node_modules'],
         extensions: ['.tsx', '.ts', '.jsx', '.js']
     },
 };

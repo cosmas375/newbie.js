@@ -1,4 +1,4 @@
-# newbie-sandbox
+# newbie
 
 ## Project setup
 ```

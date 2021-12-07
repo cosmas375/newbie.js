@@ -1,25 +1,31 @@
 import { AbstractHint } from './AbstractHint';
 
 export class VueHint extends AbstractHint {
-  private _component: HTMLElement;
+  private _component: any;
+  private _handlers: object;
+  private _content: object;
+  private _vue: any;
 
   constructor(settings, { Vue }) {
     super(settings);
 
     this._component = settings.component;
+    this._handlers = settings.handlers || {};
+    this._vue = Vue;
   }
 
   mount(targetElement) {
     super.mount(targetElement);
-    super._mountHint(this._component);
+    const component = this._vue.extend(this._component);
+    const hint = new component({ propsData: this._content }).$mount();
+    Object.keys(this._handlers).forEach(event => {
+      hint.$on(event, this._handlers[event]);
+    });
+    super._mountHint(hint.$el);
     super._show();
   }
 
-  setContent(content: string = '') {
-    const contentElement = this._component.querySelector('[data-newbie-step-content]');
-    if (!contentElement) {
-      return;
-    }
-    contentElement.innerHTML = content;
+  setContent(content: object = {}) {
+    this._content = content;
   }
 }

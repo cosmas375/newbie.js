@@ -38,7 +38,10 @@ export class Config implements IConfig {
 
     // hint
     if (!stepConfig.hint) {
-      stepConfig.hint = config.hint || { component: null };
+      stepConfig.hint = config.hint || { component: null, handlers: {} };
+    }
+    if (typeof stepConfig.hint.handlers === 'undefined' && config.hint.handlers) {
+      stepConfig.hint.handlers = config.hint.handlers;
     }
     if (typeof stepConfig.hint.component === 'undefined' && config.hint.component) {
       stepConfig.hint.component = config.hint.component;
@@ -82,6 +85,7 @@ export interface IShadowConfig {
 }
 export interface IHintConfig {
   component: HTMLElement,
+  handlers: object,
   position?: Position,
 }
 export interface IShadowSettings {

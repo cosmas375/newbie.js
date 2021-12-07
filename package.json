@@ -7,7 +7,7 @@
     "build": "npm run build-vanilla && npm run build-vue",
     "build-vanilla": "./node_modules/.bin/webpack --config webpack-vanilla.config.js --mode=production --no-devtool",
     "watch-vanilla": "./node_modules/.bin/webpack --config webpack-vanilla.config.js --mode=development --watch ",
-    "build-vue": "sh build-vue.sh"
+    "build-vue": "rm -rf ./dist/vue && sh build-vue.sh"
   },
   "repository": {
     "type": "git",
