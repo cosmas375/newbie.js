@@ -1,14 +1,7 @@
-import { IStepConfig, TStepTarget, TStepCallback } from './Config';
+import { IStep, IStepSettings, IHintFactory, IHint, IShadow, TStepCallback, TStepTarget } from '../Interfaces';
 import getCallback from '../utils/getCallback';
-import { IShadow } from './Shadow/ShadowFactory';
 import { ShadowFactory } from './Shadow/ShadowFactory';
-import { IHint, IHintFactory } from './Hint/HintFactory';
 import _throw from '../utils/throw';
-
-export interface IStep {
-  mount(): void,
-  unmount(): void,
-}
 
 export class Step implements IStep {
   private _id: string;
@@ -26,17 +19,14 @@ export class Step implements IStep {
   private static _hintFactory: IHintFactory;
   private _targetElement: HTMLElement;
 
-  constructor(config: IStepConfig) {
+  constructor(config: IStepSettings) {
     this._id = String(config.id);
     this._target = config.target;
+    this._content = config.content;
     this._shadow = ShadowFactory.create(config.shadow.type, config.shadow.settings);
     this._hint = Step._hintFactory.create(config.hint);
-    this._content = config.content;
 
-    this._beforeMount = getCallback(config.beforeMount);
-    this._mounted = getCallback(config.beforeMount);
-    this._beforeUnmount = getCallback(config.beforeMount);
-    this._unmounted = getCallback(config.beforeMount);
+    this._setLifeCycleHooks(config);
   }
 
   public mount(): void {
@@ -61,12 +51,19 @@ export class Step implements IStep {
     this._unmounted();
   }
 
-  public static setHintFactory(factory: IHintFactory) {
+  public static setHintFactory(factory: IHintFactory): void {
     this._hintFactory = factory;
   }
 
 
-  private _getTargetElement() {
+  private _setLifeCycleHooks(config: IStepSettings): void {
+    this._beforeMount = getCallback(config.beforeMount);
+    this._mounted = getCallback(config.mounted);
+    this._beforeUnmount = getCallback(config.beforeUnmount);
+    this._unmounted = getCallback(config.unmounted);
+  }
+
+  private _getTargetElement(): void {
     const element = typeof this._target === 'string'
       ? document.querySelector(this._target)
       : this._target;

@@ -1,6 +1,5 @@
 
-import { IShadow } from "./ShadowFactory";
-import { IShadowSettings } from "../Config";
+import { IShadow, IShadowSettings } from "../../Interfaces";
 
 export class AbstractShadow implements IShadow {
   protected _rootComponent;

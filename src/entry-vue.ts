@@ -1,6 +1,6 @@
-import { VueHintFactory } from './core/model/Hint/HintFactory';
-import { Newbie } from './core/model/Newbie';
-import { Step } from './core/model/Step';
+import { VueHintFactory } from './core/class/Hint/HintFactory';
+import { Newbie } from './core/class/Newbie';
+import { Step } from './core/class/Step';
 
 export default Newbie;
 

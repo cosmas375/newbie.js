@@ -1,8 +1,8 @@
 import { AbstractShadow } from './AbstractShadow';
 
 export class SvgShadow extends AbstractShadow {
-  private _block: HTMLElement;
-  private _svg: HTMLElement;
+  private _block: Element;
+  private _svg: Element;
   private _classNameSvg: string = 'newbie-svg-shadow';
   private _maskId: string = 'svg_shadow_mask';
 

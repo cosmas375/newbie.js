@@ -3,9 +3,10 @@
     <div class="hint__title">{{ title }}</div>
     <div class="hint__content">{{ content }}</div>
     <div class="hint__controls">
-      <button @click="goNext" class="hint__btn" >next</button>
       <button @click="goPrev" class="hint__btn" >prev</button>
+      <button @click="goNext" class="hint__btn" >next</button>
     </div>
+    <span @click="doStop" class="hint__close" >x</span>
   </div>
 </template>
 
@@ -23,7 +24,10 @@ export default {
     goPrev() {
       this.$emit('go-previous');
     },
-  }
+    doStop() {
+      this.$emit('stop');
+    },
+  },
 };
 </script>
 
@@ -33,8 +37,9 @@ export default {
   width: 20rem;
   padding: 1rem;
   border-radius: .5rem;
-  box-shadow: 0 0 20px black;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .3);
   background-color: #fff;
+  position: relative;
 
   &__title {
     font-size: 2rem;
@@ -48,6 +53,16 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: 1rem;
+  }
+
+  &__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    cursor: pointer;
   }
 }
 </style>

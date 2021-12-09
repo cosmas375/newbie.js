@@ -1,12 +1,7 @@
+import { IShadow, IShadowSettings } from "../../Interfaces";
 import { HtmlShadow } from './HtmlShadow';
 import { SvgShadow } from './SvgShadow';
 import { NullShadow } from './NullShadow';
-import { IShadowSettings } from "../Config";
-
-export interface IShadow {
-  mount(target: HTMLElement): void;
-  unmount(): void;
-}
 
 export class ShadowFactory {
   public static TYPE_HTML = 'html';

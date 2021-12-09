@@ -1,5 +1,4 @@
-import { IHint } from "./HintFactory";
-import { Position } from "../Config";
+import { IHint, Position } from "../../Interfaces";
 
 export class AbstractHint implements IHint {
   private _position;

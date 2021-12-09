@@ -28,6 +28,9 @@ export default {
     goNext() {
       this.newbie.goNext();
     },
+    doStop() {
+      this.newbie.stop();
+    },
   },
   mounted() {
     this.newbie = new Newbie({
@@ -39,6 +42,7 @@ export default {
         handlers: {
           'go-next': this.goNext,
           'go-previous': this.goPrevious,
+          'stop': this.doStop,
         },
       },
       steps: [{
@@ -61,24 +65,36 @@ export default {
       }, {
         id: '1',
         target: document.querySelector('[data-newbie-target="1"]'),
-        content: 'fuck',
+        content: {
+          content: 'fuck',
+        },
         hint: {
           position: 'bottom-right',
         },
       }, {
         id: '2',
         target: '[data-newbie-target="2"]',
-        content: 'fuck you',
+        content: {
+          content: 'fuck you',
+        },
         shadow: {
           type: null,
         },
         hint: {
           position: 'left-top',
         },
+        mounted(target) {
+          target.style.backgroundColor = 'black';
+        },
+        beforeUnmount(target) {
+          target.style.removeProperty('background-color');
+        }
       }, {
         id: '3',
         target: '[data-newbie-target="3"]',
-        content: 'fuck you bitch',
+        content: {
+          content: 'fuck you bitch',
+        },
         shadow: {
           type: 'html',
           settings: {

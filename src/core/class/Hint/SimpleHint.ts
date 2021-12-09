@@ -1,7 +1,7 @@
 import { AbstractHint } from './AbstractHint';
 
 export class SimpleHint extends AbstractHint {
-  private _component: HTMLElement;
+  private _component: Element;
 
   constructor(settings) {
     super(settings);

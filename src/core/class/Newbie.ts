@@ -1,22 +1,23 @@
-import { IConfig, Config, INewbieConfig, TCallback } from './Config';
-import { IStep, Step } from './Step';
+import { IConfig, INewbie, INewbieSettings, IStep, TNewbieCallbac } from '../Interfaces';
+import { Config } from './Config';
+import { Step } from './Step';
 import { ILinkedList, INode, LinkedList } from '../helpers/LinkedList';
 import getCallback from '../utils/getCallback';
 import _throw from '../utils/throw';
 
-export class Newbie {
+export class Newbie implements INewbie {
   private _steps: ILinkedList<IStep>;
   private _config: IConfig;
 
-  private _beforeStart(): TCallback { };
-  private _started(): TCallback { };
-  private _beforeFinish(): TCallback { };
-  private _finished(): TCallback { };
+  private _beforeStart(): TNewbieCallbac { };
+  private _started(): TNewbieCallbac { };
+  private _beforeFinish(): TNewbieCallbac { };
+  private _finished(): TNewbieCallbac { };
 
   private _currentStep: INode;
   private _isStarted: boolean;
 
-  constructor(config: INewbieConfig) {
+  constructor(config: INewbieSettings) {
     this._config = new Config(config);
     const error = this._config.validate();
     if (error) {
@@ -73,7 +74,7 @@ export class Newbie {
     this._finished();
   }
 
-  private _setSteps(config: INewbieConfig): void {
+  private _setSteps(config: INewbieSettings): void {
     const list = new LinkedList();
     config.steps.forEach(stepConfig => {
       const step = new Step(this._config.resolveStepConfig(stepConfig.id));
@@ -82,7 +83,7 @@ export class Newbie {
     this._steps = list;
   }
 
-  private _setLifeCycleHooks(config: INewbieConfig): void {
+  private _setLifeCycleHooks(config: INewbieSettings): void {
     this._beforeStart = getCallback(config.beforeStart);
     this._started = getCallback(config.started);
     this._beforeFinish = getCallback(config.beforeFinish);

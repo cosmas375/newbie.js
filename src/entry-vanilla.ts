@@ -1,6 +1,6 @@
-import { Newbie } from './core/model/Newbie';
-import { Step } from './core/model/Step';
-import { VanillaHintFactory } from './core/model/Hint/HintFactory';
+import { Newbie } from './core/class/Newbie';
+import { Step } from './core/class/Step';
+import { VanillaHintFactory } from './core/class/Hint/HintFactory';
 
 import './assets/scss/hint.scss';
 import './assets/scss/shadow.scss';

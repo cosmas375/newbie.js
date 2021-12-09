@@ -1,16 +1,7 @@
-import { IHintConfig } from '../Config';
+import { IHintFactory, IHint } from '../../Interfaces';
 import { SimpleHint } from './SimpleHint';
 import { VueHint } from './VueHint';
 
-export interface IHint {
-  mount(targetElement: HTMLElement): void;
-  unmount(): void;
-  setContent(content: (string | object)): void;
-}
-
-export interface IHintFactory {
-  create(settings: IHintConfig): IHint;
-}
 
 export class VanillaHintFactory implements IHintFactory {
   public create(settings): IHint {
