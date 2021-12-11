@@ -23,7 +23,7 @@ export class Step implements IStep {
     this._id = String(config.id);
     this._target = config.target;
     this._content = config.content;
-    this._shadow = ShadowFactory.create(config.shadow.type, config.shadow.settings);
+    this._shadow = ShadowFactory.create(config.shadow);
     this._hint = Step._hintFactory.create(config.hint);
 
     this._setLifeCycleHooks(config);

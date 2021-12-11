@@ -58,16 +58,14 @@ export interface IStepSettings extends ICommonSettings {
 
 export interface IShadowSettings {
   type?,
-  settings?: IShadowSettings,
+  rootComponent?: HTMLElement,
+  offset?: number,
+  borderRadius?: number,
 }
 export interface IHintSettings {
   component: HTMLElement,
   handlers: object,
   position?: Position,
-}
-export interface IShadowSettings {
-  rootComponent?: HTMLElement,
-  offset?: number,
 }
 
 export type TNewbieCallbac = void;

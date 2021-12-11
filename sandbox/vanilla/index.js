@@ -17,10 +17,8 @@ const instance = new Newbie({
     },
     shadow: {
       type: 'svg',
-      settings: {
-        offset: 10,
-        borderRadius: 10,
-      },
+      offset: 10,
+      borderRadius: 10,
     }
   }, {
     id: '1',
@@ -54,9 +52,7 @@ const instance = new Newbie({
     },
     shadow: {
       type: 'html',
-      settings: {
-        offset: 10
-      }
+      offset: 10
     },
     hint: {
       position: 'right-bottom',

@@ -7,14 +7,14 @@ export class ShadowFactory {
   public static TYPE_HTML = 'html';
   public static TYPE_SVG = 'svg';
 
-  public static create(type, settings: IShadowSettings): IShadow {
-    switch (type) {
+  public static create(shadow: IShadowSettings): IShadow {
+    switch (shadow.type) {
       case this.TYPE_HTML:
-        return new HtmlShadow(settings);
+        return new HtmlShadow(shadow);
       case this.TYPE_SVG:
-        return new SvgShadow(settings);
+        return new SvgShadow(shadow);
       default:
-        return new NullShadow(settings);
+        return new NullShadow(shadow);
     }
   }
 }

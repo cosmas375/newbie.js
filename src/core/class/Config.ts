@@ -21,16 +21,16 @@ export class Config implements IConfig {
 
     // shadow
     if (!stepConfig.shadow) {
-      stepConfig.shadow = config.shadow || { type: null, settings: {} };
+      stepConfig.shadow = config.shadow || { type: null };
     }
     if (typeof stepConfig.shadow.type === 'undefined') {
       stepConfig.shadow.type = config.shadow.type;
     }
-    if (!stepConfig.shadow.settings && config.shadow.type === stepConfig.shadow.type) {
-      stepConfig.shadow.settings = config.shadow.settings;
+    if (!stepConfig.shadow && config.shadow.type === stepConfig.shadow.type) {
+      stepConfig.shadow = config.shadow;
     }
-    if (!stepConfig.shadow.settings) {
-      stepConfig.shadow.settings = {};
+    if (!stepConfig.shadow) {
+      stepConfig.shadow = {};
     }
     // end shadow
 
