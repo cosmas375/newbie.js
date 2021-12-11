@@ -3,7 +3,7 @@
 .newbie-shadow {
   display: none;
   pointer-events: none;
-  z-index: $z-index-shadow; // TODO: set to max value
+  z-index: $z-index-shadow;
 
   &_visible {
     display: block;

@@ -1,2 +1,2 @@
-$z-index-hint: 1000;
-$z-index-shadow: 999;
+$z-index-hint: 2147483647;
+$z-index-shadow: $z-index-hint - 1;
