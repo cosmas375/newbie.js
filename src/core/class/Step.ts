@@ -106,7 +106,6 @@ export class Step implements IStep {
   }
 
   private _mountArrow(): void {
-    console.log(`arrow of ${this._id} mounted`);
   }
 
   private _unmountShadow(): void {
@@ -118,6 +117,5 @@ export class Step implements IStep {
   }
 
   private _unmountArrow(): void {
-    console.log(`arrow of ${this._id} unmounted`);
   }
 }

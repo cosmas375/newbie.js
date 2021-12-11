@@ -1,5 +1,6 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TSLintPlugin = require('tslint-webpack-plugin');
 
 module.exports = {
     context: path.resolve(__dirname),
@@ -8,6 +9,9 @@ module.exports = {
     plugins: [
         new MiniCssExtractPlugin({
             filename: 'newbie.css',
+        }),
+        new TSLintPlugin({
+            files: ['./src/**/*.ts'],
         }),
     ],
     module: {
