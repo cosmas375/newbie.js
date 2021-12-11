@@ -2,6 +2,7 @@ import { AbstractHint } from './AbstractHint';
 
 export class SimpleHint extends AbstractHint {
   private _component: Element;
+  private _content: object = {};
 
   constructor(settings) {
     super(settings);
@@ -11,15 +12,20 @@ export class SimpleHint extends AbstractHint {
 
   mount(targetElement) {
     super.mount(targetElement);
+
+    Object.keys(this._content).forEach(key => {
+      const component = this._component.querySelector(key);
+      if (!component) {
+        return;
+      }
+      component.innerHTML = this._content[key];
+    });
+
     super._mountHint(this._component);
     super._show();
   }
 
-  setContent(content: string = '') {
-    const contentElement = this._component.querySelector('[data-newbie-step-content]');
-    if (!contentElement) {
-      return;
-    }
-    contentElement.innerHTML = content;
+  setContent(content: object = {}) {
+    this._content = content;
   }
 }

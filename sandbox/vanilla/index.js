@@ -8,7 +8,10 @@ const instance = new Newbie({
   steps: [{
     id: '0',
     target: '[data-newbie-target="1"]',
-    content: 'content for hint with svg shadow',
+    content: {
+      '[data-newbie-step-title]': 'title 1',
+      '[data-newbie-step-content]': 'content for hint with svg shadow',
+    },
     hint: {
       position: 'bottom-right',
     },
@@ -22,14 +25,20 @@ const instance = new Newbie({
   }, {
     id: '1',
     target: document.querySelector('[data-newbie-target="1"]'),
-    content: 'fuck',
+    content: {
+      '[data-newbie-step-title]': 'title 2',
+      '[data-newbie-step-content]': 'fuck',
+    },
     hint: {
       position: 'bottom-right',
     },
   }, {
     id: '2',
     target: '[data-newbie-target="2"]',
-    content: 'fuck you',
+    content: {
+      '[data-newbie-step-title]': 'title 3',
+      '[data-newbie-step-content]': 'fuck you',
+    },
     shadow: {
       type: null,
     },
@@ -39,7 +48,10 @@ const instance = new Newbie({
   }, {
     id: '3',
     target: '[data-newbie-target="3"]',
-    content: 'fuck you bitch',
+    content: {
+      '[data-newbie-step-title]': 'title 4',
+      '[data-newbie-step-content]': 'fuck you bitch',
+    },
     shadow: {
       type: 'html',
       settings: {
