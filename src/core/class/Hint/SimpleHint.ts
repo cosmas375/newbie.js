@@ -1,3 +1,4 @@
+import { ClassNames } from '../../Interfaces';
 import { AbstractHint } from './AbstractHint';
 
 export class SimpleHint extends AbstractHint {
@@ -8,6 +9,7 @@ export class SimpleHint extends AbstractHint {
     super(settings);
 
     this._component = settings.component;
+    this._component.classList.add(ClassNames.HINT);
   }
 
   mount(targetElement) {

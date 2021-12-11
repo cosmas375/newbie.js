@@ -1,9 +1,9 @@
+import { ClassNames } from '../../Interfaces';
 import { AbstractShadow } from './AbstractShadow';
 
 export class SvgShadow extends AbstractShadow {
   private _block: Element;
   private _svg: Element;
-  private _classNameSvg: string = 'newbie-svg-shadow';
   private _maskId: string = 'svg_shadow_mask';
 
   private _offset: number;
@@ -33,7 +33,7 @@ export class SvgShadow extends AbstractShadow {
 
   private _createElements() {
     this._block = document.createElement('div');
-    this._block.classList.add(this._className, this._classNameSvg);
+    this._block.classList.add(ClassNames.SHADOW, ClassNames.SHADOW_SVG);
 
     this._svg = document.createElement('svg');
     this._svg.setAttribute('width', String(window.innerWidth));
@@ -85,13 +85,13 @@ export class SvgShadow extends AbstractShadow {
   }
 
   private _show() {
-    this._block.classList.add(this._classNameVisible);
+    this._block.classList.add(ClassNames.SHADOW_VISIBLE);
 
     // force rerender svg
     this._block.innerHTML += '';
   }
 
   private _hide() {
-    this._block.classList.remove(this._classNameVisible);
+    this._block.classList.remove(ClassNames.SHADOW_VISIBLE);
   }
 }

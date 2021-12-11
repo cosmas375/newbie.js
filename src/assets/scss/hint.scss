@@ -10,7 +10,7 @@
   &_visible {
     display: flex;
 
-    & > div > * {
+    & .newbie-hint-wrap__inner > * {
       display: block;
     }
   }
@@ -22,5 +22,5 @@
 }
 
 .newbie-hint {
-  width: 200px;
+  display: none;
 }

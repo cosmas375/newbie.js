@@ -3,21 +3,22 @@ import { IShadow, IShadowSettings } from "../../Interfaces";
 
 export class AbstractShadow implements IShadow {
   protected _rootComponent;
-  protected _className = 'newbie-shadow';
-  protected _classNameVisible = `${this._className}_visible`;
 
   constructor(settings: IShadowSettings) {
     this._rootComponent = settings.rootComponent || document.documentElement;
   }
 
   public mount(target) {
-    this._preventScroll();
+    this._disableScroll();
   }
   public unmount() {
-    this._rootComponent.style.removeProperty('overflow');
+    this._enableScroll();
   }
 
-  private _preventScroll() {
+  private _disableScroll() {
     this._rootComponent.style.overflow = 'hidden';
+  }
+  private _enableScroll() {
+    this._rootComponent.style.removeProperty('overflow');
   }
 }

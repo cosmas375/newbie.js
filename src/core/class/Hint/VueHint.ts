@@ -1,3 +1,4 @@
+import { ClassNames } from '../../Interfaces';
 import { AbstractHint } from './AbstractHint';
 
 export class VueHint extends AbstractHint {
@@ -16,12 +17,16 @@ export class VueHint extends AbstractHint {
 
   mount(targetElement) {
     super.mount(targetElement);
+
     const component = this._vue.extend(this._component);
     const hint = new component({ propsData: this._content }).$mount();
     Object.keys(this._handlers).forEach(event => {
       hint.$on(event, this._handlers[event]);
     });
-    super._mountHint(hint.$el);
+    const elem = hint.$el;
+    elem.classList.add(ClassNames.HINT);
+
+    super._mountHint(elem);
     super._show();
   }
 

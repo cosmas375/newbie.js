@@ -1,12 +1,12 @@
+import { ClassNames } from '../../Interfaces';
 import { AbstractShadow } from './AbstractShadow';
+import px from '../../utils/px';
 
 export class HtmlShadow extends AbstractShadow {
   private _blockT: HTMLElement;
   private _blockR: HTMLElement;
   private _blockB: HTMLElement;
   private _blockL: HTMLElement;
-  private _classNameHtml: string = 'newbie-html-shadow';
-  private _blockClassName: string = `${this._classNameHtml}__block`;
 
   private _offset: number;
 
@@ -38,10 +38,10 @@ export class HtmlShadow extends AbstractShadow {
     this._blockB = document.createElement('div');
     this._blockL = document.createElement('div');
 
-    this._blockT.classList.add(this._className, this._blockClassName, `${this._blockClassName}_top`);
-    this._blockR.classList.add(this._className, this._blockClassName, `${this._blockClassName}_right`);
-    this._blockB.classList.add(this._className, this._blockClassName, `${this._blockClassName}_bottom`);
-    this._blockL.classList.add(this._className, this._blockClassName, `${this._blockClassName}_left`);
+    this._blockT.classList.add(ClassNames.SHADOW, ClassNames.SHADOW_HTML, ClassNames.SHADOW_HTML_TOP);
+    this._blockR.classList.add(ClassNames.SHADOW, ClassNames.SHADOW_HTML, ClassNames.SHADOW_HTML_RIGHT);
+    this._blockB.classList.add(ClassNames.SHADOW, ClassNames.SHADOW_HTML, ClassNames.SHADOW_HTML_BOTTOM);
+    this._blockL.classList.add(ClassNames.SHADOW, ClassNames.SHADOW_HTML, ClassNames.SHADOW_HTML_LEFT);
 
     this._rootComponent.append(this._blockT);
     this._rootComponent.append(this._blockR);
@@ -59,32 +59,32 @@ export class HtmlShadow extends AbstractShadow {
   private _update(target) {
     const targetRect = target.getBoundingClientRect();
 
-    this._blockT.style.height = `${targetRect.top - this._offset}px`;
+    this._blockT.style.height = px(targetRect.top - this._offset);
 
-    this._blockR.style.top = `${targetRect.top - this._offset}px`;
-    this._blockR.style.left = `${targetRect.left + targetRect.width + this._offset}px`;
-    this._blockR.style.width = `${window.innerWidth - (targetRect.left + targetRect.width + this._offset)}px`;
-    this._blockR.style.height = `${targetRect.height + 2 * this._offset}px`;
+    this._blockR.style.top = px(targetRect.top - this._offset);
+    this._blockR.style.left = px(targetRect.left + targetRect.width + this._offset);
+    this._blockR.style.width = px(window.innerWidth - (targetRect.left + targetRect.width + this._offset));
+    this._blockR.style.height = px(targetRect.height + 2 * this._offset);
 
-    this._blockB.style.top = `${targetRect.top + targetRect.height + this._offset}px`;
-    this._blockB.style.height = `${window.innerHeight - (targetRect.top + targetRect.height + this._offset)}px`;
+    this._blockB.style.top = px(targetRect.top + targetRect.height + this._offset);
+    this._blockB.style.height = px(window.innerHeight - (targetRect.top + targetRect.height + this._offset));
 
-    this._blockL.style.top = `${targetRect.top - this._offset}px`;
-    this._blockL.style.width = `${targetRect.left - this._offset}px`;
-    this._blockL.style.height = `${targetRect.height + 2 * this._offset}px`;
+    this._blockL.style.top = px(targetRect.top - this._offset);
+    this._blockL.style.width = px(targetRect.left - this._offset);
+    this._blockL.style.height = px(targetRect.height + 2 * this._offset);
   }
 
   private _show() {
-    this._blockT.classList.add(this._classNameVisible);
-    this._blockR.classList.add(this._classNameVisible);
-    this._blockB.classList.add(this._classNameVisible);
-    this._blockL.classList.add(this._classNameVisible);
+    this._blockT.classList.add(ClassNames.SHADOW_VISIBLE);
+    this._blockR.classList.add(ClassNames.SHADOW_VISIBLE);
+    this._blockB.classList.add(ClassNames.SHADOW_VISIBLE);
+    this._blockL.classList.add(ClassNames.SHADOW_VISIBLE);
   }
 
   private _hide() {
-    this._blockT.classList.remove(this._classNameVisible);
-    this._blockR.classList.remove(this._classNameVisible);
-    this._blockB.classList.remove(this._classNameVisible);
-    this._blockL.classList.remove(this._classNameVisible);
+    this._blockT.classList.remove(ClassNames.SHADOW_VISIBLE);
+    this._blockR.classList.remove(ClassNames.SHADOW_VISIBLE);
+    this._blockB.classList.remove(ClassNames.SHADOW_VISIBLE);
+    this._blockL.classList.remove(ClassNames.SHADOW_VISIBLE);
   }
 }

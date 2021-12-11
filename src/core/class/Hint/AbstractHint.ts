@@ -1,4 +1,5 @@
-import { IHint, Position } from "../../Interfaces";
+import { ClassNames, IHint, Position } from "../../Interfaces";
+import px from "../../utils/px";
 
 export class AbstractHint implements IHint {
   private _position;
@@ -24,9 +25,9 @@ export class AbstractHint implements IHint {
 
   private _mountWrapComponent() {
     const wrap = document.createElement('div');
-    wrap.classList.add('newbie-hint-wrap');
+    wrap.classList.add(ClassNames.HINT_WRAP);
     const inner = document.createElement('div');
-    inner.classList.add('newbie-hint-wrap__inner');
+    inner.classList.add(ClassNames.HINT_WRAP_INNER);
     wrap.append(inner);
 
     const targetRect = this._targetElement.getBoundingClientRect();
@@ -36,96 +37,96 @@ export class AbstractHint implements IHint {
     switch (this._position) {
       case Position.Top:
       default:
-        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top - offsetY}px`;
-        wrap.style.left = `${targetRect.left + targetRect.width / 2}px`;
+        wrap.style.top = px(document.documentElement.scrollTop + targetRect.top - offsetY);
+        wrap.style.left = px(targetRect.left + targetRect.width / 2);
         wrap.style.alignItems = 'center';
         wrap.style.justifyContent = 'center';
-        inner.style.bottom = '0px';
+        inner.style.bottom = px(0);
         break;
       case Position.TopLeft:
-        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top - offsetY}px`;
-        wrap.style.left = `${targetRect.left}px`;
+        wrap.style.top = px(document.documentElement.scrollTop + targetRect.top - offsetY);
+        wrap.style.left = px(targetRect.left);
         wrap.style.alignItems = 'center';
         wrap.style.justifyContent = 'flex-start';
-        inner.style.bottom = '0px';
-        inner.style.left = '0px';
+        inner.style.bottom = px(0);
+        inner.style.left = px(0);
         break;
       case Position.TopRight:
-        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top - offsetY}px`;
-        wrap.style.left = `${targetRect.left + targetRect.width}px`;
+        wrap.style.top = px(document.documentElement.scrollTop + targetRect.top - offsetY);
+        wrap.style.left = px(targetRect.left + targetRect.width);
         wrap.style.alignItems = 'center';
         wrap.style.justifyContent = 'flex-end';
-        inner.style.bottom = '0px';
-        inner.style.right = '0px';
+        inner.style.bottom = px(0);
+        inner.style.right = px(0);
         break;
       case Position.Right:
-        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top + targetRect.height / 2}px`;
-        wrap.style.left = `${targetRect.left + targetRect.width + offsetX}px`;
+        wrap.style.top = px(document.documentElement.scrollTop + targetRect.top + targetRect.height / 2);
+        wrap.style.left = px(targetRect.left + targetRect.width + offsetX);
         wrap.style.alignItems = 'center';
         wrap.style.justifyContent = 'flex-start';
-        inner.style.left = '0px';
+        inner.style.left = px(0);
         break;
       case Position.RightTop:
-        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top}px`;
-        wrap.style.left = `${targetRect.left + targetRect.width + offsetX}px`;
+        wrap.style.top = px(document.documentElement.scrollTop + targetRect.top);
+        wrap.style.left = px(targetRect.left + targetRect.width + offsetX);
         wrap.style.alignItems = 'flex-start';
         wrap.style.justifyContent = 'flex-start';
-        inner.style.left = '0px';
-        inner.style.top = '0px';
+        inner.style.left = px(0);
+        inner.style.top = px(0);
         break;
       case Position.RightBottom:
-        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top + targetRect.height}px`;
-        wrap.style.left = `${targetRect.left + targetRect.width + offsetX}px`;
+        wrap.style.top = px(document.documentElement.scrollTop + targetRect.top + targetRect.height);
+        wrap.style.left = px(targetRect.left + targetRect.width + offsetX);
         inner.style.alignItems = 'flex-end';
         inner.style.justifyContent = 'flex-start';
-        inner.style.left = '0px';
-        inner.style.bottom = '0px';
+        inner.style.left = px(0);
+        inner.style.bottom = px(0);
         break;
       case Position.Bottom:
-        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top + targetRect.height + offsetY}px`;
-        wrap.style.left = `${targetRect.left + targetRect.width / 2}px`;
+        wrap.style.top = px(document.documentElement.scrollTop + targetRect.top + targetRect.height + offsetY);
+        wrap.style.left = px(targetRect.left + targetRect.width / 2);
         wrap.style.alignItems = 'flex-start';
         wrap.style.justifyContent = 'center';
-        inner.style.top = '0px';
+        inner.style.top = px(0);
         break;
       case Position.BottomLeft:
-        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top + targetRect.height + offsetY}px`;
-        wrap.style.left = `${targetRect.left}px`;
+        wrap.style.top = px(document.documentElement.scrollTop + targetRect.top + targetRect.height + offsetY);
+        wrap.style.left = px(targetRect.left);
         wrap.style.alignItems = 'flex-start';
         wrap.style.justifyContent = 'flex-start';
-        inner.style.top = '0px';
-        inner.style.left = '0px';
+        inner.style.top = px(0);
+        inner.style.left = px(0);
         break;
       case Position.BottomRight:
-        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top + targetRect.height + offsetY}px`;
-        wrap.style.left = `${targetRect.left + targetRect.width}px`;
+        wrap.style.top = px(document.documentElement.scrollTop + targetRect.top + targetRect.height + offsetY);
+        wrap.style.left = px(targetRect.left + targetRect.width);
         wrap.style.alignItems = 'flex-start';
         wrap.style.justifyContent = 'flex-end';
-        inner.style.top = '0px';
-        inner.style.right = '0px';
+        inner.style.top = px(0);
+        inner.style.right = px(0);
         break;
       case Position.Left:
-        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top + targetRect.height / 2}px`;
-        wrap.style.left = `${targetRect.left - offsetX}px`;
+        wrap.style.top = px(document.documentElement.scrollTop + targetRect.top + targetRect.height / 2);
+        wrap.style.left = px(targetRect.left - offsetX);
         wrap.style.alignItems = 'center';
         wrap.style.justifyContent = 'flex-end';
-        inner.style.right = '0px';
+        inner.style.right = px(0);
         break;
       case Position.LeftTop:
-        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top}px`;
-        wrap.style.left = `${targetRect.left - offsetX}px`;
+        wrap.style.top = px(document.documentElement.scrollTop + targetRect.top);
+        wrap.style.left = px(targetRect.left - offsetX);
         wrap.style.alignItems = 'flex-start';
         wrap.style.justifyContent = 'flex-end';
-        inner.style.right = '0px';
-        inner.style.top = '0px';
+        inner.style.right = px(0);
+        inner.style.top = px(0);
         break;
       case Position.LeftBottom:
-        wrap.style.top = `${document.documentElement.scrollTop + targetRect.top + targetRect.height}px`;
-        wrap.style.left = `${targetRect.left - offsetX}px`;
+        wrap.style.top = px(document.documentElement.scrollTop + targetRect.top + targetRect.height);
+        wrap.style.left = px(targetRect.left - offsetX);
         wrap.style.alignItems = 'flex-end';
         wrap.style.justifyContent = 'flex-end';
-        inner.style.right = '0px';
-        inner.style.bottom = '0px';
+        inner.style.right = px(0);
+        inner.style.bottom = px(0);
         break;
     }
 
@@ -139,9 +140,9 @@ export class AbstractHint implements IHint {
   }
 
   protected _show() {
-    this._hintWrap.classList.add('newbie-hint-wrap_visible');
+    this._hintWrap.classList.add(ClassNames.HINT_WRAP_VISIBLE);
   }
   protected _hide() {
-    this._hintWrap.classList.remove('newbie-hint-wrap_visible');
+    this._hintWrap.classList.remove(ClassNames.HINT_WRAP_VISIBLE);
   }
 }
