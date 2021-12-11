@@ -5,7 +5,7 @@ import { Step } from './core/class/Step';
 export default Newbie;
 
 export const NewbiePlugin = {
-  install(Vue) {
-    Step.setHintFactory(new VueHintFactory({ Vue }));
-  }
+    install(Vue) {
+        Step.setHintFactory(new VueHintFactory({ Vue }));
+    },
 };

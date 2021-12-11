@@ -1,3 +1,3 @@
 export default function _throw(error: string) {
-  throw new Error(error);
+    throw new Error(error);
 }

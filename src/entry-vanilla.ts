@@ -6,9 +6,9 @@ import './assets/scss/hint.scss';
 import './assets/scss/shadow.scss';
 
 declare global {
-  interface Window {
-    Newbie: any;
-  }
+    interface Window {
+        Newbie: any;
+    }
 }
 
 Step.setHintFactory(new VanillaHintFactory());
