@@ -1,4 +1,4 @@
-import { IConfig, INewbieSettings, IStepSettings } from '../Interfaces';
+import { Errors, IConfig, INewbieSettings } from '../Interfaces';
 
 export class Config implements IConfig {
     private _config: INewbieSettings;
@@ -8,17 +8,50 @@ export class Config implements IConfig {
     }
 
     validate() {
-        if (!Array.isArray(this._config.steps)) {
-            return 'No steps provided!';
+        if (!this._config) {
+            return Errors.NO_CONFIG_PROVIDED;
         }
+
+        if (
+            !Array.isArray(this._config.steps) ||
+            (Array.isArray(this._config.steps) && !this._config.steps.length)
+        ) {
+            return Errors.NO_STEPS_PROVIDED;
+        }
+
+        if (this._config.steps.some(step => !step.target)) {
+            return Errors.NO_STEP_TARGET_PROVIDED;
+        }
+
+        if (!this._config.hint && this._config.steps.some(step => !step.hint)) {
+            return Errors.NO_HINT_PROVIDED;
+        }
+
+        if (
+            (this._config.hint &&
+                !this._config.hint.component &&
+                this._config.steps.some(step => !step.hint)) ||
+            (!this._config.hint &&
+                this._config.steps.some(
+                    step => step.hint && !step.hint.component
+                ))
+        ) {
+            return Errors.NO_HINT_COMPONENT_PROVIDED;
+        }
+
         return null;
     }
 
     resolveStepConfig(stepId) {
-        const stepConfig = this._config.steps.find(
-            (step) => step.id === stepId
-        );
+        const stepConfig =
+            typeof stepId === 'string'
+                ? this._config.steps.find(step => step.id === stepId)
+                : this._config.steps[stepId];
         const config = this._config;
+
+        if (!stepConfig.id) {
+            stepConfig.id = `No. ${stepId}`;
+        }
 
         // shadow
         if (!stepConfig.shadow) {

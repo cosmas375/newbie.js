@@ -182,7 +182,7 @@ export class AbstractHint implements IHint {
                 break;
         }
 
-        document.documentElement.append(wrap);
+        document.body.append(wrap);
         this._hintWrap = wrap;
         this._slotForHint = inner;
     }

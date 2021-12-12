@@ -40,7 +40,7 @@ export class Step implements IStep {
     public mount(): void {
         this._beforeMount();
 
-        this._getTargetElement();
+        this._targetElement = this.targetElement;
         this._scrollToTarget();
         this._mountShadow();
         this._mountHint();
@@ -59,6 +59,12 @@ export class Step implements IStep {
         this._unmounted();
     }
 
+    public get targetElement() {
+        return typeof this._target === 'string'
+            ? document.querySelector(this._target)
+            : this._target;
+    }
+
     public static setHintFactory(factory: IHintFactory): void {
         this._hintFactory = factory;
     }
@@ -68,20 +74,6 @@ export class Step implements IStep {
         this._mounted = getCallback(config.mounted);
         this._beforeUnmount = getCallback(config.beforeUnmount);
         this._unmounted = getCallback(config.unmounted);
-    }
-
-    private _getTargetElement(): void {
-        const element =
-            typeof this._target === 'string'
-                ? document.querySelector(this._target)
-                : this._target;
-
-        if (!element) {
-            _throw(`Target for step [${this._id}] was not found!`);
-            return;
-        }
-
-        this._targetElement = element || null;
     }
 
     private _scrollToTarget(): void {

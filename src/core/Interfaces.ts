@@ -7,13 +7,14 @@ export interface INewbie {
 }
 
 export interface IStep {
+    targetElement: HTMLElement;
     mount(): void;
     unmount(): void;
 }
 
 export interface IConfig {
     validate(): string | null;
-    resolveStepConfig(stepId: string): IStepSettings;
+    resolveStepConfig(stepId: string | number): IStepSettings;
 }
 
 export interface IHintFactory {
@@ -34,22 +35,23 @@ export interface IShadow {
 // settings
 export interface ICommonSettings {
     shadow: IShadowSettings;
-    hint: IHintSettings;
     steps: IStepSettings[];
+    hint?: IHintSettings;
 }
 
 export interface INewbieSettings extends ICommonSettings {
     steps: IStepSettings[];
-    beforeStart?(): TNewbieCallbac;
-    started?(): TNewbieCallbac;
-    beforeFinish?(): TNewbieCallbac;
-    finished?(): TNewbieCallbac;
+    beforeStart?(): TNewbieCallback;
+    started?(): TNewbieCallback;
+    beforeFinish?(): TNewbieCallback;
+    finished?(): TNewbieCallback;
 }
 
 export interface IStepSettings extends ICommonSettings {
     id: string;
     target: TStepTarget;
-    content: string;
+    content?: string;
+    hint?: IHintSettings;
     beforeMount(): TStepCallback;
     mounted(targetElement: HTMLElement): TStepCallback;
     beforeUnmount(targetElement: HTMLElement): TStepCallback;
@@ -68,9 +70,13 @@ export interface IHintSettings {
     position?: Position;
 }
 
-export type TNewbieCallbac = void;
+export type TNewbieCallback = void;
 
 export type TStepCallback = void;
+
+export interface IStepCalllbacks {
+    onTargetNotFound?(): void;
+}
 
 export type TStepTarget = HTMLElement;
 
@@ -102,4 +108,12 @@ export enum ClassNames {
     SHADOW_HTML_BOTTOM = 'newbie-html-shadow_bottom',
     SHADOW_HTML_LEFT = 'newbie-html-shadow_left',
     SHADOW_SVG = 'newbie-svg-shadow',
+}
+
+export enum Errors {
+    NO_CONFIG_PROVIDED = 'No config provided!',
+    NO_STEPS_PROVIDED = 'No steps provided!',
+    NO_STEP_TARGET_PROVIDED = 'No step target provided!',
+    NO_HINT_PROVIDED = 'No hint provided!',
+    NO_HINT_COMPONENT_PROVIDED = 'No hint component provided!',
 }

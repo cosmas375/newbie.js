@@ -2,7 +2,7 @@ import { ClassNames } from '../../Interfaces';
 import { AbstractHint } from './AbstractHint';
 
 export class SimpleHint extends AbstractHint {
-    private _component: Element;
+    private _component: HTMLElement;
     private _content: object = {};
 
     constructor(settings) {
@@ -15,7 +15,7 @@ export class SimpleHint extends AbstractHint {
     mount(targetElement) {
         super.mount(targetElement);
 
-        Object.keys(this._content).forEach((key) => {
+        Object.keys(this._content).forEach(key => {
             const component = this._component.querySelector(key);
             if (!component) {
                 return;

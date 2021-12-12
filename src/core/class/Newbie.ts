@@ -3,7 +3,7 @@ import {
     INewbie,
     INewbieSettings,
     IStep,
-    TNewbieCallbac,
+    TNewbieCallback,
 } from '../Interfaces';
 import { Config } from './Config';
 import { Step } from './Step';
@@ -15,13 +15,13 @@ export class Newbie implements INewbie {
     private _steps: ILinkedList<IStep>;
     private _config: IConfig;
 
-    private _beforeStart(): TNewbieCallbac {}
-    private _started(): TNewbieCallbac {}
-    private _beforeFinish(): TNewbieCallbac {}
-    private _finished(): TNewbieCallbac {}
+    private _beforeStart(): TNewbieCallback {}
+    private _started(): TNewbieCallback {}
+    private _beforeFinish(): TNewbieCallback {}
+    private _finished(): TNewbieCallback {}
 
-    private _currentStep: INode;
-    private _isStarted: boolean;
+    private _currentStep: INode = null;
+    private _isStarted: boolean = false;
 
     constructor(config: INewbieSettings) {
         this._config = new Config(config);
@@ -37,12 +37,18 @@ export class Newbie implements INewbie {
     public start(): void {
         this._beforeStart();
 
-        const firstStep = this._steps.getFirst();
-        if (!firstStep) {
-            _throw('No first step');
+        let step = this._steps.getFirst();
+        while (step && !step.value.targetElement) {
+            step = step.next;
+        }
+
+        if (!step) {
+            this.stop();
             return;
         }
-        this._goTo(firstStep);
+
+        this._goTo(step);
+
         this._isStarted = true;
 
         this._started();
@@ -52,29 +58,45 @@ export class Newbie implements INewbie {
         if (!this._isStarted) {
             return;
         }
-        const nextStep = this._currentStep.next;
-        if (!nextStep) {
+
+        let step = this._currentStep.next;
+        while (step && !step.value.targetElement) {
+            step = step.next;
+        }
+
+        if (!step) {
             this.stop();
             return;
         }
-        this._goTo(nextStep);
+
+        this._goTo(step);
     }
 
     public goPrevious(): void {
         if (!this._isStarted) {
             return;
         }
-        const previousStep = this._currentStep.previous;
-        if (!previousStep) {
+
+        let step = this._currentStep.previous;
+        while (step && !step.value.targetElement) {
+            step = step.previous;
+        }
+
+        if (!step) {
             return;
         }
-        this._goTo(previousStep);
+
+        this._goTo(step);
     }
 
     public stop(): void {
         this._beforeFinish();
 
-        this._currentStep.value.unmount();
+        if (this._currentStep) {
+            this._currentStep.value.unmount();
+            this._currentStep = null;
+        }
+
         this._isStarted = false;
 
         this._finished();
@@ -82,12 +104,17 @@ export class Newbie implements INewbie {
 
     private _setSteps(config: INewbieSettings): void {
         const list = new LinkedList();
-        config.steps.forEach((stepConfig) => {
+
+        config.steps.forEach((stepConfig, index) => {
             const step = new Step(
-                this._config.resolveStepConfig(stepConfig.id)
+                this._config.resolveStepConfig(
+                    stepConfig.id ? String(stepConfig.id) : index
+                )
             );
+
             list.add(step);
         });
+
         this._steps = list;
     }
 
