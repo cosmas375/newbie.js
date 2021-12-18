@@ -1,10 +1,10 @@
 import { IHintFactory, IHint } from '../../Interfaces';
-import { SimpleHint } from './SimpleHint';
+import { VanillaHint } from './VanillaHint';
 import { VueHint } from './VueHint';
 
 export class VanillaHintFactory implements IHintFactory {
-    public create(settings): IHint {
-        return new SimpleHint(settings);
+    public create(config): IHint {
+        return new VanillaHint(config);
     }
 }
 
@@ -15,7 +15,7 @@ export class VueHintFactory implements IHintFactory {
         this._vue = Vue;
     }
 
-    public create(settings): IHint {
-        return new VueHint(settings, { Vue: this._vue });
+    public create(config): IHint {
+        return new VueHint(config, { Vue: this._vue });
     }
 }

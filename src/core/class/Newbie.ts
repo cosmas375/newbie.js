@@ -1,7 +1,7 @@
 import {
     IConfig,
     INewbie,
-    INewbieSettings,
+    INewbieConfig,
     IStep,
     TNewbieCallback,
 } from '../Interfaces';
@@ -21,9 +21,14 @@ export class Newbie implements INewbie {
     private _finished(): TNewbieCallback {}
 
     private _currentStep: INode = null;
+
+    /**
+     * Used to prevent running of goNext() and goPrevious() before start(),
+     * as both methods may be called from the outside
+     */
     private _isStarted: boolean = false;
 
-    constructor(config: INewbieSettings) {
+    constructor(config: INewbieConfig) {
         this._config = new Config(config);
         const error = this._config.validate();
         if (error) {
@@ -102,15 +107,17 @@ export class Newbie implements INewbie {
         this._finished();
     }
 
-    private _setSteps(config: INewbieSettings): void {
+    private _setSteps(config: INewbieConfig): void {
         const list = new LinkedList();
 
         config.steps.forEach((stepConfig, index) => {
-            const step = new Step(
-                this._config.resolveStepConfig(
-                    stepConfig.id ? String(stepConfig.id) : index
-                )
-            );
+            const id = stepConfig.id ? String(stepConfig.id) : index;
+
+            const step = new Step(this._config.resolveStepConfig(id), {
+                goNext: this.goNext.bind(this),
+                goPrevious: this.goPrevious.bind(this),
+                stop: this.stop.bind(this),
+            });
 
             list.add(step);
         });
@@ -118,7 +125,7 @@ export class Newbie implements INewbie {
         this._steps = list;
     }
 
-    private _setLifeCycleHooks(config: INewbieSettings): void {
+    private _setLifeCycleHooks(config: INewbieConfig): void {
         this._beforeStart = getCallback(config.beforeStart);
         this._started = getCallback(config.started);
         this._beforeFinish = getCallback(config.beforeFinish);

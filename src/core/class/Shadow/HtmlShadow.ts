@@ -1,8 +1,8 @@
 import { ClassNames } from '../../Interfaces';
-import { AbstractShadow } from './AbstractShadow';
+import { Shadow } from './Shadow';
 import px from '../../utils/px';
 
-export class HtmlShadow extends AbstractShadow {
+export class HtmlShadow extends Shadow {
     private _blockT: HTMLElement;
     private _blockR: HTMLElement;
     private _blockB: HTMLElement;

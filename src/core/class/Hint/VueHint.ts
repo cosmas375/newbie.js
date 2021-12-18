@@ -1,36 +1,45 @@
-import { ClassNames } from '../../Interfaces';
-import { AbstractHint } from './AbstractHint';
+import { ClassNames, IHintSettings } from '../../Interfaces';
+import { Hint } from './Hint';
 
-export class VueHint extends AbstractHint {
+export class VueHint extends Hint {
     private _component: any;
-    private _handlers: object;
     private _content: object;
-    private _vue: any;
+    private _Vue: any;
+    private _settings: IHintSettings;
 
-    constructor(settings, { Vue }) {
-        super(settings);
+    constructor({ config, settings }, { Vue }) {
+        super(config);
 
-        this._component = settings.component;
-        this._handlers = settings.handlers || {};
-        this._vue = Vue;
+        this._Vue = Vue;
+        this._component = config.component;
+        this._settings = settings;
     }
 
-    mount(targetElement) {
+    public mount(targetElement): void {
         super.mount(targetElement);
 
-        const component = this._vue.extend(this._component);
-        const hint = new component({ propsData: this._content }).$mount();
-        Object.keys(this._handlers).forEach((event) => {
-            hint.$on(event, this._handlers[event]);
-        });
-        const elem = hint.$el;
-        elem.classList.add(ClassNames.HINT);
+        const elem = this._getHintHTMLElement();
 
         super._mountHint(elem);
         super._show();
     }
 
-    setContent(content: object = {}) {
+    public setContent(content: object = {}): void {
         this._content = content;
+    }
+
+    private _getHintHTMLElement(): HTMLElement {
+        const component = this._Vue.extend(this._component);
+        const hint = new component({
+            propsData: { ...this._content, ...this._settings },
+        }).$mount();
+
+        hint.$on('go-next', this._settings.goNext);
+        hint.$on('go-previous', this._settings.goPrevious);
+        hint.$on('stop', this._settings.stop);
+
+        const elem = hint.$el;
+        elem.classList.add(ClassNames.HINT);
+        return elem;
     }
 }

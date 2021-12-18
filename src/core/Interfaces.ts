@@ -14,11 +14,11 @@ export interface IStep {
 
 export interface IConfig {
     validate(): string | null;
-    resolveStepConfig(stepId: string | number): IStepSettings;
+    resolveStepConfig(stepId: string | number): IStepConfig;
 }
 
 export interface IHintFactory {
-    create(settings: IHintSettings): IHint;
+    create({ config, settings }): IHint;
 }
 
 export interface IHint {
@@ -33,41 +33,45 @@ export interface IShadow {
 }
 
 // settings
-export interface ICommonSettings {
-    shadow: IShadowSettings;
-    steps: IStepSettings[];
-    hint?: IHintSettings;
+export interface ICommonConfig {
+    steps: IStepConfig[];
+    shadow?: IShadowConfig;
+    hint?: IHintConfig;
 }
 
-export interface INewbieSettings extends ICommonSettings {
-    steps: IStepSettings[];
+export interface INewbieConfig extends ICommonConfig {
     beforeStart?(): TNewbieCallback;
     started?(): TNewbieCallback;
     beforeFinish?(): TNewbieCallback;
     finished?(): TNewbieCallback;
 }
 
-export interface IStepSettings extends ICommonSettings {
+export interface IStepConfig extends ICommonConfig {
     id: string;
     target: TStepTarget;
     content?: string;
-    hint?: IHintSettings;
-    beforeMount(): TStepCallback;
-    mounted(targetElement: HTMLElement): TStepCallback;
-    beforeUnmount(targetElement: HTMLElement): TStepCallback;
-    unmounted(): TStepCallback;
+    hint?: IHintConfig;
+    beforeMount?(): TStepCallback;
+    mounted?(targetElement: HTMLElement): TStepCallback;
+    beforeUnmount?(targetElement: HTMLElement): TStepCallback;
+    unmounted?(): TStepCallback;
 }
 
-export interface IShadowSettings {
+export interface IShadowConfig {
     type?;
-    rootComponent?: HTMLElement;
     offset?: number;
     borderRadius?: number;
+    rootComponent?: HTMLElement;
 }
-export interface IHintSettings {
+export interface IHintConfig {
     component: HTMLElement;
-    handlers: object;
     position?: Position;
+}
+
+export interface IHintSettings {
+    goNext(): void;
+    goPrevious(): void;
+    stop(): void;
 }
 
 export type TNewbieCallback = void;
@@ -112,6 +116,7 @@ export enum ClassNames {
 
 export enum Errors {
     NO_CONFIG_PROVIDED = 'No config provided!',
+    ID_ERROR = 'Specify unique id for each step!',
     NO_STEPS_PROVIDED = 'No steps provided!',
     NO_STEP_TARGET_PROVIDED = 'No step target provided!',
     NO_HINT_PROVIDED = 'No hint provided!',

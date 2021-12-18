@@ -1,9 +1,9 @@
-import { Errors, IConfig, INewbieSettings } from '../Interfaces';
+import { Errors, IConfig, INewbieConfig } from '../Interfaces';
 
 export class Config implements IConfig {
-    private _config: INewbieSettings;
+    private _config: INewbieConfig;
 
-    constructor(config: INewbieSettings) {
+    constructor(config: INewbieConfig) {
         this._config = config;
     }
 
@@ -73,13 +73,7 @@ export class Config implements IConfig {
 
         // hint
         if (!stepConfig.hint) {
-            stepConfig.hint = config.hint || { component: null, handlers: {} };
-        }
-        if (
-            typeof stepConfig.hint.handlers === 'undefined' &&
-            config.hint.handlers
-        ) {
-            stepConfig.hint.handlers = config.hint.handlers;
+            stepConfig.hint = config.hint || { component: null };
         }
         if (
             typeof stepConfig.hint.component === 'undefined' &&

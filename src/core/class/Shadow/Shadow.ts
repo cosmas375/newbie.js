@@ -1,9 +1,9 @@
-import { IShadow, IShadowSettings } from '../../Interfaces';
+import { IShadow, IShadowConfig } from '../../Interfaces';
 
-export class AbstractShadow implements IShadow {
+export class Shadow implements IShadow {
     protected _rootComponent;
 
-    constructor(settings: IShadowSettings) {
+    constructor(settings: IShadowConfig) {
         this._rootComponent =
             settings.rootComponent || document.documentElement;
     }

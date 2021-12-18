@@ -1,7 +1,7 @@
 import { ClassNames } from '../../Interfaces';
-import { AbstractShadow } from './AbstractShadow';
+import { Shadow } from './Shadow';
 
-export class SvgShadow extends AbstractShadow {
+export class SvgShadow extends Shadow {
     private _block: Element;
     private _svg: Element;
     private _maskId: string = 'svg_shadow_mask';

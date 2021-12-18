@@ -1,6 +1,6 @@
 import {
     IStep,
-    IStepSettings,
+    IStepConfig,
     IHintFactory,
     IHint,
     IShadow,
@@ -12,7 +12,6 @@ import { ShadowFactory } from './Shadow/ShadowFactory';
 import _throw from '../utils/throw';
 
 export class Step implements IStep {
-    private _id: string;
     private _target: TStepTarget;
     private _content: string;
 
@@ -27,12 +26,14 @@ export class Step implements IStep {
     private static _hintFactory: IHintFactory;
     private _targetElement: HTMLElement;
 
-    constructor(config: IStepSettings) {
-        this._id = String(config.id);
+    constructor(config: IStepConfig, settings: object) {
         this._target = config.target;
         this._content = config.content;
         this._shadow = ShadowFactory.create(config.shadow);
-        this._hint = Step._hintFactory.create(config.hint);
+        this._hint = Step._hintFactory.create({
+            config: config.hint,
+            settings,
+        });
 
         this._setLifeCycleHooks(config);
     }
@@ -69,7 +70,7 @@ export class Step implements IStep {
         this._hintFactory = factory;
     }
 
-    private _setLifeCycleHooks(config: IStepSettings): void {
+    private _setLifeCycleHooks(config: IStepConfig): void {
         this._beforeMount = getCallback(config.beforeMount);
         this._mounted = getCallback(config.mounted);
         this._beforeUnmount = getCallback(config.beforeUnmount);

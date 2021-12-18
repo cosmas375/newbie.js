@@ -1,6 +1,6 @@
-import { AbstractShadow } from './AbstractShadow';
+import { Shadow } from './Shadow';
 
-export class NullShadow extends AbstractShadow {
+export class NullShadow extends Shadow {
     constructor(settings) {
         super(settings);
     }

@@ -1,14 +1,18 @@
 import { ClassNames, IHint, Position } from '../../Interfaces';
 import px from '../../utils/px';
 
-export class AbstractHint implements IHint {
-    private _position;
-    private _targetElement;
-    private _hintWrap;
-    private _slotForHint;
+export class Hint implements IHint {
+    private _position: Position;
+    private _offsetX: number;
+    private _offsetY: number;
+    private _targetElement: HTMLElement;
+    private _hintWrap: HTMLElement;
+    private _slotForHint: HTMLElement;
 
     constructor(settings) {
         this._position = settings.position || Position.Top;
+        this._offsetX = settings.offsetX || 10;
+        this._offsetY = settings.offsetY || 10;
     }
 
     public mount(targetElement) {
@@ -30,8 +34,8 @@ export class AbstractHint implements IHint {
         wrap.append(inner);
 
         const targetRect = this._targetElement.getBoundingClientRect();
-        const offsetY = 10;
-        const offsetX = 10;
+        const offsetY = this._offsetY;
+        const offsetX = this._offsetX;
 
         switch (this._position) {
             case Position.Top:
