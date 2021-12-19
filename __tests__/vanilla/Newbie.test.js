@@ -2,14 +2,14 @@
  * @jest-environment jsdom
  */
 
-import { Newbie } from '../../../src/core/class/Newbie';
-import { Step } from '../../../src/core/class/Step';
-import { VanillaHintFactory } from '../../../src/core/class/Hint/HintFactory';
-import { Errors } from '../../../src/core/Interfaces';
+import { Newbie } from '../../src/core/class/Newbie';
+import { Step } from '../../src/core/class/Step';
+import { VanillaHintFactory } from '../../src/core/class/Hint/HintFactory';
+import { Errors } from '../../src/core/Interfaces';
 
 Step.setHintFactory(new VanillaHintFactory());
 
-describe('Newbie config validation', () => {
+describe('config validation', () => {
     it('throws an error if no config provided', () => {
         expect(() => {
             new Newbie();
@@ -109,16 +109,21 @@ describe('Newbie config validation', () => {
     });
 });
 
-describe('Newbie stepping', () => {
-    it('starts and displays the first hint', () => {
+describe('stepping', () => {
+    beforeEach(() => {
         document.body.innerHTML = `
             <div id="hint-target-1"></div>
+            <div id="hint-target-2"></div>
             <div id="hint-component">
                 <span data-content-slot></span>
             </div>
         `;
-        const content = 'some random content';
+    });
 
+    const content1 = 'some random content 1';
+    const content2 = 'some random content 2';
+
+    it('starts and displays the first hint', () => {
         const instance = new Newbie({
             hint: {
                 component: document.getElementById('hint-component'),
@@ -127,36 +132,26 @@ describe('Newbie stepping', () => {
                 {
                     target: '#hint-target-1',
                     content: {
-                        '[data-content-slot]': content,
+                        '[data-content-slot]': content1,
                     },
                 },
             ],
         });
 
-        expect(document.body.innerHTML).not.toMatch(new RegExp(content));
+        expect(document.body.innerHTML).not.toMatch(new RegExp(content1));
 
         instance.start();
-        expect(document.body.innerHTML).toMatch(new RegExp(content));
+        expect(document.body.innerHTML).toMatch(new RegExp(content1));
     });
 
     it('skips steps with missing targets', () => {
-        document.body.innerHTML = `
-            <div id="hint-target-1"></div>
-            <div id="hint-target-2"></div>
-            <div id="hint-component">
-                <span data-content-slot></span>
-            </div>
-        `;
-        const content1 = 'some random content 1';
-        const content2 = 'some random content 2';
-
         const instance = new Newbie({
             hint: {
                 component: document.getElementById('hint-component'),
             },
             steps: [
                 {
-                    target: '#hint-target-missing',
+                    target: '#hint-target-missing', // missing
                     content: {
                         '[data-content-slot]': content1,
                     },
@@ -172,5 +167,110 @@ describe('Newbie stepping', () => {
 
         instance.start();
         expect(document.body.innerHTML).toMatch(new RegExp(content2));
+    });
+
+    it('stops after last step', () => {
+        const instance = new Newbie({
+            hint: {
+                component: document.getElementById('hint-component'),
+            },
+            steps: [
+                {
+                    target: '#hint-target-1',
+                    content: {
+                        '[data-content-slot]': content1,
+                    },
+                },
+                {
+                    target: '#hint-target-2',
+                    content: {
+                        '[data-content-slot]': content2,
+                    },
+                },
+            ],
+        });
+
+        instance.start();
+        expect(document.body.innerHTML).toMatch(new RegExp(content1));
+        instance.goNext();
+        expect(document.body.innerHTML).toMatch(new RegExp(content2));
+        instance.goNext();
+        expect(document.body.innerHTML).not.toMatch(new RegExp(content1));
+        expect(document.body.innerHTML).not.toMatch(new RegExp(content2));
+    });
+});
+
+describe('callback usage', () => {
+    beforeEach(() => {
+        document.body.innerHTML = `
+            <div id="hint-target-1"></div>
+            <div id="hint-target-2"></div>
+            <div id="hint-component">
+                <span data-content-slot></span>
+            </div>
+        `;
+    });
+
+    const content1 = 'some random content 1';
+
+    it('calls beforeStart and beforeFinish hooks', () => {
+        const beforeStart = jest.fn();
+        const beforeFinish = jest.fn();
+        const instance = new Newbie({
+            beforeStart,
+            beforeFinish,
+            hint: {
+                component: document.getElementById('hint-component'),
+            },
+            steps: [
+                {
+                    target: '#hint-target-1',
+                    content: {
+                        '[data-content-slot]': content1,
+                    },
+                },
+            ],
+        });
+
+        instance.start();
+        expect(beforeStart).toBeCalledWith();
+        instance.stop();
+        expect(beforeFinish).toBeCalledWith();
+    });
+
+    it('calls step hooks', () => {
+        const beforeMount = jest.fn();
+        const mounted = jest.fn();
+        const beforeUnmount = jest.fn();
+        const unmounted = jest.fn();
+
+        const instance = new Newbie({
+            hint: {
+                component: document.getElementById('hint-component'),
+            },
+            steps: [
+                {
+                    target: '#hint-target-1',
+                    content: {
+                        '[data-content-slot]': content1,
+                    },
+                    beforeMount,
+                    mounted,
+                    beforeUnmount,
+                    unmounted,
+                },
+            ],
+        });
+
+        instance.start();
+        expect(beforeMount).toBeCalledWith();
+        expect(mounted).toBeCalledWith(
+            document.querySelector('#hint-target-1')
+        );
+        instance.goNext();
+        expect(beforeUnmount).toBeCalledWith(
+            document.querySelector('#hint-target-1')
+        );
+        expect(unmounted).toBeCalledWith();
     });
 });
