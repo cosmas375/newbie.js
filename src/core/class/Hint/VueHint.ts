@@ -2,7 +2,7 @@ import { ClassNames, IHintSettings } from '../../Interfaces';
 import { Hint } from './Hint';
 
 export class VueHint extends Hint {
-    private _component: any;
+    private _vueComponent: object;
     private _content: object;
     private _Vue: any;
     private _settings: IHintSettings;
@@ -11,17 +11,16 @@ export class VueHint extends Hint {
         super(config);
 
         this._Vue = Vue;
-        this._component = config.component;
+        this._vueComponent = config.component;
         this._settings = settings;
     }
 
-    public mount(targetElement): void {
-        super.mount(targetElement);
+    public mount(slot): void {
+        super.mount(slot);
 
-        const elem = this._getHintHTMLElement();
+        this._component = this._getHintHTMLElement();
 
-        super._mountHint(elem);
-        super._show();
+        super._mountHint();
     }
 
     public setContent(content: object = {}): void {
@@ -29,7 +28,7 @@ export class VueHint extends Hint {
     }
 
     private _getHintHTMLElement(): HTMLElement {
-        const component = this._Vue.extend(this._component);
+        const component = this._Vue.extend(this._vueComponent);
         const hint = new component({
             propsData: { ...this._content, ...this._settings },
         }).$mount();

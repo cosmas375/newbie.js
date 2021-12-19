@@ -53,6 +53,10 @@ export class Config implements IConfig {
             stepConfig.id = `No. ${stepId}`;
         }
 
+        if (typeof stepConfig.position === 'undefined' && config.position) {
+            stepConfig.position = config.position;
+        }
+
         // shadow
         if (!stepConfig.shadow) {
             stepConfig.shadow = config.shadow || { type: null };
@@ -81,13 +85,13 @@ export class Config implements IConfig {
         ) {
             stepConfig.hint.component = config.hint.component;
         }
-        if (
-            typeof stepConfig.hint.position === 'undefined' &&
-            config.hint.position
-        ) {
-            stepConfig.hint.position = config.hint.position;
-        }
         // end hint
+
+        // arrow
+        if (!stepConfig.arrow) {
+            stepConfig.arrow = config.arrow || { type: null };
+        }
+        // endarrow
 
         return stepConfig;
     }

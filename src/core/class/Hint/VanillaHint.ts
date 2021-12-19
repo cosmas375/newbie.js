@@ -2,7 +2,6 @@ import { ClassNames, IHintSettings } from '../../Interfaces';
 import { Hint } from './Hint';
 
 export class VanillaHint extends Hint {
-    private _component: HTMLElement;
     private _content: object = {};
     private _settings: IHintSettings;
 
@@ -15,18 +14,16 @@ export class VanillaHint extends Hint {
         this._settings = settings;
     }
 
-    mount(targetElement) {
-        super.mount(targetElement);
+    mount(slot) {
+        super.mount(slot);
 
         this._setContent();
         this._addDefaultEventListeners();
 
-        super._mountHint(this._component);
-        super._show();
+        super._mountHint();
     }
 
     unmount() {
-        this._hide();
         this._removeDefaultEventListeners();
         super.unmount();
     }

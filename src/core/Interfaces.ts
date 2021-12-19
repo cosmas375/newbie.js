@@ -22,7 +22,7 @@ export interface IHintFactory {
 }
 
 export interface IHint {
-    mount(targetElement: Element): void;
+    mount(slot: Element): void;
     unmount(): void;
     setContent(content: string | object): void;
 }
@@ -32,11 +32,20 @@ export interface IShadow {
     unmount(): void;
 }
 
-// settings
+export interface IArrow {
+    mount(settings): void;
+    unmount(): void;
+}
+
+// config
 export interface ICommonConfig {
     steps: IStepConfig[];
     shadow?: IShadowConfig;
     hint?: IHintConfig;
+    arrow?: IArrowConfg;
+    position?: Position;
+    offsetX?: number;
+    offsetY?: number;
 }
 
 export interface INewbieConfig extends ICommonConfig {
@@ -50,7 +59,9 @@ export interface IStepConfig extends ICommonConfig {
     id: string;
     target: TStepTarget;
     content?: string;
+    position?: Position;
     hint?: IHintConfig;
+    arrow: IArrowConfg;
     beforeMount?(): TStepCallback;
     mounted?(targetElement: HTMLElement): TStepCallback;
     beforeUnmount?(targetElement: HTMLElement): TStepCallback;
@@ -65,8 +76,16 @@ export interface IShadowConfig {
 }
 export interface IHintConfig {
     component: HTMLElement;
-    position?: Position;
 }
+
+export interface IArrowConfg {
+    type: ArrowType;
+    size?: number;
+    color?: string;
+    offsetX?: number;
+    offsetY?: number;
+}
+// end config
 
 export interface IHintSettings {
     goNext(): void;
@@ -112,6 +131,7 @@ export enum ClassNames {
     SHADOW_HTML_BOTTOM = 'newbie-html-shadow_bottom',
     SHADOW_HTML_LEFT = 'newbie-html-shadow_left',
     SHADOW_SVG = 'newbie-svg-shadow',
+    ARROW = 'newbie-arrow',
 }
 
 export enum Errors {
@@ -121,4 +141,9 @@ export enum Errors {
     NO_STEP_TARGET_PROVIDED = 'No step target provided!',
     NO_HINT_PROVIDED = 'No hint provided!',
     NO_HINT_COMPONENT_PROVIDED = 'No hint component provided!',
+}
+
+export enum ArrowType {
+    NULL = 'null',
+    TRIAGLE = 'triangle',
 }

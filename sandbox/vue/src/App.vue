@@ -40,6 +40,10 @@ export default {
             hint: {
                 component: Hint,
             },
+            arrow: {
+                type: 'triangle',
+                size: 8,
+            },
             steps: [
                 {
                     id: '0',
@@ -49,15 +53,17 @@ export default {
                         content:
                             'Irure anim cillum ut esse et mollit tempor adipisicing minim officia magna. Id qui qui exercitation consectetur. Aliquip velit id Lorem consectetur laboris adipisicing reprehenderit. Mollit veniam deserunt dolore enim. Ut est enim labore magna ullamco.',
                     },
-                    hint: {
-                        position: 'bottom-right',
-                        offsetX: 1,
-                        offsetY: 40,
-                    },
+                    position: 'bottom-right',
+                    offsetX: 1,
+                    offsetY: 40,
                     shadow: {
                         type: 'svg',
                         offset: 10,
                         borderRadius: 10,
+                    },
+                    hint: {
+                        offsetX: 22,
+                        offsetY: 22,
                     },
                 },
                 {
@@ -67,9 +73,7 @@ export default {
                         content:
                             'Ipsum consequat dolor velit pariatur nulla et ullamco sint irure consequat.',
                     },
-                    hint: {
-                        position: 'bottom-right',
-                    },
+                    position: 'bottom-right',
                 },
                 {
                     id: '2',
@@ -83,9 +87,7 @@ export default {
                     shadow: {
                         type: null,
                     },
-                    hint: {
-                        position: 'left-top',
-                    },
+                    position: 'left-top',
                     mounted(target) {
                         target.style.backgroundColor = 'black';
                     },
@@ -104,9 +106,10 @@ export default {
                         type: 'html',
                         offset: 10,
                     },
-                    hint: {
-                        position: 'right-bottom',
+                    arrow: {
+                        type: null,
                     },
+                    position: 'right-bottom',
                 },
             ],
         });
@@ -117,6 +120,7 @@ export default {
 <style lang="scss">
 @import '../../../src/assets/scss/shadow';
 @import '../../../src/assets/scss/hint';
+@import '../../../src/assets/scss/arrow';
 
 #app {
     height: 200vh;
