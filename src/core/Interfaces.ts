@@ -7,7 +7,7 @@ export interface INewbie {
 }
 
 export interface IStep {
-    targetElement: HTMLElement;
+    readonly mounted: boolean;
     mount(): void;
     unmount(): void;
 }

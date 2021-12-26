@@ -39,59 +39,75 @@ export class Newbie implements INewbie {
         this._setLifeCycleHooks(config);
     }
 
-    public start(): void {
+    public async start() {
         this._beforeStart();
 
         let step = this._steps.getFirst();
-        while (step && !step.value.targetElement) {
-            step = step.next;
+        while (step && !step.value.mounted) {
+            await step.value.mount();
+
+            if (!step.value.mounted) {
+                step = step.next;
+            } else {
+                this._currentStep = step;
+            }
         }
 
         if (!step) {
             this.stop();
             return;
         }
-
-        this._goTo(step);
 
         this._isStarted = true;
 
         this._started();
     }
 
-    public goNext(): void {
+    public async goNext() {
         if (!this._isStarted) {
             return;
         }
 
+        if (this._currentStep) {
+            this._currentStep.value.unmount();
+        }
+
         let step = this._currentStep.next;
-        while (step && !step.value.targetElement) {
-            step = step.next;
+        while (step && !step.value.mounted) {
+            await step.value.mount();
+
+            if (!step.value.mounted) {
+                step = step.next;
+            } else {
+                this._currentStep = step;
+            }
         }
 
         if (!step) {
             this.stop();
             return;
         }
-
-        this._goTo(step);
     }
 
-    public goPrevious(): void {
+    public async goPrevious() {
         if (!this._isStarted) {
             return;
         }
 
+        if (this._currentStep) {
+            this._currentStep.value.unmount();
+        }
+
         let step = this._currentStep.previous;
-        while (step && !step.value.targetElement) {
-            step = step.previous;
-        }
+        while (step && !step.value.mounted) {
+            await step.value.mount();
 
-        if (!step) {
-            return;
+            if (!step.value.mounted) {
+                step = step.previous;
+            } else {
+                this._currentStep = step;
+            }
         }
-
-        this._goTo(step);
     }
 
     public stop(): void {
@@ -130,13 +146,5 @@ export class Newbie implements INewbie {
         this._started = getCallback(config.started);
         this._beforeFinish = getCallback(config.beforeFinish);
         this._finished = getCallback(config.finished);
-    }
-
-    private _goTo(newStep: INode): void {
-        if (this._currentStep) {
-            this._currentStep.value.unmount();
-        }
-        this._currentStep = newStep;
-        this._currentStep.value.mount();
     }
 }

@@ -123,7 +123,7 @@ describe('stepping', () => {
     const content1 = 'some random content 1';
     const content2 = 'some random content 2';
 
-    it('starts and displays the first hint', () => {
+    it('starts and displays the first hint', async () => {
         const instance = new Newbie({
             hint: {
                 component: document.getElementById('hint-component'),
@@ -140,11 +140,12 @@ describe('stepping', () => {
 
         expect(document.body.innerHTML).not.toMatch(new RegExp(content1));
 
-        instance.start();
+        await instance.start();
+
         expect(document.body.innerHTML).toMatch(new RegExp(content1));
     });
 
-    it('skips steps with missing targets', () => {
+    it('skips steps with missing targets', async () => {
         const instance = new Newbie({
             hint: {
                 component: document.getElementById('hint-component'),
@@ -165,11 +166,12 @@ describe('stepping', () => {
             ],
         });
 
-        instance.start();
+        await instance.start();
+
         expect(document.body.innerHTML).toMatch(new RegExp(content2));
     });
 
-    it('stops after last step', () => {
+    it('stops after last step', async () => {
         const instance = new Newbie({
             hint: {
                 component: document.getElementById('hint-component'),
@@ -190,11 +192,16 @@ describe('stepping', () => {
             ],
         });
 
-        instance.start();
+        await instance.start();
+
         expect(document.body.innerHTML).toMatch(new RegExp(content1));
-        instance.goNext();
+
+        await instance.goNext();
+
         expect(document.body.innerHTML).toMatch(new RegExp(content2));
-        instance.goNext();
+
+        await instance.goNext();
+
         expect(document.body.innerHTML).not.toMatch(new RegExp(content1));
         expect(document.body.innerHTML).not.toMatch(new RegExp(content2));
     });
@@ -213,7 +220,7 @@ describe('callback usage', () => {
 
     const content1 = 'some random content 1';
 
-    it('calls beforeStart and beforeFinish hooks', () => {
+    it('calls beforeStart and beforeFinish hooks', async () => {
         const beforeStart = jest.fn();
         const beforeFinish = jest.fn();
         const instance = new Newbie({
@@ -232,13 +239,16 @@ describe('callback usage', () => {
             ],
         });
 
-        instance.start();
+        await instance.start();
+
         expect(beforeStart).toBeCalledWith();
-        instance.stop();
+
+        await instance.stop();
+
         expect(beforeFinish).toBeCalledWith();
     });
 
-    it('calls step hooks', () => {
+    it('calls step hooks', async () => {
         const beforeMount = jest.fn();
         const mounted = jest.fn();
         const beforeUnmount = jest.fn();
@@ -262,12 +272,15 @@ describe('callback usage', () => {
             ],
         });
 
-        instance.start();
+        await instance.start();
+
         expect(beforeMount).toBeCalledWith();
         expect(mounted).toBeCalledWith(
             document.querySelector('#hint-target-1')
         );
-        instance.goNext();
+
+        await instance.goNext();
+
         expect(beforeUnmount).toBeCalledWith(
             document.querySelector('#hint-target-1')
         );

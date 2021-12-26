@@ -5,7 +5,9 @@ export class Hint implements IHint {
     protected _component: HTMLElement;
     private _slotForHint: HTMLElement;
 
-    constructor(config) {}
+    constructor(config) {
+        /* continue regardless of error */
+    }
 
     public mount(slot) {
         this._slotForHint = slot;

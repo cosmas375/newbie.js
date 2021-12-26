@@ -13,8 +13,8 @@ import {
 import getCallback from '../utils/getCallback';
 import { ShadowFactory } from './Shadow/ShadowFactory';
 import { ArrowFactory } from './Arrow/ArrowFactory';
-import _throw from '../utils/throw';
 import px from '../utils/px';
+import _throw from '../utils/throw';
 
 export class Step implements IStep {
     private _target: TStepTarget;
@@ -36,6 +36,7 @@ export class Step implements IStep {
     private _targetElement: HTMLElement;
     private _stepContainer: HTMLElement;
     private _slotForHint: HTMLElement;
+    private _isMounted: boolean;
 
     constructor(config: IStepConfig, settings: object) {
         this._target = config.target;
@@ -54,35 +55,43 @@ export class Step implements IStep {
         this._setLifeCycleHooks(config);
     }
 
+    get mounted() {
+        return this._isMounted;
+    }
+
     public mount(): void {
         this._beforeMount();
 
         this._setTargetElement();
+        if (!this._targetElement) {
+            return;
+        }
         this._scrollToTarget();
         this._createStepContainer();
         this._mountShadow();
         this._mountHint();
         this._mountArrow();
         this._show();
+        this._isMounted = true;
 
         this._mounted(this._targetElement);
     }
 
     public unmount(): void {
+        if (!this._isMounted) {
+            return;
+        }
+
         this._beforeUnmount(this._targetElement);
 
         this._hide();
-        this._unmountShadow();
-        this._unmountHint();
         this._unmountArrow();
+        this._unmountHint();
+        this._unmountShadow();
+        this._removeStepContainer();
+        this._isMounted = false;
 
         this._unmounted();
-    }
-
-    public get targetElement() {
-        return typeof this._target === 'string'
-            ? document.querySelector(this._target)
-            : this._target;
     }
 
     public static setHintFactory(factory: IHintFactory): void {
@@ -100,7 +109,10 @@ export class Step implements IStep {
     }
 
     private _setTargetElement(): void {
-        this._targetElement = this.targetElement;
+        this._targetElement =
+            typeof this._target === 'string'
+                ? document.querySelector(this._target)
+                : this._target;
     }
 
     private _scrollToTarget(): void {
@@ -288,6 +300,10 @@ export class Step implements IStep {
         document.body.append(wrap);
         this._stepContainer = wrap;
         this._slotForHint = inner;
+    }
+
+    private _removeStepContainer() {
+        this._stepContainer.remove();
     }
 
     private _mountShadow(): void {
