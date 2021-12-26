@@ -8,7 +8,7 @@ const instance = new Newbie({
     steps: [
         {
             id: '0',
-            target: '[data-newbie-target="666"]',
+            target: '[data-newbie-target="1"]',
             content: {
                 '[data-newbie-step-title]':
                     'Commodo duis cillum magna pariatur aute sint.',

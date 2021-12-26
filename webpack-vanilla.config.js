@@ -8,7 +8,7 @@ module.exports = {
     entry: './src/entry-vanilla.ts',
     plugins: [
         new MiniCssExtractPlugin({
-            filename: 'newbie.css',
+            filename: 'Newbie.css',
         }),
         new TSLintPlugin({
             files: ['./src/**/*.ts'],
@@ -19,7 +19,7 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
-                exclude: /node_modules/
+                exclude: /node_modules/,
             },
             {
                 test: /\.(sa|sc|c)ss$/,
@@ -30,14 +30,17 @@ module.exports = {
                     'sass-loader',
                 ],
             },
-        ]
+        ],
     },
     output: {
-        filename: 'newbie.js',
+        filename: 'Newbie.js',
         path: path.resolve('./dist/vanilla'),
     },
     resolve: {
         modules: ['node_modules'],
-        extensions: ['.tsx', '.ts', '.jsx', '.js']
+        extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    },
+    devServer: {
+        static: [path.join(__dirname, './sandbox/vanilla/')],
     },
 };
