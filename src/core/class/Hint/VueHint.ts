@@ -7,24 +7,17 @@ export class VueHint extends Hint {
     private _Vue: any;
     private _settings: IHintSettings;
 
-    constructor({ config, settings }, { Vue }) {
+    constructor({ config, content, settings }, { Vue }) {
         super(config);
 
         this._Vue = Vue;
         this._vueComponent = config.component;
+        this._content = content;
         this._settings = settings;
     }
 
-    public mount(slot): void {
-        super.mount(slot);
-
+    public mount(): void {
         this._component = this._getHintHTMLElement();
-
-        super._mountHint();
-    }
-
-    public setContent(content: object = {}): void {
-        this._content = content;
     }
 
     private _getHintHTMLElement(): HTMLElement {

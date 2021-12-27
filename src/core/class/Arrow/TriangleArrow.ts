@@ -2,6 +2,7 @@ import { ClassNames, IArrow, IArrowConfg, Position } from '../../Interfaces';
 import px from '../../utils/px';
 
 export class TriangleArrow implements IArrow {
+    private _position: Position;
     private _size: number;
     private _color: string;
     private _offsetX: number;
@@ -9,25 +10,27 @@ export class TriangleArrow implements IArrow {
     private _component: HTMLElement;
 
     constructor(config: IArrowConfg) {
+        this._position = config.position;
         this._size = config.size || 8;
-        this._color = config.color || 'transparent';
+        this._color = config.color || '#ffffff';
 
         const halfOfArrowWidth = (this._size * Math.sqrt(2)) / 2; // diagonal of a square divided by 2
         this._offsetX = Math.max(halfOfArrowWidth, config.offsetX || 10);
         this._offsetY = Math.max(halfOfArrowWidth, config.offsetY || 10);
     }
 
-    public mount(settings): void {
-        const container = settings.container;
-        const position = settings.position;
+    public get elem() {
+        return this._component;
+    }
 
+    public mount(): void {
         const component = document.createElement('div');
         component.classList.add(ClassNames.ARROW);
         component.style.width = px(this._size * 2);
         component.style.height = px(this._size * 2);
         component.style.backgroundColor = this._color;
 
-        switch (position) {
+        switch (this._position) {
             case Position.Top:
                 component.style.bottom = px(-this._size);
                 break;
@@ -77,7 +80,6 @@ export class TriangleArrow implements IArrow {
                 break;
         }
 
-        container.append(component);
         this._component = component;
     }
 

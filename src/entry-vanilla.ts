@@ -1,5 +1,5 @@
 import { Newbie } from './core/class/Newbie';
-import { Step } from './core/class/Step';
+import { ComponentsFactory } from './core/class/ComponentsFactory';
 import { VanillaHintFactory } from './core/class/Hint/HintFactory';
 
 import './assets/scss/hint.scss';
@@ -11,6 +11,6 @@ declare global {
     }
 }
 
-Step.setHintFactory(new VanillaHintFactory());
+ComponentsFactory.setHintFactory(new VanillaHintFactory());
 
 window.Newbie = Newbie;

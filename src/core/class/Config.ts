@@ -1,4 +1,4 @@
-import { Errors, IConfig, INewbieConfig } from '../Interfaces';
+import { Errors, IConfig, INewbieConfig, Position } from '../Interfaces';
 
 export class Config implements IConfig {
     private _config: INewbieConfig;
@@ -89,7 +89,14 @@ export class Config implements IConfig {
 
         // arrow
         if (!stepConfig.arrow) {
-            stepConfig.arrow = config.arrow || { type: null };
+            stepConfig.arrow = config.arrow || {
+                type: null,
+                position: Position.Bottom,
+            };
+        }
+        if (!stepConfig.arrow.position) {
+            stepConfig.arrow.position =
+                stepConfig.position || config.position || Position.Bottom;
         }
         // endarrow
 

@@ -22,9 +22,9 @@ export interface IHintFactory {
 }
 
 export interface IHint {
-    mount(slot: Element): void;
+    elem: HTMLElement;
+    mount(): void;
     unmount(): void;
-    setContent(content: string | object): void;
 }
 
 export interface IShadow {
@@ -33,7 +33,8 @@ export interface IShadow {
 }
 
 export interface IArrow {
-    mount(settings): void;
+    elem: HTMLElement;
+    mount(): void;
     unmount(): void;
 }
 
@@ -74,11 +75,13 @@ export interface IShadowConfig {
     borderRadius?: number;
     rootComponent?: HTMLElement;
 }
+
 export interface IHintConfig {
     component: HTMLElement;
 }
 
 export interface IArrowConfg {
+    position: Position;
     type: ArrowType;
     size?: number;
     color?: string;

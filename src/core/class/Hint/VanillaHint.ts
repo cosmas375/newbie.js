@@ -5,31 +5,23 @@ export class VanillaHint extends Hint {
     private _content: object = {};
     private _settings: IHintSettings;
 
-    constructor({ config, settings }) {
+    constructor({ config, content, settings }) {
         super(config);
 
         this._component = config.component;
         this._component.classList.add(ClassNames.HINT);
-
+        this._content = content;
         this._settings = settings;
     }
 
-    mount(slot) {
-        super.mount(slot);
-
+    mount() {
         this._setContent();
         this._addDefaultEventListeners();
-
-        super._mountHint();
     }
 
     unmount() {
         this._removeDefaultEventListeners();
         super.unmount();
-    }
-
-    setContent(content: object = {}) {
-        this._content = content;
     }
 
     private _setContent(): void {
