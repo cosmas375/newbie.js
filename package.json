@@ -4,8 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "build": "npm run build-vanilla && npm run build-vue",
-        "build:vanilla": "./node_modules/.bin/webpack --config webpack-vanilla.config.js --mode=production --no-devtool",
+        "build": "rm -rf ./dist && npm run build:vanilla && npm run build:vue",
+        "build:vanilla": "rm -rf ./dist/vanilla && ./node_modules/.bin/webpack --config webpack-vanilla.config.js --mode=production --no-devtool",
         "build:vue": "rm -rf ./dist/vue && sh build-vue.sh",
         "serve:vanilla": "./node_modules/.bin/webpack serve --config webpack-vanilla.config.js --mode=development",
         "serve:vue": "cd sandbox/vue && npm run serve",
