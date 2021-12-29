@@ -9,7 +9,9 @@
         "build:vue": "rm -rf ./dist/vue && sh build-vue.sh",
         "serve:vanilla": "./node_modules/.bin/webpack serve --config webpack-vanilla.config.js --mode=development",
         "serve:vue": "cd sandbox/vue && npm run serve",
-        "test": "jest"
+        "test": "npm run test:unit && npm run test:e2e",
+        "test:unit": "jest",
+        "test:e2e": "./node_modules/.bin/cypress run"
     },
     "repository": {
         "type": "git",
@@ -31,6 +33,7 @@
         "@vue/cli-service": "~4.5.0",
         "babel-jest": "^27.4.4",
         "css-loader": "^6.5.1",
+        "cypress": "^9.2.0",
         "jest": "^27.4.4",
         "live-server": "^1.2.1",
         "mini-css-extract-plugin": "^2.4.5",

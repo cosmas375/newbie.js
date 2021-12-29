@@ -60,9 +60,6 @@ export interface IStepConfig extends ICommonConfig {
     id: string;
     target: TStepTarget;
     content?: string;
-    position?: Position;
-    hint?: IHintConfig;
-    arrow: IArrowConfg;
     beforeMount?(): TStepCallback;
     mounted?(targetElement: HTMLElement): TStepCallback;
     beforeUnmount?(targetElement: HTMLElement): TStepCallback;

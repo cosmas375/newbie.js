@@ -98,7 +98,7 @@ export class Config implements IConfig {
             stepConfig.arrow.position =
                 stepConfig.position || config.position || Position.Bottom;
         }
-        // endarrow
+        // end arrow
 
         return stepConfig;
     }

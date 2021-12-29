@@ -11,7 +11,6 @@ import {
 import { ComponentsFactory } from './ComponentsFactory';
 import { StepContainer } from './StepContainer';
 import getCallback from '../utils/getCallback';
-import _throw from '../utils/throw';
 
 export class Step implements IStep {
     private _target: TStepTarget;

@@ -2,10 +2,9 @@ import { IHintFactory } from '../Interfaces';
 import { ShadowFactory } from './Shadow/ShadowFactory';
 import { ArrowFactory } from './Arrow/ArrowFactory';
 import { StepContainer } from './StepContainer';
-import _throw from '../utils/throw';
 
 export class ComponentsFactory {
-    protected static _hintFactory: IHintFactory;
+    private static _hintFactory: IHintFactory;
 
     static setHintFactory(factory) {
         this._hintFactory = factory;

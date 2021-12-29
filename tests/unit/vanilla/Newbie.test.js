@@ -2,10 +2,10 @@
  * @jest-environment jsdom
  */
 
-import { Newbie } from '../../src/core/class/Newbie';
-import { ComponentsFactory } from '../../src/core/class/ComponentsFactory';
-import { VanillaHintFactory } from '../../src/core/class/Hint/HintFactory';
-import { Errors } from '../../src/core/Interfaces';
+import { Newbie } from '../../../src/core/class/Newbie';
+import { ComponentsFactory } from '../../../src/core/class/ComponentsFactory';
+import { VanillaHintFactory } from '../../../src/core/class/Hint/HintFactory';
+import { Errors } from '../../../src/core/Interfaces';
 
 ComponentsFactory.setHintFactory(new VanillaHintFactory());
 
