@@ -35,14 +35,15 @@ export default {
     mounted() {
         this.newbie = new Newbie({
             shadow: {
-                type: 'html',
+                type: 'svg',
+                offset: 12,
             },
             hint: {
                 component: Hint,
             },
             arrow: {
                 type: 'triangle',
-                size: 8,
+                size: 4,
             },
             steps: [
                 {
@@ -81,11 +82,7 @@ export default {
                     content: {
                         content: `
                           Do nisi laborum ex nulla fugiat ut voluptate do adipisicing nisi amet tempor. Pariatur excepteur elit ut laborum. Anim quis labore ullamco nisi ad sit nisi. Labore est sit labore eu aliquip incididunt deserunt. Exercitation nisi aliqua officia minim nostrud laborum nostrud. Occaecat elit culpa cupidatat ea et ea eu. Sunt tempor excepteur enim do ipsum irure excepteur nisi nulla non pariatur consequat ut elit.
-                          Magna labore incididunt ut nisi. Elit id duis ad magna nisi ut nisi voluptate ea. Aliqua incididunt officia tempor mollit laboris.
                         `,
-                    },
-                    shadow: {
-                        type: null,
                     },
                     position: 'left-top',
                     mounted(target) {
@@ -102,10 +99,6 @@ export default {
                         content:
                             'Occaecat eu aute Lorem pariatur mollit sit adipisicing aute dolor fugiat sint eu. Ea deserunt cillum duis dolore laboris eiusmod irure cupidatat pariatur id qui sunt mollit. Sit non officia aliquip aute elit enim est duis commodo voluptate do.',
                     },
-                    shadow: {
-                        type: 'html',
-                        offset: 10,
-                    },
                     arrow: {
                         type: null,
                     },
@@ -120,6 +113,7 @@ export default {
 <style lang="scss">
 @import '../../../src/assets/scss/shadow';
 @import '../../../src/assets/scss/hint';
+@import '../../../src/assets/scss/hint-wrap';
 @import '../../../src/assets/scss/arrow';
 
 #app {

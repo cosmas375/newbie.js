@@ -1,5 +1,6 @@
 import { ClassNames, Position } from '../Interfaces';
 import px from '../utils/px';
+import setPosition from '../utils/setPosition';
 
 export class StepContainer {
     private _position: Position;
@@ -9,12 +10,8 @@ export class StepContainer {
     private _container: HTMLElement;
     private _slot: HTMLElement;
 
-    constructor({ position, offsetX, offsetY }) {
-        this._position = position;
-        this._offsetX = offsetX;
-        this._offsetY = offsetY;
-
-        this._createComponents();
+    constructor(config) {
+        this._createComponents(config);
     }
 
     public mount(targetElement): void {
@@ -41,9 +38,16 @@ export class StepContainer {
         this._slot.append(elem);
     }
 
-    private _createComponents() {
+    public setPosition({ position, offsetX, offsetY }) {
+        this._position = position;
+        this._offsetX = offsetX;
+        this._offsetY = offsetY;
+    }
+
+    private _createComponents({ transitionDuration }) {
         const wrap = document.createElement('div');
         wrap.classList.add(ClassNames.HINT_WRAP);
+        wrap.style.transition = `all ${transitionDuration / 1000}s`;
         const inner = document.createElement('div');
         inner.classList.add(ClassNames.HINT_WRAP_INNER);
         wrap.append(inner);
@@ -58,163 +62,186 @@ export class StepContainer {
         switch (this._position) {
             case Position.Top:
             default:
-                this._container.style.top = px(
-                    document.documentElement.scrollTop +
-                        targetRect.top -
-                        this._offsetY
-                );
-                this._container.style.left = px(
-                    targetRect.left + targetRect.width / 2
-                );
                 this._container.style.alignItems = 'center';
                 this._container.style.justifyContent = 'center';
-                this._slot.style.bottom = px(0);
+                setPosition(this._container, {
+                    top: px(
+                        document.documentElement.scrollTop +
+                            targetRect.top -
+                            this._offsetY
+                    ),
+                    left: px(targetRect.left + targetRect.width / 2),
+                });
+                setPosition(this._slot, {
+                    bottom: px(0),
+                });
                 break;
             case Position.TopLeft:
-                this._container.style.top = px(
-                    document.documentElement.scrollTop +
-                        targetRect.top -
-                        this._offsetY
-                );
-                this._container.style.left = px(targetRect.left);
                 this._container.style.alignItems = 'center';
                 this._container.style.justifyContent = 'flex-start';
-                this._slot.style.bottom = px(0);
-                this._slot.style.left = px(0);
+                setPosition(this._container, {
+                    top: px(
+                        document.documentElement.scrollTop +
+                            targetRect.top -
+                            this._offsetY
+                    ),
+                    left: px(targetRect.left),
+                });
+                setPosition(this._slot, {
+                    bottom: px(0),
+                    left: px(0),
+                });
                 break;
             case Position.TopRight:
-                this._container.style.top = px(
-                    document.documentElement.scrollTop +
-                        targetRect.top -
-                        this._offsetY
-                );
-                this._container.style.left = px(
-                    targetRect.left + targetRect.width
-                );
                 this._container.style.alignItems = 'center';
                 this._container.style.justifyContent = 'flex-end';
-                this._slot.style.bottom = px(0);
-                this._slot.style.right = px(0);
+                setPosition(this._container, {
+                    top: px(
+                        document.documentElement.scrollTop +
+                            targetRect.top -
+                            this._offsetY
+                    ),
+                    left: px(targetRect.right),
+                });
+                setPosition(this._slot, {
+                    bottom: px(0),
+                    right: px(0),
+                });
                 break;
             case Position.Right:
-                this._container.style.top = px(
-                    document.documentElement.scrollTop +
-                        targetRect.top +
-                        targetRect.height / 2
-                );
-                this._container.style.left = px(
-                    targetRect.left + targetRect.width + this._offsetX
-                );
                 this._container.style.alignItems = 'center';
                 this._container.style.justifyContent = 'flex-start';
-                this._slot.style.left = px(0);
+                setPosition(this._container, {
+                    top: px(
+                        document.documentElement.scrollTop +
+                            targetRect.top +
+                            targetRect.height / 2
+                    ),
+                    left: px(
+                        targetRect.left + targetRect.width + this._offsetX
+                    ),
+                });
+                setPosition(this._slot, {
+                    left: px(0),
+                });
                 break;
             case Position.RightTop:
-                this._container.style.top = px(
-                    document.documentElement.scrollTop + targetRect.top
-                );
-                this._container.style.left = px(
-                    targetRect.left + targetRect.width + this._offsetX
-                );
                 this._container.style.alignItems = 'flex-start';
                 this._container.style.justifyContent = 'flex-start';
-                this._slot.style.left = px(0);
-                this._slot.style.top = px(0);
+                setPosition(this._container, {
+                    top: px(
+                        document.documentElement.scrollTop + targetRect.top
+                    ),
+                    left: px(targetRect.right + this._offsetX),
+                });
+                setPosition(this._slot, {
+                    top: px(0),
+                    left: px(0),
+                });
                 break;
             case Position.RightBottom:
-                this._container.style.top = px(
-                    document.documentElement.scrollTop +
-                        targetRect.top +
-                        targetRect.height
-                );
-                this._container.style.left = px(
-                    targetRect.left + targetRect.width + this._offsetX
-                );
                 this._slot.style.alignItems = 'flex-end';
                 this._slot.style.justifyContent = 'flex-start';
-                this._slot.style.left = px(0);
-                this._slot.style.bottom = px(0);
+                setPosition(this._container, {
+                    top: px(
+                        document.documentElement.scrollTop + targetRect.bottom
+                    ),
+                    left: px(targetRect.right + this._offsetX),
+                });
+                setPosition(this._slot, {
+                    left: px(0),
+                    bottom: px(0),
+                });
                 break;
             case Position.Bottom:
-                this._container.style.top = px(
-                    document.documentElement.scrollTop +
-                        targetRect.top +
-                        targetRect.height +
-                        this._offsetY
-                );
-                this._container.style.left = px(
-                    targetRect.left + targetRect.width / 2
-                );
                 this._container.style.alignItems = 'flex-start';
                 this._container.style.justifyContent = 'center';
-                this._slot.style.top = px(0);
+                setPosition(this._container, {
+                    top: px(
+                        document.documentElement.scrollTop +
+                            targetRect.bottom +
+                            this._offsetY
+                    ),
+                    left: px(targetRect.left + targetRect.width / 2),
+                });
+                setPosition(this._slot, {
+                    top: px(0),
+                });
                 break;
             case Position.BottomLeft:
-                this._container.style.top = px(
-                    document.documentElement.scrollTop +
-                        targetRect.top +
-                        targetRect.height +
-                        this._offsetY
-                );
-                this._container.style.left = px(targetRect.left);
                 this._container.style.alignItems = 'flex-start';
                 this._container.style.justifyContent = 'flex-start';
-                this._slot.style.top = px(0);
-                this._slot.style.left = px(0);
+                setPosition(this._container, {
+                    top: px(
+                        document.documentElement.scrollTop +
+                            targetRect.bottom +
+                            this._offsetY
+                    ),
+                    left: px(targetRect.left),
+                });
+                setPosition(this._slot, {
+                    top: px(0),
+                    left: px(0),
+                });
                 break;
             case Position.BottomRight:
-                this._container.style.top = px(
-                    document.documentElement.scrollTop +
-                        targetRect.top +
-                        targetRect.height +
-                        this._offsetY
-                );
-                this._container.style.left = px(
-                    targetRect.left + targetRect.width
-                );
                 this._container.style.alignItems = 'flex-start';
                 this._container.style.justifyContent = 'flex-end';
-                this._slot.style.top = px(0);
-                this._slot.style.right = px(0);
+                setPosition(this._container, {
+                    top: px(
+                        document.documentElement.scrollTop +
+                            targetRect.bottom +
+                            this._offsetY
+                    ),
+                    left: px(targetRect.left + targetRect.width),
+                });
+                setPosition(this._slot, {
+                    top: px(0),
+                    right: px(0),
+                });
                 break;
             case Position.Left:
-                this._container.style.top = px(
-                    document.documentElement.scrollTop +
-                        targetRect.top +
-                        targetRect.height / 2
-                );
-                this._container.style.left = px(
-                    targetRect.left - this._offsetX
-                );
                 this._container.style.alignItems = 'center';
                 this._container.style.justifyContent = 'flex-end';
-                this._slot.style.right = px(0);
+                setPosition(this._container, {
+                    top: px(
+                        document.documentElement.scrollTop +
+                            targetRect.top +
+                            targetRect.height / 2
+                    ),
+                    left: px(targetRect.left - this._offsetX),
+                });
+                setPosition(this._slot, {
+                    right: px(0),
+                });
                 break;
             case Position.LeftTop:
-                this._container.style.top = px(
-                    document.documentElement.scrollTop + targetRect.top
-                );
-                this._container.style.left = px(
-                    targetRect.left - this._offsetX
-                );
                 this._container.style.alignItems = 'flex-start';
                 this._container.style.justifyContent = 'flex-end';
-                this._slot.style.right = px(0);
-                this._slot.style.top = px(0);
+                setPosition(this._container, {
+                    top: px(
+                        document.documentElement.scrollTop + targetRect.top
+                    ),
+                    left: px(targetRect.left - this._offsetX),
+                });
+                setPosition(this._slot, {
+                    top: px(0),
+                    right: px(0),
+                });
                 break;
             case Position.LeftBottom:
-                this._container.style.top = px(
-                    document.documentElement.scrollTop +
-                        targetRect.top +
-                        targetRect.height
-                );
-                this._container.style.left = px(
-                    targetRect.left - this._offsetX
-                );
                 this._container.style.alignItems = 'flex-end';
                 this._container.style.justifyContent = 'flex-end';
-                this._slot.style.right = px(0);
-                this._slot.style.bottom = px(0);
+                setPosition(this._container, {
+                    top: px(
+                        document.documentElement.scrollTop + targetRect.bottom
+                    ),
+                    left: px(targetRect.left - this._offsetX),
+                });
+                setPosition(this._slot, {
+                    bottom: px(0),
+                    right: px(0),
+                });
                 break;
         }
     }

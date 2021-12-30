@@ -2,6 +2,7 @@ describe('Hint positioning', () => {
     const targetSelector = '[data-newbie-target="1"]';
     const hintSelector = '#newbie-hint';
     const defaultOffset = 10;
+    const round = value => Math.round(value);
 
     beforeEach(function () {
         cy.visit('tests/e2e/positioning.html');
@@ -12,39 +13,39 @@ describe('Hint positioning', () => {
             position: 'top',
             assertion: (hintRect, targetRect) => {
                 expect(targetRect.top).to.equal(
-                    hintRect.bottom + defaultOffset
+                    round(hintRect.bottom + defaultOffset)
                 );
-                expect(Math.round(targetRect.left - hintRect.left)).to.equal(
-                    Math.round(hintRect.right - targetRect.right)
+                expect(round(targetRect.left - hintRect.left)).to.equal(
+                    round(hintRect.right - targetRect.right)
                 );
             },
         },
         {
             position: 'top-left',
             assertion: (hintRect, targetRect) => {
-                expect(targetRect.top).to.equal(
-                    hintRect.bottom + defaultOffset
+                expect(round(targetRect.top)).to.equal(
+                    round(hintRect.bottom + defaultOffset)
                 );
-                expect(targetRect.left).to.equal(hintRect.left);
+                expect(round(targetRect.left)).to.equal(round(hintRect.left));
             },
         },
         {
             position: 'top-right',
             assertion: (hintRect, targetRect) => {
-                expect(targetRect.top).to.equal(
-                    hintRect.bottom + defaultOffset
+                expect(round(targetRect.top)).to.equal(
+                    round(hintRect.bottom + defaultOffset)
                 );
-                expect(targetRect.right).to.equal(hintRect.right);
+                expect(round(targetRect.right)).to.equal(round(hintRect.right));
             },
         },
         {
             position: 'right',
             assertion: (hintRect, targetRect) => {
-                expect(targetRect.right).to.equal(
-                    hintRect.left - defaultOffset
+                expect(round(targetRect.right)).to.equal(
+                    round(hintRect.left - defaultOffset)
                 );
-                expect(Math.round(targetRect.top - hintRect.top)).to.equal(
-                    Math.round(hintRect.bottom - targetRect.bottom)
+                expect(round(targetRect.top - hintRect.top)).to.equal(
+                    round(hintRect.bottom - targetRect.bottom)
                 );
             },
         },
@@ -60,10 +61,12 @@ describe('Hint positioning', () => {
         {
             position: 'right-bottom',
             assertion: (hintRect, targetRect) => {
-                expect(targetRect.right).to.equal(
-                    hintRect.left - defaultOffset
+                expect(round(targetRect.right)).to.equal(
+                    round(hintRect.left - defaultOffset)
                 );
-                expect(targetRect.bottom).to.equal(hintRect.bottom);
+                expect(round(targetRect.bottom)).to.equal(
+                    round(hintRect.bottom)
+                );
             },
         },
         {
@@ -80,55 +83,57 @@ describe('Hint positioning', () => {
         {
             position: 'bottom-left',
             assertion: (hintRect, targetRect) => {
-                expect(targetRect.bottom).to.equal(
-                    hintRect.top - defaultOffset
+                expect(round(targetRect.bottom)).to.equal(
+                    round(hintRect.top - defaultOffset)
                 );
-                expect(targetRect.left).to.equal(hintRect.left);
+                expect(round(targetRect.left)).to.equal(round(hintRect.left));
             },
         },
         {
             position: 'bottom-right',
             assertion: (hintRect, targetRect) => {
-                expect(targetRect.bottom).to.equal(
-                    hintRect.top - defaultOffset
+                expect(round(targetRect.bottom)).to.equal(
+                    round(hintRect.top - defaultOffset)
                 );
-                expect(targetRect.right).to.equal(hintRect.right);
+                expect(round(targetRect.right)).to.equal(round(hintRect.right));
             },
         },
         {
             position: 'left',
             assertion: (hintRect, targetRect) => {
-                expect(targetRect.left).to.equal(
-                    hintRect.right + defaultOffset
+                expect(round(targetRect.left)).to.equal(
+                    round(hintRect.right + defaultOffset)
                 );
-                expect(Math.round(targetRect.top - hintRect.top)).to.equal(
-                    Math.round(hintRect.bottom - targetRect.bottom)
+                expect(round(targetRect.top - hintRect.top)).to.equal(
+                    round(hintRect.bottom - targetRect.bottom)
                 );
             },
         },
         {
             position: 'left-top',
             assertion: (hintRect, targetRect) => {
-                expect(targetRect.left).to.equal(
-                    hintRect.right + defaultOffset
+                expect(round(targetRect.left)).to.equal(
+                    round(hintRect.right + defaultOffset)
                 );
-                expect(targetRect.top).to.equal(hintRect.top);
+                expect(round(targetRect.top)).to.equal(round(hintRect.top));
             },
         },
         {
             position: 'left-bottom',
             assertion: (hintRect, targetRect) => {
-                expect(targetRect.left).to.equal(
-                    hintRect.right + defaultOffset
+                expect(round(targetRect.left)).to.equal(
+                    round(hintRect.right + defaultOffset)
                 );
-                expect(targetRect.bottom).to.equal(hintRect.bottom);
+                expect(round(targetRect.bottom)).to.equal(
+                    round(hintRect.bottom)
+                );
             },
         },
     ].forEach(({ position, assertion }) => {
         it(position, function () {
             cy.window().then(window => {
                 cy.get(hintSelector).then(hint => {
-                    cy.get(targetSelector).then(target => {
+                    cy.get(targetSelector).then(async target => {
                         const instance = new window.Newbie({
                             position,
                             hint: {
@@ -141,7 +146,7 @@ describe('Hint positioning', () => {
                             ],
                         });
 
-                        instance.start();
+                        await instance.start();
                     });
                 });
             });

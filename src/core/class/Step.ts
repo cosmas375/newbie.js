@@ -14,6 +14,9 @@ import getCallback from '../utils/getCallback';
 
 export class Step implements IStep {
     private _target: TStepTarget;
+    private _position: Position;
+    private _offsetX: number;
+    private _offsetY: number;
 
     private _stepContainer: StepContainer;
     private _shadow: IShadow;
@@ -30,11 +33,12 @@ export class Step implements IStep {
 
     constructor(config: IStepConfig, settings: object) {
         this._target = config.target;
+        this._position = config.position || Position.Bottom;
+        this._offsetX = config.offsetX || 10;
+        this._offsetY = config.offsetY || 10;
 
         this._stepContainer = ComponentsFactory.createStepContainer({
-            position: config.position || Position.Bottom,
-            offsetX: config.offsetX || 10,
-            offsetY: config.offsetY || 10,
+            transitionDuration: config.transitionDuration,
         });
         this._shadow = ComponentsFactory.createShadow(config.shadow);
         this._hint = ComponentsFactory.createHint({
@@ -123,6 +127,11 @@ export class Step implements IStep {
     }
 
     private _mountStepContainer() {
+        this._stepContainer.setPosition({
+            position: this._position,
+            offsetX: this._offsetX,
+            offsetY: this._offsetY,
+        });
         this._stepContainer.mount(this._targetElement);
     }
     private _unmountStepContainer() {

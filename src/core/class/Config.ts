@@ -1,4 +1,6 @@
+import { DEFAULT_VALUES } from '../DefaultValues';
 import { Errors, IConfig, INewbieConfig, Position } from '../Interfaces';
+import isDefined from '../utils/isDefined';
 
 export class Config implements IConfig {
     private _config: INewbieConfig;
@@ -53,15 +55,21 @@ export class Config implements IConfig {
             stepConfig.id = `No. ${stepId}`;
         }
 
-        if (typeof stepConfig.position === 'undefined' && config.position) {
+        if (!isDefined(stepConfig.position) && config.position) {
             stepConfig.position = config.position;
+        }
+
+        if (!isDefined(stepConfig.transitionDuration)) {
+            stepConfig.transitionDuration = isDefined(config.transitionDuration)
+                ? config.transitionDuration
+                : DEFAULT_VALUES.transitionDuration;
         }
 
         // shadow
         if (!stepConfig.shadow) {
             stepConfig.shadow = config.shadow || { type: null };
         }
-        if (typeof stepConfig.shadow.type === 'undefined') {
+        if (!isDefined(stepConfig.shadow.type)) {
             stepConfig.shadow.type = config.shadow.type;
         }
         if (
@@ -79,13 +87,16 @@ export class Config implements IConfig {
         if (!stepConfig.hint) {
             stepConfig.hint = config.hint || { component: null };
         }
-        if (
-            typeof stepConfig.hint.component === 'undefined' &&
-            config.hint.component
-        ) {
+        if (!isDefined(stepConfig.hint.component) && config.hint.component) {
             stepConfig.hint.component = config.hint.component;
         }
         // end hint
+
+        // content
+        if (!stepConfig.content) {
+            stepConfig.content = {};
+        }
+        // end content
 
         // arrow
         if (!stepConfig.arrow) {
@@ -94,10 +105,8 @@ export class Config implements IConfig {
                 position: Position.Bottom,
             };
         }
-        if (!stepConfig.arrow.position) {
-            stepConfig.arrow.position =
-                stepConfig.position || config.position || Position.Bottom;
-        }
+        stepConfig.arrow.position =
+            stepConfig.position || config.position || Position.Bottom;
         // end arrow
 
         return stepConfig;

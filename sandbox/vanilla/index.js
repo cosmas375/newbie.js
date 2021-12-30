@@ -15,9 +15,7 @@ const instance = new Newbie({
                 '[data-newbie-step-content]':
                     'Officia Lorem consequat sit pariatur. Labore culpa elit consectetur nostrud aliqua veniam et qui proident incididunt pariatur minim. Eu amet aliquip do non qui enim qui. Do deserunt incididunt pariatur aliqua. Aliqua duis quis cillum excepteur nulla ex mollit irure non reprehenderit.',
             },
-            hint: {
-                position: 'bottom-right',
-            },
+            position: 'bottom-right',
             shadow: {
                 type: 'svg',
                 offset: 10,
@@ -36,9 +34,7 @@ const instance = new Newbie({
                     Minim ullamco cillum excepteur eiusmod aliqua aute proident tempor. Eu adipisicing et quis ex esse cupidatat deserunt consequat proident laborum est. Ad ipsum non consectetur aliqua irure excepteur. Nisi eiusmod ipsum proident id tempor sunt. Aliqua dolore excepteur nulla ad mollit commodo.
                 `,
             },
-            hint: {
-                position: 'bottom-right',
-            },
+            position: 'bottom-right',
         },
         {
             id: '2',
@@ -50,9 +46,7 @@ const instance = new Newbie({
             shadow: {
                 type: null,
             },
-            hint: {
-                position: 'left-top',
-            },
+            position: 'left-top',
         },
         {
             id: '3',
@@ -67,9 +61,7 @@ const instance = new Newbie({
                 type: 'html',
                 offset: 10,
             },
-            hint: {
-                position: 'right-bottom',
-            },
+            position: 'right-bottom',
         },
     ],
 });

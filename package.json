@@ -11,7 +11,8 @@
         "serve:vue": "cd sandbox/vue && npm run serve",
         "test": "npm run test:unit && npm run test:e2e",
         "test:unit": "jest",
-        "test:e2e": "./node_modules/.bin/cypress run"
+        "test:e2e": "./node_modules/.bin/cypress run",
+        "test-watch:e2e": "./node_modules/.bin/cypress open"
     },
     "repository": {
         "type": "git",

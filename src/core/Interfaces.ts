@@ -47,6 +47,7 @@ export interface ICommonConfig {
     position?: Position;
     offsetX?: number;
     offsetY?: number;
+    transitionDuration?: number;
 }
 
 export interface INewbieConfig extends ICommonConfig {
@@ -59,7 +60,7 @@ export interface INewbieConfig extends ICommonConfig {
 export interface IStepConfig extends ICommonConfig {
     id: string;
     target: TStepTarget;
-    content?: string;
+    content?: object;
     beforeMount?(): TStepCallback;
     mounted?(targetElement: HTMLElement): TStepCallback;
     beforeUnmount?(targetElement: HTMLElement): TStepCallback;
