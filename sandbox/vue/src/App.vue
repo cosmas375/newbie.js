@@ -53,7 +53,7 @@ export default {
                         content:
                             'Irure anim cillum ut esse et mollit tempor adipisicing minim officia magna. Id qui qui exercitation consectetur. Aliquip velit id Lorem consectetur laboris adipisicing reprehenderit. Mollit veniam deserunt dolore enim. Ut est enim labore magna ullamco.',
                     },
-                    position: 'bottom-right',
+                    position: 'bottom',
                     offsetX: 1,
                     offsetY: 40,
                     shadow: {
@@ -68,7 +68,7 @@ export default {
                         content:
                             'Ipsum consequat dolor velit pariatur nulla et ullamco sint irure consequat.',
                     },
-                    position: 'bottom-right',
+                    position: 'left',
                     shadow: {
                         color: 'red',
                     },
@@ -81,6 +81,7 @@ export default {
                           Do nisi laborum ex nulla fugiat ut voluptate do adipisicing nisi amet tempor. Pariatur excepteur elit ut laborum. Anim quis labore ullamco nisi ad sit nisi. Labore est sit labore eu aliquip incididunt deserunt. Exercitation nisi aliqua officia minim nostrud laborum nostrud. Occaecat elit culpa cupidatat ea et ea eu. Sunt tempor excepteur enim do ipsum irure excepteur nisi nulla non pariatur consequat ut elit.
                         `,
                     },
+                    shadow: { type: null },
                     position: 'left-top',
                     mounted(target) {
                         target.style.backgroundColor = 'black';

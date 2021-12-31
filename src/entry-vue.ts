@@ -1,11 +1,11 @@
-import { VueHintFactory } from './core/class/Hint/HintFactory';
 import { Newbie } from './core/class/Newbie';
-import { ComponentsFactory } from './core/class/ComponentsFactory';
+import { Globals } from './core/class/Globals';
+import { VueComponentsFactory } from './core/class/ComponentsFactory/VueComponentsFactory';
 
 export default Newbie;
 
 export const NewbiePlugin = {
     install(Vue) {
-        ComponentsFactory.setHintFactory(new VueHintFactory({ Vue }));
+        Globals.componentsFactory = new VueComponentsFactory(Vue);
     },
 };

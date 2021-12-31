@@ -12,4 +12,8 @@ export const DEFAULT_VALUES = {
     SHADOW_OFFSET: 10,
     SHADOW_BORDER_RADIUS: 5,
     SHADOW_ROOT_COMPONENT: document.documentElement,
+
+    ARROW_SIZE: 5,
+    ARROW_COLOR: '#fff',
+    ARROW_OFFSET: 10,
 };

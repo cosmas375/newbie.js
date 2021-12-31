@@ -1,89 +1,148 @@
-import { ClassNames, IArrow, IArrowConfg, Position } from '../../Interfaces';
+import { ClassNames, IArrow, Position } from '../../Interfaces';
+import getTransitionDuration from '../../utils/getTransitionDuration';
+import setPosition from '../../utils/setPosition';
 import px from '../../utils/px';
 
 export class TriangleArrow implements IArrow {
-    private _position: Position;
-    private _size: number;
-    private _color: string;
-    private _offsetX: number;
-    private _offsetY: number;
     private _component: HTMLElement;
 
-    constructor(config: IArrowConfg) {
-        this._position = config.position;
-        this._size = config.size || 8;
-        this._color = config.color || '#ffffff';
-
-        const halfOfArrowWidth = (this._size * Math.sqrt(2)) / 2; // diagonal of a square divided by 2
-        this._offsetX = Math.max(halfOfArrowWidth, config.offsetX || 10);
-        this._offsetY = Math.max(halfOfArrowWidth, config.offsetY || 10);
+    constructor() {
+        this._createElement();
     }
 
     public get elem() {
         return this._component;
     }
 
-    public mount(): void {
-        const component = document.createElement('div');
-        component.classList.add(ClassNames.ARROW);
-        component.style.width = px(this._size * 2);
-        component.style.height = px(this._size * 2);
-        component.style.backgroundColor = this._color;
-
-        switch (this._position) {
-            case Position.Top:
-                component.style.bottom = px(-this._size);
-                break;
-            case Position.TopLeft:
-                component.style.bottom = px(-this._size);
-                component.style.left = px(this._offsetX);
-                break;
-            case Position.TopRight:
-                component.style.bottom = px(-this._size);
-                component.style.right = px(this._offsetX);
-                break;
-
-            case Position.Right:
-                component.style.left = px(-this._size);
-                break;
-            case Position.RightTop:
-                component.style.left = px(-this._size);
-                component.style.top = px(this._offsetY);
-                break;
-            case Position.RightBottom:
-                component.style.left = px(-this._size);
-                component.style.bottom = px(this._offsetY);
-                break;
-
-            case Position.Bottom:
-                component.style.top = px(-this._size);
-                break;
-            case Position.BottomLeft:
-                component.style.top = px(-this._size);
-                component.style.left = px(this._offsetX);
-                break;
-            case Position.BottomRight:
-                component.style.top = px(-this._size);
-                component.style.right = px(this._offsetX);
-                break;
-
-            case Position.Left:
-                component.style.right = px(-this._size);
-                break;
-            case Position.LeftTop:
-                component.style.right = px(-this._size);
-                component.style.top = px(this._offsetY);
-                break;
-            case Position.LeftBottom:
-                component.style.right = px(-this._size);
-                component.style.bottom = px(this._offsetY);
-                break;
-        }
-
-        this._component = component;
+    public mount(config, settings): void {
+        this._updateSize(config);
+        this._updateColor(config);
+        this._updatePosition(config, settings);
+        this._show();
     }
 
     public unmount(): void {
-        this._component.remove();
+        this._hide();
+    }
+
+    private _show() {
+        this._component.classList.add(ClassNames.ARROW_VISIBLE);
+    }
+
+    private _hide() {
+        this._component.classList.remove(ClassNames.ARROW_VISIBLE);
+    }
+
+    private _createElement() {
+        const component = document.createElement('div');
+        component.classList.add(ClassNames.ARROW);
+        this._component = component;
+    }
+
+    private _updateSize({ size }) {
+        this._component.style.width = px(size * 2);
+        this._component.style.height = px(size * 2);
+    }
+    private _updateColor({ color }) {
+        this._component.style.backgroundColor = color;
+    }
+    private _updatePosition(config, { hintRect, position }) {
+        const size = config.size;
+        const halfOfArrowWidth = (size * Math.sqrt(2)) / 2; // diagonal of a square divided by 2
+        const offsetX = Math.max(halfOfArrowWidth, config.offsetX);
+        const offsetY = Math.max(halfOfArrowWidth, config.offsetY);
+
+        switch (position) {
+            case Position.Top:
+                setPosition(this._component, {
+                    bottom: px(-size),
+                    left: px(
+                        Math.max(hintRect.width / 2 - halfOfArrowWidth, offsetX)
+                    ),
+                });
+                break;
+            case Position.TopLeft:
+                setPosition(this._component, {
+                    bottom: px(-size),
+                    left: px(offsetX),
+                });
+                break;
+            case Position.TopRight:
+                setPosition(this._component, {
+                    bottom: px(-size),
+                    right: px(offsetX),
+                });
+                break;
+
+            case Position.Right:
+                setPosition(this._component, {
+                    left: px(-size),
+                    top: px(
+                        Math.max(
+                            hintRect.height / 2 - halfOfArrowWidth,
+                            offsetY
+                        )
+                    ),
+                });
+                break;
+            case Position.RightTop:
+                setPosition(this._component, {
+                    left: px(-size),
+                    top: px(offsetY),
+                });
+                break;
+            case Position.RightBottom:
+                setPosition(this._component, {
+                    left: px(-size),
+                    bottom: px(offsetY),
+                });
+                break;
+
+            case Position.Bottom:
+                setPosition(this._component, {
+                    top: px(-size),
+                    left: px(
+                        Math.max(hintRect.width / 2 - halfOfArrowWidth, offsetX)
+                    ),
+                });
+                this._component.style.top = px(-size);
+                break;
+            case Position.BottomLeft:
+                setPosition(this._component, {
+                    top: px(-size),
+                    left: px(offsetX),
+                });
+                break;
+            case Position.BottomRight:
+                setPosition(this._component, {
+                    top: px(-size),
+                    right: px(offsetX),
+                });
+                break;
+
+            case Position.Left:
+                setPosition(this._component, {
+                    right: px(-size),
+                    top: px(
+                        Math.max(
+                            hintRect.height / 2 - halfOfArrowWidth,
+                            offsetY
+                        )
+                    ),
+                });
+                break;
+            case Position.LeftTop:
+                setPosition(this._component, {
+                    right: px(-size),
+                    top: px(offsetY),
+                });
+                break;
+            case Position.LeftBottom:
+                setPosition(this._component, {
+                    right: px(-size),
+                    bottom: px(offsetY),
+                });
+                break;
+        }
     }
 }

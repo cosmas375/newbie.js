@@ -6,6 +6,5 @@ export default ({ targetId, attribute, from, to, duration }) => {
     animation.setAttribute('to', to);
     animation.setAttribute('dur', duration);
     animation.setAttribute('fill', 'freeze');
-
     return animation;
 };

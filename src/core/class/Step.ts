@@ -8,23 +8,29 @@ import {
     IArrow,
     Position,
     IShadowConfig,
+    IArrowConfig,
+    IHintConfig,
 } from '../Interfaces';
-import { ComponentsFactory } from './ComponentsFactory';
-import { StepContainer } from './StepContainer';
+import { StepContainer } from './StepContainer/StepContainer';
 import getCallback from '../utils/getCallback';
+import { Globals } from './Globals';
 
 export class Step implements IStep {
     private _target: TStepTarget;
     private _position: Position;
     private _offsetX: number;
     private _offsetY: number;
+    private _transitionDuration: number;
 
     private _beforeMount(): TStepCallback {}
     private _mounted(targetElement: HTMLElement): TStepCallback {}
     private _beforeUnmount(targetElement: HTMLElement): TStepCallback {}
     private _unmounted(): TStepCallback {}
 
-    private _shadowSettings: IShadowConfig;
+    private _shadowConfig: IShadowConfig;
+    private _hintConfig: IHintConfig;
+    private _contentConfig: object;
+    private _arrowConfig: IArrowConfig;
 
     private _stepContainer: StepContainer;
     private _shadow: IShadow;
@@ -34,32 +40,30 @@ export class Step implements IStep {
     private _targetElement: HTMLElement;
     private _isMounted: boolean;
 
+    private _settings: object;
+
     constructor(config: IStepConfig, settings: object) {
         this._target = config.target;
         this._position = config.position;
         this._offsetX = config.offsetX;
         this._offsetY = config.offsetY;
+        this._transitionDuration = config.transitionDuration;
 
-        this._shadowSettings = config.shadow;
+        this._shadowConfig = config.shadow;
+        this._hintConfig = config.hint;
+        this._contentConfig = config.content;
+        this._arrowConfig = config.arrow;
 
-        this._stepContainer = ComponentsFactory.createStepContainer({
-            transitionDuration: config.transitionDuration,
-        });
-        this._shadow = ComponentsFactory.createShadow({
-            type: this._shadowSettings.type,
-            settings: { transitionDuration: config.transitionDuration },
-        });
-        this._hint = ComponentsFactory.createHint({
-            config: config.hint,
-            content: config.content,
-            settings,
-        });
-        this._arrow = ComponentsFactory.createArrow(config.arrow);
+        this._settings = settings;
 
+        this._createStepContainer();
+        this._createShadow();
+        this._createHint();
+        this._createArrow();
         this._setLifeCycleHooks(config);
     }
 
-    get mounted() {
+    get isMounted() {
         return this._isMounted;
     }
 
@@ -75,7 +79,6 @@ export class Step implements IStep {
         this._mountShadow();
         this._mountHint();
         this._mountArrow();
-        this._show();
         this._isMounted = true;
 
         this._mounted(this._targetElement);
@@ -88,7 +91,6 @@ export class Step implements IStep {
 
         this._beforeUnmount(this._targetElement);
 
-        this._hide();
         this._unmountArrow();
         this._unmountHint();
         this._unmountShadow();
@@ -96,6 +98,33 @@ export class Step implements IStep {
         this._isMounted = false;
 
         this._unmounted();
+    }
+
+    private _createStepContainer() {
+        this._stepContainer = Globals.componentsFactory.createStepContainer({
+            settings: {
+                transitionDuration: this._transitionDuration,
+            },
+        });
+    }
+
+    private _createShadow() {
+        this._shadow = Globals.componentsFactory.createShadow({
+            config: this._shadowConfig,
+            settings: { transitionDuration: this._transitionDuration },
+        });
+    }
+
+    private _createHint() {
+        this._hint = Globals.componentsFactory.createHint({
+            config: this._hintConfig,
+            content: this._contentConfig,
+            settings: this._settings,
+        });
+    }
+
+    private _createArrow() {
+        this._arrow = Globals.componentsFactory.createArrow(this._arrowConfig);
     }
 
     private _setLifeCycleHooks(config: IStepConfig): void {
@@ -135,12 +164,12 @@ export class Step implements IStep {
     }
 
     private _mountStepContainer() {
-        this._stepContainer.setPosition({
+        this._stepContainer.mount({
+            targetElement: this._targetElement,
             position: this._position,
             offsetX: this._offsetX,
             offsetY: this._offsetY,
         });
-        this._stepContainer.mount(this._targetElement);
     }
     private _unmountStepContainer() {
         this._stepContainer.unmount();
@@ -148,7 +177,7 @@ export class Step implements IStep {
 
     private _mountShadow(): void {
         this._shadow.mount({
-            ...this._shadowSettings,
+            ...this._shadowConfig,
             target: this._targetElement,
         });
     }
@@ -165,17 +194,14 @@ export class Step implements IStep {
     }
 
     private _mountArrow(): void {
-        this._arrow.mount();
+        const hintRect = this._hint.elem.getBoundingClientRect();
+        this._arrow.mount(this._arrowConfig, {
+            hintRect,
+            position: this._position,
+        });
         this._stepContainer.append(this._arrow.elem);
     }
     private _unmountArrow(): void {
         this._arrow.unmount();
-    }
-
-    private _show() {
-        this._stepContainer.show();
-    }
-    private _hide() {
-        this._stepContainer.hide();
     }
 }

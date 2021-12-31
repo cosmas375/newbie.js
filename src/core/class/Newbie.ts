@@ -44,10 +44,10 @@ export class Newbie implements INewbie {
         this._beforeStart();
 
         let step = this._steps.getFirst();
-        while (step && !step.value.mounted) {
+        while (step && !step.value.isMounted) {
             await step.value.mount();
 
-            if (!step.value.mounted) {
+            if (!step.value.isMounted) {
                 step = step.next;
             } else {
                 this._currentStep = step;
@@ -74,10 +74,10 @@ export class Newbie implements INewbie {
         }
 
         let step = this._currentStep.next;
-        while (step && !step.value.mounted) {
+        while (step && !step.value.isMounted) {
             await step.value.mount();
 
-            if (!step.value.mounted) {
+            if (!step.value.isMounted) {
                 step = step.next;
             } else {
                 this._currentStep = step;
@@ -91,7 +91,7 @@ export class Newbie implements INewbie {
     }
 
     public async goPrevious() {
-        if (!this._isStarted) {
+        if (!this._isStarted || !this._currentStep.previous) {
             return;
         }
 
@@ -100,10 +100,10 @@ export class Newbie implements INewbie {
         }
 
         let step = this._currentStep.previous;
-        while (step && !step.value.mounted) {
+        while (step && !step.value.isMounted) {
             await step.value.mount();
 
-            if (!step.value.mounted) {
+            if (!step.value.isMounted) {
                 step = step.previous;
             } else {
                 this._currentStep = step;

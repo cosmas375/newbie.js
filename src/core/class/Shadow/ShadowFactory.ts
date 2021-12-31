@@ -1,4 +1,4 @@
-import { IShadow, IShadowConfig } from '../../Interfaces';
+import { IShadow } from '../../Interfaces';
 import { HtmlShadow } from './HtmlShadow';
 import { SvgShadow } from './SvgShadow';
 import { NullShadow } from './NullShadow';
@@ -10,8 +10,8 @@ export class ShadowFactory {
 
     private static _svgShadow: SvgShadow;
 
-    public static create({ type, settings }): IShadow {
-        switch (type) {
+    public static create({ config, settings }): IShadow {
+        switch (config.type) {
             case this.TYPE_HTML:
                 return new HtmlShadow();
             case this.TYPE_SVG:

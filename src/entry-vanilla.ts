@@ -1,6 +1,6 @@
 import { Newbie } from './core/class/Newbie';
-import { ComponentsFactory } from './core/class/ComponentsFactory';
-import { VanillaHintFactory } from './core/class/Hint/HintFactory';
+import { Globals } from './core/class/Globals';
+import { VanillaComponentsFactory } from './core/class/ComponentsFactory/VanillaComponentsFactory';
 
 import './assets/scss/hint.scss';
 import './assets/scss/hint-wrap.scss';
@@ -12,6 +12,6 @@ declare global {
     }
 }
 
-ComponentsFactory.setHintFactory(new VanillaHintFactory());
+Globals.componentsFactory = new VanillaComponentsFactory();
 
 window.Newbie = Newbie;

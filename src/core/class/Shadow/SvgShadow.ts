@@ -52,9 +52,7 @@ export class SvgShadow extends Shadow {
         );
         this._root = svg;
 
-        const ns = 'http://www.w3.org/2000/svg';
-
-        const shadow = document.createElementNS(ns, 'rect');
+        const shadow = document.createElement('rect');
         shadow.setAttribute('id', this._shadowId);
         shadow.setAttribute('width', String(window.innerWidth));
         shadow.setAttribute('height', String(window.innerHeight));
@@ -64,18 +62,18 @@ export class SvgShadow extends Shadow {
         this._block.append(svg);
         document.body.append(this._block);
 
-        const defs = document.createElementNS(ns, 'defs');
-        const mask = document.createElementNS(ns, 'mask');
+        const defs = document.createElement('defs');
+        const mask = document.createElement('mask');
         mask.setAttribute('id', this._maskId);
 
-        const white = document.createElementNS(ns, 'rect');
+        const white = document.createElement('rect');
         white.setAttribute('x', '0');
         white.setAttribute('y', '0');
         white.setAttribute('width', String(window.innerWidth));
         white.setAttribute('height', String(window.innerHeight));
         white.setAttribute('fill', '#ffffff');
 
-        const black = document.createElementNS(ns, 'rect');
+        const black = document.createElement('rect');
         black.setAttribute('id', this._blackId);
         black.setAttribute('fill', '#000000');
 
@@ -95,6 +93,10 @@ export class SvgShadow extends Shadow {
         const rx = String(config.borderRadius);
         const ry = String(config.borderRadius);
         const color = config.color;
+
+        Array.from(this._root.querySelectorAll('animate')).forEach(elem =>
+            elem.remove()
+        );
 
         this._root.append(
             createAnimation({

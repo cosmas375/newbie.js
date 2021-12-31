@@ -3,11 +3,11 @@
  */
 
 import { Newbie } from '../../../src/core/class/Newbie';
-import { ComponentsFactory } from '../../../src/core/class/ComponentsFactory';
-import { VanillaHintFactory } from '../../../src/core/class/Hint/HintFactory';
+import { Globals } from '../../../src/core/class/Globals';
+import { VanillaComponentsFactory } from '../../../src/core/class/ComponentsFactory/VanillaComponentsFactory';
 import { Errors } from '../../../src/core/Interfaces';
 
-ComponentsFactory.setHintFactory(new VanillaHintFactory());
+Globals.componentsFactory = new VanillaComponentsFactory();
 
 describe('config validation', () => {
     it('throws an error if no config provided', () => {

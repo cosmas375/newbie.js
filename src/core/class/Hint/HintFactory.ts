@@ -3,8 +3,8 @@ import { VanillaHint } from './VanillaHint';
 import { VueHint } from './VueHint';
 
 export class VanillaHintFactory implements IHintFactory {
-    public create(config): IHint {
-        return new VanillaHint(config);
+    public create(payload): IHint {
+        return new VanillaHint(payload);
     }
 }
 
@@ -15,7 +15,7 @@ export class VueHintFactory implements IHintFactory {
         this._vue = Vue;
     }
 
-    public create(config): IHint {
-        return new VueHint(config, { Vue: this._vue });
+    public create(payload): IHint {
+        return new VueHint(payload, { Vue: this._vue });
     }
 }

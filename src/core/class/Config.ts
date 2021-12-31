@@ -135,11 +135,37 @@ export class Config implements IConfig {
                 ? config.arrow
                 : {
                       type: null,
-                      position: DEFAULT_VALUES.POSITION,
                   };
         }
-        stepConfig.arrow.position =
-            stepConfig.position || config.position || DEFAULT_VALUES.POSITION;
+        if (!isDefined(stepConfig.arrow.size)) {
+            stepConfig.arrow.size =
+                isDefined(config.arrow) && isDefined(config.arrow.size)
+                    ? config.arrow.size
+                    : DEFAULT_VALUES.ARROW_SIZE;
+        }
+        if (!isDefined(stepConfig.arrow.color)) {
+            stepConfig.arrow.color =
+                isDefined(config.arrow) && isDefined(config.arrow.color)
+                    ? config.arrow.color
+                    : DEFAULT_VALUES.ARROW_COLOR;
+        }
+        if (!isDefined(stepConfig.arrow.offsetX)) {
+            stepConfig.arrow.offsetX =
+                isDefined(config.arrow) && isDefined(config.arrow.offsetX)
+                    ? config.arrow.offsetX
+                    : DEFAULT_VALUES.ARROW_OFFSET;
+        }
+        if (!isDefined(stepConfig.arrow.offsetY)) {
+            stepConfig.arrow.offsetY =
+                isDefined(config.arrow) && isDefined(config.arrow.offsetY)
+                    ? config.arrow.offsetY
+                    : DEFAULT_VALUES.ARROW_OFFSET;
+        }
+        // if (!isDefined(stepConfig.arrow.position)) {
+        //     stepConfig.arrow.position = stepConfig.position || DEFAULT_VALUES.POSITION;
+        // }
+        // stepConfig.arrow.size =
+        //     stepConfig.arrow.size || config.position || DEFAULT_VALUES.POSITION;
         // end arrow
 
         return stepConfig;

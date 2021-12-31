@@ -1,23 +1,19 @@
-import { ClassNames, Position } from '../Interfaces';
-import getTransitionDuration from '../utils/getTransitionDuration';
-import px from '../utils/px';
-import setPosition from '../utils/setPosition';
+import { ClassNames, Position } from '../../Interfaces';
+import getTransitionDuration from '../../utils/getTransitionDuration';
+import px from '../../utils/px';
+import setPosition from '../../utils/setPosition';
 
 export class StepContainer {
-    private _position: Position;
-    private _offsetX: number;
-    private _offsetY: number;
-
     private _container: HTMLElement;
     private _slot: HTMLElement;
 
-    constructor(config) {
-        this._createComponents(config);
+    constructor({ settings }) {
+        this._createComponents(settings);
     }
 
-    public mount(targetElement): void {
+    public mount(config): void {
         document.body.append(this._container);
-        this._updatePosition(targetElement);
+        this._updatePosition(config);
     }
 
     public unmount(): void {
@@ -39,12 +35,6 @@ export class StepContainer {
         this._slot.append(elem);
     }
 
-    public setPosition({ position, offsetX, offsetY }) {
-        this._position = position;
-        this._offsetX = offsetX;
-        this._offsetY = offsetY;
-    }
-
     private _createComponents({ transitionDuration }) {
         const wrap = document.createElement('div');
         wrap.classList.add(ClassNames.HINT_WRAP);
@@ -59,10 +49,10 @@ export class StepContainer {
         this._slot = inner;
     }
 
-    private _updatePosition(targetElement) {
-        const targetRect = targetElement.getBoundingClientRect();
+    private _updatePosition(config) {
+        const targetRect = config.targetElement.getBoundingClientRect();
 
-        switch (this._position) {
+        switch (config.position) {
             case Position.Top:
             default:
                 this._container.style.alignItems = 'center';
@@ -71,7 +61,7 @@ export class StepContainer {
                     top: px(
                         document.documentElement.scrollTop +
                             targetRect.top -
-                            this._offsetY
+                            config.offsetY
                     ),
                     left: px(targetRect.left + targetRect.width / 2),
                 });
@@ -86,7 +76,7 @@ export class StepContainer {
                     top: px(
                         document.documentElement.scrollTop +
                             targetRect.top -
-                            this._offsetY
+                            config.offsetY
                     ),
                     left: px(targetRect.left),
                 });
@@ -102,7 +92,7 @@ export class StepContainer {
                     top: px(
                         document.documentElement.scrollTop +
                             targetRect.top -
-                            this._offsetY
+                            config.offsetY
                     ),
                     left: px(targetRect.right),
                 });
@@ -121,7 +111,7 @@ export class StepContainer {
                             targetRect.height / 2
                     ),
                     left: px(
-                        targetRect.left + targetRect.width + this._offsetX
+                        targetRect.left + targetRect.width + config.offsetX
                     ),
                 });
                 setPosition(this._slot, {
@@ -135,7 +125,7 @@ export class StepContainer {
                     top: px(
                         document.documentElement.scrollTop + targetRect.top
                     ),
-                    left: px(targetRect.right + this._offsetX),
+                    left: px(targetRect.right + config.offsetX),
                 });
                 setPosition(this._slot, {
                     top: px(0),
@@ -149,7 +139,7 @@ export class StepContainer {
                     top: px(
                         document.documentElement.scrollTop + targetRect.bottom
                     ),
-                    left: px(targetRect.right + this._offsetX),
+                    left: px(targetRect.right + config.offsetX),
                 });
                 setPosition(this._slot, {
                     left: px(0),
@@ -163,7 +153,7 @@ export class StepContainer {
                     top: px(
                         document.documentElement.scrollTop +
                             targetRect.bottom +
-                            this._offsetY
+                            config.offsetY
                     ),
                     left: px(targetRect.left + targetRect.width / 2),
                 });
@@ -178,7 +168,7 @@ export class StepContainer {
                     top: px(
                         document.documentElement.scrollTop +
                             targetRect.bottom +
-                            this._offsetY
+                            config.offsetY
                     ),
                     left: px(targetRect.left),
                 });
@@ -194,7 +184,7 @@ export class StepContainer {
                     top: px(
                         document.documentElement.scrollTop +
                             targetRect.bottom +
-                            this._offsetY
+                            config.offsetY
                     ),
                     left: px(targetRect.left + targetRect.width),
                 });
@@ -212,7 +202,7 @@ export class StepContainer {
                             targetRect.top +
                             targetRect.height / 2
                     ),
-                    left: px(targetRect.left - this._offsetX),
+                    left: px(targetRect.left - config.offsetX),
                 });
                 setPosition(this._slot, {
                     right: px(0),
@@ -225,7 +215,7 @@ export class StepContainer {
                     top: px(
                         document.documentElement.scrollTop + targetRect.top
                     ),
-                    left: px(targetRect.left - this._offsetX),
+                    left: px(targetRect.left - config.offsetX),
                 });
                 setPosition(this._slot, {
                     top: px(0),
@@ -239,7 +229,7 @@ export class StepContainer {
                     top: px(
                         document.documentElement.scrollTop + targetRect.bottom
                     ),
-                    left: px(targetRect.left - this._offsetX),
+                    left: px(targetRect.left - config.offsetX),
                 });
                 setPosition(this._slot, {
                     bottom: px(0),

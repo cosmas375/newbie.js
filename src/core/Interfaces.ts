@@ -7,7 +7,7 @@ export interface INewbie {
 }
 
 export interface IStep {
-    readonly mounted: boolean;
+    readonly isMounted: boolean;
     mount(): void;
     unmount(): void;
 }
@@ -16,6 +16,13 @@ export interface IConfig {
     config: INewbieConfig;
     validate(): string | null;
     resolveStepConfig(stepId: string | number): IStepConfig;
+}
+
+export interface IComponentsFactory {
+    createStepContainer(payload);
+    createShadow(payload);
+    createHint(payload);
+    createArrow(payload);
 }
 
 export interface IHintFactory {
@@ -35,7 +42,7 @@ export interface IShadow {
 
 export interface IArrow {
     elem: HTMLElement;
-    mount(): void;
+    mount(config: IArrowConfig, { position, hintRect }): void;
     unmount(): void;
 }
 
@@ -44,7 +51,7 @@ export interface ICommonConfig {
     steps: IStepConfig[];
     shadow?: IShadowConfig;
     hint?: IHintConfig;
-    arrow?: IArrowConfg;
+    arrow?: IArrowConfig;
     position?: Position;
     offsetX?: number;
     offsetY?: number;
@@ -80,8 +87,8 @@ export interface IHintConfig {
     component: HTMLElement;
 }
 
-export interface IArrowConfg {
-    position: Position;
+export interface IArrowConfig {
+    // position: Position;
     type: ArrowType;
     size?: number;
     color?: string;
@@ -135,6 +142,7 @@ export enum ClassNames {
     SHADOW_HTML_LEFT = 'newbie-html-shadow_left',
     SHADOW_SVG = 'newbie-svg-shadow',
     ARROW = 'newbie-arrow',
+    ARROW_VISIBLE = 'newbie-arrow_visible',
 }
 
 export enum Errors {

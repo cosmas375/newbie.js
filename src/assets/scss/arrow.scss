@@ -1,6 +1,10 @@
 .newbie-arrow {
+    // display: none;
     position: absolute;
-    display: block;
     transform-origin: center;
     transform: rotate(45deg);
+
+    // &_visible {
+    //     display: block;
+    // }
 }
