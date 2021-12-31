@@ -1,4 +1,5 @@
 import { ClassNames, Position } from '../Interfaces';
+import getTransitionDuration from '../utils/getTransitionDuration';
 import px from '../utils/px';
 import setPosition from '../utils/setPosition';
 
@@ -47,7 +48,9 @@ export class StepContainer {
     private _createComponents({ transitionDuration }) {
         const wrap = document.createElement('div');
         wrap.classList.add(ClassNames.HINT_WRAP);
-        wrap.style.transition = `all ${transitionDuration / 1000}s`;
+        wrap.style.transition = `all ${getTransitionDuration(
+            transitionDuration
+        )} linear`;
         const inner = document.createElement('div');
         inner.classList.add(ClassNames.HINT_WRAP_INNER);
         wrap.append(inner);

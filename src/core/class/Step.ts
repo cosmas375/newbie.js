@@ -7,6 +7,7 @@ import {
     TStepTarget,
     IArrow,
     Position,
+    IShadowConfig,
 } from '../Interfaces';
 import { ComponentsFactory } from './ComponentsFactory';
 import { StepContainer } from './StepContainer';
@@ -18,29 +19,36 @@ export class Step implements IStep {
     private _offsetX: number;
     private _offsetY: number;
 
-    private _stepContainer: StepContainer;
-    private _shadow: IShadow;
-    private _hint: IHint;
-    private _arrow: IArrow;
-
     private _beforeMount(): TStepCallback {}
     private _mounted(targetElement: HTMLElement): TStepCallback {}
     private _beforeUnmount(targetElement: HTMLElement): TStepCallback {}
     private _unmounted(): TStepCallback {}
+
+    private _shadowSettings: IShadowConfig;
+
+    private _stepContainer: StepContainer;
+    private _shadow: IShadow;
+    private _hint: IHint;
+    private _arrow: IArrow;
 
     private _targetElement: HTMLElement;
     private _isMounted: boolean;
 
     constructor(config: IStepConfig, settings: object) {
         this._target = config.target;
-        this._position = config.position || Position.Bottom;
-        this._offsetX = config.offsetX || 10;
-        this._offsetY = config.offsetY || 10;
+        this._position = config.position;
+        this._offsetX = config.offsetX;
+        this._offsetY = config.offsetY;
+
+        this._shadowSettings = config.shadow;
 
         this._stepContainer = ComponentsFactory.createStepContainer({
             transitionDuration: config.transitionDuration,
         });
-        this._shadow = ComponentsFactory.createShadow(config.shadow);
+        this._shadow = ComponentsFactory.createShadow({
+            type: this._shadowSettings.type,
+            settings: { transitionDuration: config.transitionDuration },
+        });
         this._hint = ComponentsFactory.createHint({
             config: config.hint,
             content: config.content,
@@ -139,7 +147,10 @@ export class Step implements IStep {
     }
 
     private _mountShadow(): void {
-        this._shadow.mount(this._targetElement);
+        this._shadow.mount({
+            ...this._shadowSettings,
+            target: this._targetElement,
+        });
     }
     private _unmountShadow(): void {
         this._shadow.unmount();

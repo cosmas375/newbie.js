@@ -10,17 +10,16 @@ export class HtmlShadow extends Shadow {
 
     private _offset: number;
 
-    constructor(settings) {
-        super(settings);
-
-        this._offset = settings.offset || 0;
+    constructor() {
+        super();
     }
 
-    public mount(target) {
-        super.mount(target);
+    public mount(config) {
+        this._offset = config.offset || 0;
+        super.mount(config);
 
         this._createElements();
-        this._update(target);
+        this._update(config.target);
         this._show();
     }
 

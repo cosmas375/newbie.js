@@ -4,17 +4,23 @@ import { SvgShadow } from './SvgShadow';
 import { NullShadow } from './NullShadow';
 
 export class ShadowFactory {
+    public static TYPE_NULL = null;
     public static TYPE_HTML = 'html';
     public static TYPE_SVG = 'svg';
 
-    public static create(shadow: IShadowConfig): IShadow {
-        switch (shadow.type) {
+    private static _svgShadow: SvgShadow;
+
+    public static create({ type, settings }): IShadow {
+        switch (type) {
             case this.TYPE_HTML:
-                return new HtmlShadow(shadow);
+                return new HtmlShadow();
             case this.TYPE_SVG:
-                return new SvgShadow(shadow);
+                if (!this._svgShadow) {
+                    this._svgShadow = new SvgShadow(settings);
+                }
+                return this._svgShadow;
             default:
-                return new NullShadow(shadow);
+                return new NullShadow();
         }
     }
 }

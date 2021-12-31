@@ -3,12 +3,8 @@ import { IShadow, IShadowConfig } from '../../Interfaces';
 export class Shadow implements IShadow {
     protected _rootComponent;
 
-    constructor(settings: IShadowConfig) {
-        this._rootComponent =
-            settings.rootComponent || document.documentElement;
-    }
-
-    public mount(target) {
+    public mount(config) {
+        this._rootComponent = config.rootComponent;
         this._disableScroll();
     }
     public unmount() {

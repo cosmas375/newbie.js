@@ -30,13 +30,14 @@ export class Newbie implements INewbie {
 
     constructor(config: INewbieConfig) {
         this._config = new Config(config);
+
         const error = this._config.validate();
         if (error) {
             _throw(error);
         }
 
-        this._setSteps(config);
-        this._setLifeCycleHooks(config);
+        this._setSteps();
+        this._setLifeCycleHooks();
     }
 
     public async start() {
@@ -123,7 +124,9 @@ export class Newbie implements INewbie {
         this._finished();
     }
 
-    private _setSteps(config: INewbieConfig): void {
+    private _setSteps(): void {
+        const config = this._config.config;
+
         const list = new LinkedList();
 
         config.steps.forEach((stepConfig, index) => {
@@ -141,7 +144,8 @@ export class Newbie implements INewbie {
         this._steps = list;
     }
 
-    private _setLifeCycleHooks(config: INewbieConfig): void {
+    private _setLifeCycleHooks(): void {
+        const config = this._config.config;
         this._beforeStart = getCallback(config.beforeStart);
         this._started = getCallback(config.started);
         this._beforeFinish = getCallback(config.beforeFinish);

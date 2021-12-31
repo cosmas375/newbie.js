@@ -1,8 +1,8 @@
 import { Shadow } from './Shadow';
 
 export class NullShadow extends Shadow {
-    constructor(settings) {
-        super(settings);
+    constructor() {
+        super();
     }
 
     public mount() {}

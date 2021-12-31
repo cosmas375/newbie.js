@@ -1,96 +1,173 @@
-import { ClassNames } from '../../Interfaces';
 import { Shadow } from './Shadow';
+import { ClassNames } from '../../Interfaces';
+import createAnimation from '../../utils/createAnimation';
+import getTransitionDuration from '../../utils/getTransitionDuration';
 
 export class SvgShadow extends Shadow {
-    private _block: Element;
-    private _svg: Element;
+    private _transitionDuration: number;
+
+    private _block: HTMLElement;
+    private _root: HTMLElement;
+    private _rootId: string = 'svg_shadow_root';
     private _maskId: string = 'svg_shadow_mask';
+    private _blackId: string = 'svg_shadow_mask_black';
+    private _shadowId: string = 'svg_shadow';
 
-    private _offset: number;
-    private _borderRadius: number;
+    private _x: string = null;
+    private _y: string = null;
+    private _width: string = null;
+    private _height: string = null;
+    private _rx: string = null;
+    private _ry: string = null;
+    private _color: string = null;
 
-    constructor(settings) {
-        super(settings);
-
-        this._offset = settings.offset || 0;
-        this._borderRadius = settings.borderRadius || 0;
+    constructor({ transitionDuration }) {
+        super();
+        this._transitionDuration = transitionDuration;
+        this._createElements();
     }
 
-    public mount(target) {
-        super.mount(target);
-
-        this._createElements();
-        this._update(target);
+    public mount(config) {
+        super.mount(config);
+        this._update(config);
         this._show();
     }
 
     public unmount() {
         super.unmount();
-
         this._hide();
-        this._removeElements();
     }
 
     private _createElements() {
         this._block = document.createElement('div');
         this._block.classList.add(ClassNames.SHADOW, ClassNames.SHADOW_SVG);
 
-        this._svg = document.createElement('svg');
-        this._svg.setAttribute('width', String(window.innerWidth));
-        this._svg.setAttribute('height', String(window.innerHeight));
-        this._svg.setAttribute(
+        const svg = document.createElement('svg');
+        svg.setAttribute('id', this._rootId);
+        svg.setAttribute('width', String(window.innerWidth));
+        svg.setAttribute('height', String(window.innerHeight));
+        svg.setAttribute(
             'viewBox',
             `0 0 ${window.innerWidth} ${window.innerHeight}`
         );
+        this._root = svg;
 
-        const shadow = document.createElement('rect');
+        const ns = 'http://www.w3.org/2000/svg';
+
+        const shadow = document.createElementNS(ns, 'rect');
+        shadow.setAttribute('id', this._shadowId);
         shadow.setAttribute('width', String(window.innerWidth));
         shadow.setAttribute('height', String(window.innerHeight));
-        shadow.setAttribute('fill', 'rgba(0,0,0,.3)');
         shadow.setAttribute('mask', `url(#${this._maskId})`);
 
-        this._svg.append(shadow);
-        this._block.append(this._svg);
-        this._rootComponent.append(this._block);
-    }
+        svg.append(shadow);
+        this._block.append(svg);
+        document.body.append(this._block);
 
-    private _removeElements() {
-        this._block.remove();
-    }
-
-    private _update(target) {
-        const targetRect = target.getBoundingClientRect();
-
-        const defs = document.createElement('defs');
-        const mask = document.createElement('mask');
+        const defs = document.createElementNS(ns, 'defs');
+        const mask = document.createElementNS(ns, 'mask');
         mask.setAttribute('id', this._maskId);
 
-        const white = document.createElement('rect');
+        const white = document.createElementNS(ns, 'rect');
         white.setAttribute('x', '0');
         white.setAttribute('y', '0');
         white.setAttribute('width', String(window.innerWidth));
         white.setAttribute('height', String(window.innerHeight));
         white.setAttribute('fill', '#ffffff');
 
-        const black = document.createElement('rect');
-        black.setAttribute('x', String(targetRect.left - this._offset));
-        black.setAttribute('y', String(targetRect.top - this._offset));
-        black.setAttribute(
-            'width',
-            String(targetRect.width + 2 * this._offset)
-        );
-        black.setAttribute(
-            'height',
-            String(targetRect.height + 2 * this._offset)
-        );
-        black.setAttribute('rx', String(this._borderRadius));
-        black.setAttribute('ry', String(this._borderRadius));
+        const black = document.createElementNS(ns, 'rect');
+        black.setAttribute('id', this._blackId);
         black.setAttribute('fill', '#000000');
 
         mask.append(white);
         mask.append(black);
         defs.append(mask);
-        this._svg.append(defs);
+        svg.append(defs);
+    }
+
+    private _update(config) {
+        const targetRect = config.target.getBoundingClientRect();
+
+        const x = String(targetRect.left - config.offset) || String(0);
+        const y = String(targetRect.top - config.offset);
+        const width = String(targetRect.width + 2 * config.offset);
+        const height = String(targetRect.height + 2 * config.offset);
+        const rx = String(config.borderRadius);
+        const ry = String(config.borderRadius);
+        const color = config.color;
+
+        this._root.append(
+            createAnimation({
+                targetId: `#${this._shadowId}`,
+                attribute: 'fill',
+                from: this._color === null ? config.color : this._color,
+                to: config.color,
+                duration: getTransitionDuration(this._transitionDuration),
+            })
+        );
+
+        this._root.append(
+            createAnimation({
+                targetId: `#${this._blackId}`,
+                attribute: 'x',
+                from: this._x === null ? x : this._x,
+                to: x,
+                duration: getTransitionDuration(this._transitionDuration),
+            })
+        );
+        this._root.append(
+            createAnimation({
+                targetId: `#${this._blackId}`,
+                attribute: 'y',
+                from: this._y === null ? y : this._y,
+                to: y,
+                duration: getTransitionDuration(this._transitionDuration),
+            })
+        );
+        this._root.append(
+            createAnimation({
+                targetId: `#${this._blackId}`,
+                attribute: 'width',
+                from: this._width === null ? width : this._width,
+                to: width,
+                duration: getTransitionDuration(this._transitionDuration),
+            })
+        );
+        this._root.append(
+            createAnimation({
+                targetId: `#${this._blackId}`,
+                attribute: 'height',
+                from: this._height === null ? height : this._height,
+                to: height,
+                duration: getTransitionDuration(this._transitionDuration),
+            })
+        );
+        this._root.append(
+            createAnimation({
+                targetId: `#${this._blackId}`,
+                attribute: 'rx',
+                from: this._rx === null ? rx : this._rx,
+                to: rx,
+                duration: getTransitionDuration(this._transitionDuration),
+            })
+        );
+        this._root.append(
+            createAnimation({
+                targetId: `#${this._blackId}`,
+                attribute: 'ry',
+                from: this._ry === null ? ry : this._ry,
+                to: ry,
+                duration: getTransitionDuration(this._transitionDuration),
+            })
+        );
+
+        this._x = x;
+        this._y = y;
+        this._width = width;
+        this._height = height;
+        this._rx = rx;
+        this._ry = ry;
+        this._color = color;
     }
 
     private _show() {
@@ -98,6 +175,7 @@ export class SvgShadow extends Shadow {
 
         // force rerender svg
         this._block.innerHTML += '';
+        this._root = this._block.querySelector(`#${this._rootId}`);
     }
 
     private _hide() {

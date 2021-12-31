@@ -1,5 +1,5 @@
 import { DEFAULT_VALUES } from '../DefaultValues';
-import { Errors, IConfig, INewbieConfig, Position } from '../Interfaces';
+import { Errors, IConfig, INewbieConfig, IStepConfig } from '../Interfaces';
 import isDefined from '../utils/isDefined';
 
 export class Config implements IConfig {
@@ -9,7 +9,11 @@ export class Config implements IConfig {
         this._config = config;
     }
 
-    validate() {
+    get config(): INewbieConfig {
+        return this._config;
+    }
+
+    public validate(): string | null {
         if (!this._config) {
             return Errors.NO_CONFIG_PROVIDED;
         }
@@ -44,69 +48,98 @@ export class Config implements IConfig {
         return null;
     }
 
-    resolveStepConfig(stepId) {
+    public resolveStepConfig(stepId): IStepConfig {
         const stepConfig =
             typeof stepId === 'string'
                 ? this._config.steps.find(step => step.id === stepId)
                 : this._config.steps[stepId];
         const config = this._config;
 
-        if (!stepConfig.id) {
+        if (!isDefined(stepConfig.id)) {
             stepConfig.id = `No. ${stepId}`;
         }
 
-        if (!isDefined(stepConfig.position) && config.position) {
-            stepConfig.position = config.position;
+        if (!isDefined(stepConfig.position)) {
+            stepConfig.position = isDefined(config.position)
+                ? config.position
+                : DEFAULT_VALUES.POSITION;
         }
 
         if (!isDefined(stepConfig.transitionDuration)) {
             stepConfig.transitionDuration = isDefined(config.transitionDuration)
                 ? config.transitionDuration
-                : DEFAULT_VALUES.transitionDuration;
+                : DEFAULT_VALUES.TRANSITION_DURATION;
+        }
+
+        if (!isDefined(stepConfig.offsetX)) {
+            stepConfig.offsetX = isDefined(config.offsetX)
+                ? config.offsetX
+                : DEFAULT_VALUES.OFFSET_X;
+        }
+
+        if (!isDefined(stepConfig.offsetY)) {
+            stepConfig.offsetY = isDefined(config.offsetY)
+                ? config.offsetY
+                : DEFAULT_VALUES.OFFSET_Y;
         }
 
         // shadow
-        if (!stepConfig.shadow) {
-            stepConfig.shadow = config.shadow || { type: null };
+        const commonShadowConfig = this._config.shadow || DEFAULT_VALUES.SHADOW;
+        if (!isDefined(stepConfig.shadow)) {
+            stepConfig.shadow = commonShadowConfig;
         }
         if (!isDefined(stepConfig.shadow.type)) {
-            stepConfig.shadow.type = config.shadow.type;
+            stepConfig.shadow.type =
+                commonShadowConfig.type || DEFAULT_VALUES.SHADOW.type;
         }
-        if (
-            !stepConfig.shadow &&
-            config.shadow.type === stepConfig.shadow.type
-        ) {
-            stepConfig.shadow = config.shadow;
+        if (stepConfig.shadow.type === commonShadowConfig.type) {
+            stepConfig.shadow = {
+                ...commonShadowConfig,
+                ...stepConfig.shadow,
+            };
         }
-        if (!stepConfig.shadow) {
-            stepConfig.shadow = {};
+        if (!isDefined(stepConfig.shadow.color)) {
+            stepConfig.shadow.color = DEFAULT_VALUES.SHADOW_COLOR;
+        }
+        if (!isDefined(stepConfig.shadow.offset)) {
+            stepConfig.shadow.offset = DEFAULT_VALUES.SHADOW_OFFSET;
+        }
+        if (!isDefined(stepConfig.shadow.borderRadius)) {
+            stepConfig.shadow.borderRadius =
+                DEFAULT_VALUES.SHADOW_BORDER_RADIUS;
+        }
+        if (!isDefined(stepConfig.shadow.rootComponent)) {
+            stepConfig.shadow.rootComponent =
+                DEFAULT_VALUES.SHADOW_ROOT_COMPONENT;
         }
         // end shadow
 
         // hint
-        if (!stepConfig.hint) {
-            stepConfig.hint = config.hint || { component: null };
+        if (!isDefined(stepConfig.hint)) {
+            stepConfig.hint = config.hint;
         }
-        if (!isDefined(stepConfig.hint.component) && config.hint.component) {
+        if (!isDefined(stepConfig.hint.component)) {
             stepConfig.hint.component = config.hint.component;
         }
         // end hint
 
         // content
-        if (!stepConfig.content) {
+        if (!isDefined(stepConfig.content)) {
             stepConfig.content = {};
         }
         // end content
 
         // arrow
-        if (!stepConfig.arrow) {
-            stepConfig.arrow = config.arrow || {
-                type: null,
-                position: Position.Bottom,
-            };
+        if (!isDefined(stepConfig.arrow)) {
+            stepConfig.arrow = isDefined(config.arrow)
+                ? config.arrow
+                : {
+                      type: null,
+                      position: DEFAULT_VALUES.POSITION,
+                  };
         }
         stepConfig.arrow.position =
-            stepConfig.position || config.position || Position.Bottom;
+            stepConfig.position || config.position || DEFAULT_VALUES.POSITION;
         // end arrow
 
         return stepConfig;

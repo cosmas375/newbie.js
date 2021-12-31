@@ -13,6 +13,7 @@ export interface IStep {
 }
 
 export interface IConfig {
+    config: INewbieConfig;
     validate(): string | null;
     resolveStepConfig(stepId: string | number): IStepConfig;
 }
@@ -28,7 +29,7 @@ export interface IHint {
 }
 
 export interface IShadow {
-    mount(target: Element): void;
+    mount(settings: object): void;
     unmount(): void;
 }
 
@@ -69,6 +70,7 @@ export interface IStepConfig extends ICommonConfig {
 
 export interface IShadowConfig {
     type?;
+    color?: string;
     offset?: number;
     borderRadius?: number;
     rootComponent?: HTMLElement;

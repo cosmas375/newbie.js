@@ -36,14 +36,13 @@ export default {
         this.newbie = new Newbie({
             shadow: {
                 type: 'svg',
-                offset: 12,
             },
             hint: {
                 component: Hint,
             },
             arrow: {
                 type: 'triangle',
-                size: 4,
+                size: 5,
             },
             steps: [
                 {
@@ -58,13 +57,8 @@ export default {
                     offsetX: 1,
                     offsetY: 40,
                     shadow: {
-                        type: 'svg',
                         offset: 10,
-                        borderRadius: 10,
-                    },
-                    hint: {
-                        offsetX: 22,
-                        offsetY: 22,
+                        borderRadius: 22,
                     },
                 },
                 {
@@ -75,6 +69,9 @@ export default {
                             'Ipsum consequat dolor velit pariatur nulla et ullamco sint irure consequat.',
                     },
                     position: 'bottom-right',
+                    shadow: {
+                        color: 'red',
+                    },
                 },
                 {
                     id: '2',
