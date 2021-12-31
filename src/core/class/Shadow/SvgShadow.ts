@@ -1,6 +1,5 @@
 import { Shadow } from './Shadow';
 import { ClassNames } from '../../Interfaces';
-import createAnimation from '../../utils/createAnimation';
 import getTransitionDuration from '../../utils/getTransitionDuration';
 
 export class SvgShadow extends Shadow {
@@ -84,32 +83,40 @@ export class SvgShadow extends Shadow {
     }
 
     private _update(config) {
-        const targetRect = config.target.getBoundingClientRect();
-
-        const x = String(targetRect.left - config.offset) || String(0);
-        const y = String(targetRect.top - config.offset);
-        const width = String(targetRect.width + 2 * config.offset);
-        const height = String(targetRect.height + 2 * config.offset);
-        const rx = String(config.borderRadius);
-        const ry = String(config.borderRadius);
         const color = config.color;
+        let x = String(window.innerWidth / 2);
+        let y = String(window.innerHeight / 2);
+        let width = String(0);
+        let height = String(0);
+        let rx = String(0);
+        let ry = String(0);
 
-        Array.from(this._root.querySelectorAll('animate')).forEach(elem =>
-            elem.remove()
-        );
+        const targetElement = config.targetElement;
+
+        if (targetElement) {
+            const targetRect = targetElement.getBoundingClientRect();
+            x = String(targetRect.left - config.offset);
+            y = String(targetRect.top - config.offset);
+            width = String(targetRect.width + 2 * config.offset);
+            height = String(targetRect.height + 2 * config.offset);
+            rx = String(config.borderRadius);
+            ry = String(config.borderRadius);
+        }
+
+        this._resetAnimations();
 
         this._root.append(
-            createAnimation({
+            this._createAnimation({
                 targetId: `#${this._shadowId}`,
                 attribute: 'fill',
-                from: this._color === null ? config.color : this._color,
-                to: config.color,
+                from: this._color === null ? color : this._color,
+                to: color,
                 duration: getTransitionDuration(this._transitionDuration),
             })
         );
 
         this._root.append(
-            createAnimation({
+            this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'x',
                 from: this._x === null ? x : this._x,
@@ -118,7 +125,7 @@ export class SvgShadow extends Shadow {
             })
         );
         this._root.append(
-            createAnimation({
+            this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'y',
                 from: this._y === null ? y : this._y,
@@ -127,7 +134,7 @@ export class SvgShadow extends Shadow {
             })
         );
         this._root.append(
-            createAnimation({
+            this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'width',
                 from: this._width === null ? width : this._width,
@@ -136,7 +143,7 @@ export class SvgShadow extends Shadow {
             })
         );
         this._root.append(
-            createAnimation({
+            this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'height',
                 from: this._height === null ? height : this._height,
@@ -145,7 +152,7 @@ export class SvgShadow extends Shadow {
             })
         );
         this._root.append(
-            createAnimation({
+            this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'rx',
                 from: this._rx === null ? rx : this._rx,
@@ -154,7 +161,7 @@ export class SvgShadow extends Shadow {
             })
         );
         this._root.append(
-            createAnimation({
+            this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'ry',
                 from: this._ry === null ? ry : this._ry,
@@ -182,5 +189,22 @@ export class SvgShadow extends Shadow {
 
     private _hide() {
         this._block.classList.remove(ClassNames.SHADOW_VISIBLE);
+    }
+
+    private _createAnimation({ targetId, attribute, from, to, duration }) {
+        const animation = document.createElement('animate');
+        animation.setAttribute('xlink:href', targetId);
+        animation.setAttribute('attributeName', attribute);
+        animation.setAttribute('from', from);
+        animation.setAttribute('to', to);
+        animation.setAttribute('dur', duration);
+        animation.setAttribute('fill', 'freeze');
+        return animation;
+    }
+
+    private _resetAnimations() {
+        Array.from(this._root.querySelectorAll('animate')).forEach(elem =>
+            elem.remove()
+        );
     }
 }

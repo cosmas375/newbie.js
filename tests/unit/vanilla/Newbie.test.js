@@ -27,14 +27,6 @@ describe('config validation', () => {
         }).toThrow(Errors.NO_STEPS_PROVIDED);
     });
 
-    it('throws an error if no step target provided', () => {
-        expect(() => {
-            new Newbie({
-                steps: [{}],
-            });
-        }).toThrow(Errors.NO_STEP_TARGET_PROVIDED);
-    });
-
     it('throws an error if no hint provided', () => {
         expect(() => {
             new Newbie({
@@ -145,7 +137,7 @@ describe('stepping', () => {
         expect(document.body.innerHTML).toMatch(new RegExp(content1));
     });
 
-    it('skips steps with missing targets', async () => {
+    it('shows hint even if no target specified', async () => {
         const instance = new Newbie({
             hint: {
                 component: document.getElementById('hint-component'),
@@ -168,7 +160,7 @@ describe('stepping', () => {
 
         await instance.start();
 
-        expect(document.body.innerHTML).toMatch(new RegExp(content2));
+        expect(document.body.innerHTML).toMatch(new RegExp(content1));
     });
 
     it('stops after last step', async () => {

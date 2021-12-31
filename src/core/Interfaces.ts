@@ -126,6 +126,7 @@ export enum Position {
     Left = 'left',
     LeftTop = 'left-top',
     LeftBottom = 'left-bottom',
+    Center = 'center',
 }
 
 export enum ClassNames {
@@ -149,7 +150,6 @@ export enum Errors {
     NO_CONFIG_PROVIDED = 'No config provided!',
     ID_ERROR = 'Specify unique id for each step!',
     NO_STEPS_PROVIDED = 'No steps provided!',
-    NO_STEP_TARGET_PROVIDED = 'No step target provided!',
     NO_HINT_PROVIDED = 'No hint provided!',
     NO_HINT_COMPONENT_PROVIDED = 'No hint component provided!',
 }

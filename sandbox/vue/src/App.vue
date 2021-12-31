@@ -46,6 +46,20 @@ export default {
             },
             steps: [
                 {
+                    id: '666',
+                    content: {
+                        title: 'popup',
+                        content: 'Must be centered if no target specified',
+                    },
+                    position: 'bottom',
+                    offsetX: 1,
+                    offsetY: 40,
+                    shadow: {
+                        offset: 10,
+                        borderRadius: 22,
+                    },
+                },
+                {
                     id: '0',
                     target: '[data-newbie-target="1"]',
                     content: {

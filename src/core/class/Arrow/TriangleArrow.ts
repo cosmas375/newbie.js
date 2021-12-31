@@ -1,5 +1,4 @@
 import { ClassNames, IArrow, Position } from '../../Interfaces';
-import getTransitionDuration from '../../utils/getTransitionDuration';
 import setPosition from '../../utils/setPosition';
 import px from '../../utils/px';
 

@@ -50,7 +50,22 @@ export class StepContainer {
     }
 
     private _updatePosition(config) {
-        const targetRect = config.targetElement.getBoundingClientRect();
+        const targetElement = config.targetElement;
+
+        if (!targetElement) {
+            this._container.style.position = 'fixed';
+            this._container.style.alignItems = 'center';
+            this._container.style.justifyContent = 'center';
+            setPosition(this._container, {
+                top: px(window.innerHeight / 2),
+                left: px(window.innerWidth / 2),
+            });
+            return;
+        }
+
+        const targetRect = targetElement.getBoundingClientRect();
+
+        this._container.style.position = 'absolute';
 
         switch (config.position) {
             case Position.Top:

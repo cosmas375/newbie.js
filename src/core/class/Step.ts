@@ -71,9 +71,6 @@ export class Step implements IStep {
         this._beforeMount();
 
         this._setTargetElement();
-        if (!this._targetElement) {
-            return;
-        }
         this._scrollToTarget();
         this._mountStepContainer();
         this._mountShadow();
@@ -142,6 +139,10 @@ export class Step implements IStep {
     }
 
     private _scrollToTarget(): void {
+        if (!this._targetElement) {
+            return;
+        }
+
         const targetRect = this._targetElement.getBoundingClientRect();
 
         const beautifyingFactor = 0.8;
@@ -178,7 +179,7 @@ export class Step implements IStep {
     private _mountShadow(): void {
         this._shadow.mount({
             ...this._shadowConfig,
-            target: this._targetElement,
+            targetElement: this._targetElement,
         });
     }
     private _unmountShadow(): void {
@@ -194,6 +195,9 @@ export class Step implements IStep {
     }
 
     private _mountArrow(): void {
+        if (!this._targetElement) {
+            return;
+        }
         const hintRect = this._hint.elem.getBoundingClientRect();
         this._arrow.mount(this._arrowConfig, {
             hintRect,
