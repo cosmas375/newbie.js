@@ -1,4 +1,4 @@
-import { ClassNames } from '../../Interfaces';
+import { ClassNames } from '../../ClassName';
 import { Shadow } from './Shadow';
 import px from '../../utils/px';
 

@@ -1,0 +1,16 @@
+export enum ClassNames {
+    HINT_WRAP = 'newbie-hint-wrap',
+    HINT_WRAP_INNER = 'newbie-hint-wrap__inner',
+    HINT_WRAP_VISIBLE = 'newbie-hint-wrap_visible',
+    HINT = 'newbie-hint',
+    SHADOW = 'newbie-shadow',
+    SHADOW_VISIBLE = 'newbie-shadow_visible',
+    SHADOW_HTML = 'newbie-html-shadow',
+    SHADOW_HTML_TOP = 'newbie-html-shadow_top',
+    SHADOW_HTML_RIGHT = 'newbie-html-shadow_right',
+    SHADOW_HTML_BOTTOM = 'newbie-html-shadow_bottom',
+    SHADOW_HTML_LEFT = 'newbie-html-shadow_left',
+    SHADOW_SVG = 'newbie-svg-shadow',
+    ARROW = 'newbie-arrow',
+    ARROW_VISIBLE = 'newbie-arrow_visible',
+}

@@ -1,4 +1,5 @@
-import { ClassNames, Position } from '../../Interfaces';
+import { ClassNames } from '../../ClassName';
+import { Position } from '../../Position';
 import getTransitionDuration from '../../utils/getTransitionDuration';
 import px from '../../utils/px';
 import setPosition from '../../utils/setPosition';

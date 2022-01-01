@@ -1,4 +1,5 @@
-import { ClassNames, IHintSettings } from '../../Interfaces';
+import { IHintSettings } from '../../Interfaces';
+import { ClassNames } from '../../ClassName';
 import { Hint } from './Hint';
 
 export class VanillaHint extends Hint {

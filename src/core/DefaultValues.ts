@@ -1,5 +1,5 @@
 import { ShadowFactory } from './class/Shadow/ShadowFactory';
-import { Position } from './Interfaces';
+import { Position } from './Position';
 
 export const DEFAULT_VALUES = {
     POSITION: Position.Bottom,

@@ -1,3 +1,5 @@
+import { Position } from './Position';
+
 // classes
 export interface INewbie {
     start(): void;
@@ -88,7 +90,6 @@ export interface IHintConfig {
 }
 
 export interface IArrowConfig {
-    // position: Position;
     type: ArrowType;
     size?: number;
     color?: string;
@@ -112,47 +113,6 @@ export interface IStepCalllbacks {
 }
 
 export type TStepTarget = HTMLElement;
-
-export enum Position {
-    Top = 'top',
-    TopLeft = 'top-left',
-    TopRight = 'top-right',
-    Right = 'right',
-    RightTop = 'right-top',
-    RightBottom = 'right-bottom',
-    Bottom = 'bottom',
-    BottomLeft = 'bottom-left',
-    BottomRight = 'bottom-right',
-    Left = 'left',
-    LeftTop = 'left-top',
-    LeftBottom = 'left-bottom',
-    Center = 'center',
-}
-
-export enum ClassNames {
-    HINT_WRAP = 'newbie-hint-wrap',
-    HINT_WRAP_INNER = 'newbie-hint-wrap__inner',
-    HINT_WRAP_VISIBLE = 'newbie-hint-wrap_visible',
-    HINT = 'newbie-hint',
-    SHADOW = 'newbie-shadow',
-    SHADOW_VISIBLE = 'newbie-shadow_visible',
-    SHADOW_HTML = 'newbie-html-shadow',
-    SHADOW_HTML_TOP = 'newbie-html-shadow_top',
-    SHADOW_HTML_RIGHT = 'newbie-html-shadow_right',
-    SHADOW_HTML_BOTTOM = 'newbie-html-shadow_bottom',
-    SHADOW_HTML_LEFT = 'newbie-html-shadow_left',
-    SHADOW_SVG = 'newbie-svg-shadow',
-    ARROW = 'newbie-arrow',
-    ARROW_VISIBLE = 'newbie-arrow_visible',
-}
-
-export enum Errors {
-    NO_CONFIG_PROVIDED = 'No config provided!',
-    ID_ERROR = 'Specify unique id for each step!',
-    NO_STEPS_PROVIDED = 'No steps provided!',
-    NO_HINT_PROVIDED = 'No hint provided!',
-    NO_HINT_COMPONENT_PROVIDED = 'No hint component provided!',
-}
 
 export enum ArrowType {
     NULL = 'null',

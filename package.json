@@ -12,6 +12,7 @@
         "test": "npm run test:unit && npm run test:e2e",
         "test:unit": "jest",
         "test:e2e": "./node_modules/.bin/cypress run",
+        "test-watch:unit": "jest --watchAll",
         "test-watch:e2e": "./node_modules/.bin/cypress open"
     },
     "repository": {

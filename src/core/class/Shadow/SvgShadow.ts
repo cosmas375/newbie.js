@@ -1,5 +1,5 @@
 import { Shadow } from './Shadow';
-import { ClassNames } from '../../Interfaces';
+import { ClassNames } from '../../ClassName';
 import getTransitionDuration from '../../utils/getTransitionDuration';
 
 export class SvgShadow extends Shadow {

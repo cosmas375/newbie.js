@@ -6,11 +6,11 @@ import {
     TStepCallback,
     TStepTarget,
     IArrow,
-    Position,
     IShadowConfig,
     IArrowConfig,
     IHintConfig,
 } from '../Interfaces';
+import { Position } from '../Position';
 import { StepContainer } from './StepContainer/StepContainer';
 import getCallback from '../utils/getCallback';
 import { Globals } from './Globals';

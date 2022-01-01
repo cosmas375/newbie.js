@@ -1,11 +1,7 @@
 import { DEFAULT_VALUES } from '../DefaultValues';
-import {
-    Errors,
-    IConfig,
-    INewbieConfig,
-    IStepConfig,
-    Position,
-} from '../Interfaces';
+import { IConfig, INewbieConfig, IStepConfig } from '../Interfaces';
+import { Position } from '../Position';
+import { Error } from '../Error';
 import isDefined from '../utils/isDefined';
 
 export class Config implements IConfig {
@@ -21,18 +17,18 @@ export class Config implements IConfig {
 
     public validate(): string | null {
         if (!this._config) {
-            return Errors.NO_CONFIG_PROVIDED;
+            return Error.NO_CONFIG_PROVIDED;
         }
 
         if (
             !Array.isArray(this._config.steps) ||
             (Array.isArray(this._config.steps) && !this._config.steps.length)
         ) {
-            return Errors.NO_STEPS_PROVIDED;
+            return Error.NO_STEPS_PROVIDED;
         }
 
         if (!this._config.hint && this._config.steps.some(step => !step.hint)) {
-            return Errors.NO_HINT_PROVIDED;
+            return Error.NO_HINT_PROVIDED;
         }
 
         if (
@@ -44,7 +40,7 @@ export class Config implements IConfig {
                     step => step.hint && !step.hint.component
                 ))
         ) {
-            return Errors.NO_HINT_COMPONENT_PROVIDED;
+            return Error.NO_HINT_COMPONENT_PROVIDED;
         }
 
         return null;

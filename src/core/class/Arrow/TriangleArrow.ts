@@ -1,4 +1,6 @@
-import { ClassNames, IArrow, Position } from '../../Interfaces';
+import { IArrow } from '../../Interfaces';
+import { ClassNames } from '../../ClassName';
+import { Position } from '../../Position';
 import setPosition from '../../utils/setPosition';
 import px from '../../utils/px';
 
