@@ -171,4 +171,10 @@ export default {
         background-color: rgb(255, 168, 168);
     }
 }
+
+@media screen and (max-width: 1200px) {
+    [data-newbie-target='1'] {
+        left: 200px !important;
+    }
+}
 </style>

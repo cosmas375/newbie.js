@@ -1,4 +1,4 @@
-import { IShadow, IShadowConfig } from '../../Interfaces';
+import { IShadow } from '../../Interfaces';
 
 export class Shadow implements IShadow {
     protected _rootComponent;

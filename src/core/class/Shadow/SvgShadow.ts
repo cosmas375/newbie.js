@@ -1,16 +1,18 @@
 import { Shadow } from './Shadow';
 import { ClassNames } from '../../ClassName';
 import getTransitionDuration from '../../utils/getTransitionDuration';
+import debounce from '../../utils/debounce';
 
 export class SvgShadow extends Shadow {
     private _transitionDuration: number;
 
     private _block: HTMLElement;
-    private _root: HTMLElement;
-    private _rootId: string = 'svg_shadow_root';
+    private _svgRoot: HTMLElement;
+    private _svgRootId: string = 'svg_shadow_root';
     private _maskId: string = 'svg_shadow_mask';
     private _blackId: string = 'svg_shadow_mask_black';
     private _shadowId: string = 'svg_shadow';
+    private _resizeCallback: any;
 
     private _x: string = null;
     private _y: string = null;
@@ -20,46 +22,44 @@ export class SvgShadow extends Shadow {
     private _ry: string = null;
     private _color: string = null;
 
+    private _config: TShadowConfig = {};
+
     constructor({ transitionDuration }) {
         super();
         this._transitionDuration = transitionDuration;
         this._createElements();
     }
 
-    public mount(config) {
+    public mount(config: TShadowConfig) {
         super.mount(config);
-        this._update(config);
+        this._config = config;
+        this._update();
         this._show();
+
+        this._resizeCallback = debounce(this._update).bind(this);
+        window.addEventListener('resize', this._resizeCallback);
     }
 
     public unmount() {
         super.unmount();
         this._hide();
+        window.removeEventListener('resize', this._resizeCallback);
     }
 
     private _createElements() {
-        this._block = document.createElement('div');
-        this._block.classList.add(ClassNames.SHADOW, ClassNames.SHADOW_SVG);
+        const block = document.createElement('div');
+        block.classList.add(ClassNames.SHADOW, ClassNames.SHADOW_SVG);
 
         const svg = document.createElement('svg');
-        svg.setAttribute('id', this._rootId);
-        svg.setAttribute('width', String(window.innerWidth));
-        svg.setAttribute('height', String(window.innerHeight));
-        svg.setAttribute(
-            'viewBox',
-            `0 0 ${window.innerWidth} ${window.innerHeight}`
-        );
-        this._root = svg;
+        svg.setAttribute('id', this._svgRootId);
+        svg.setAttribute('width', '100%');
+        svg.setAttribute('height', '100%');
 
         const shadow = document.createElement('rect');
         shadow.setAttribute('id', this._shadowId);
-        shadow.setAttribute('width', String(window.innerWidth));
-        shadow.setAttribute('height', String(window.innerHeight));
+        shadow.setAttribute('width', '100%');
+        shadow.setAttribute('height', '100%');
         shadow.setAttribute('mask', `url(#${this._maskId})`);
-
-        svg.append(shadow);
-        this._block.append(svg);
-        document.body.append(this._block);
 
         const defs = document.createElement('defs');
         const mask = document.createElement('mask');
@@ -68,22 +68,29 @@ export class SvgShadow extends Shadow {
         const white = document.createElement('rect');
         white.setAttribute('x', '0');
         white.setAttribute('y', '0');
-        white.setAttribute('width', String(window.innerWidth));
-        white.setAttribute('height', String(window.innerHeight));
+        white.setAttribute('width', '100%');
+        white.setAttribute('height', '100%');
         white.setAttribute('fill', '#ffffff');
 
         const black = document.createElement('rect');
         black.setAttribute('id', this._blackId);
         black.setAttribute('fill', '#000000');
 
+        block.append(svg);
+        svg.append(shadow);
+        svg.append(defs);
+        defs.append(mask);
         mask.append(white);
         mask.append(black);
-        defs.append(mask);
-        svg.append(defs);
+
+        document.body.append(block);
+
+        this._svgRoot = svg;
+        this._block = block;
     }
 
-    private _update(config) {
-        const color = config.color;
+    private _update() {
+        const color = this._config.color;
         let x = String(window.innerWidth / 2);
         let y = String(window.innerHeight / 2);
         let width = String(0);
@@ -91,21 +98,21 @@ export class SvgShadow extends Shadow {
         let rx = String(0);
         let ry = String(0);
 
-        const targetElement = config.targetElement;
+        const targetElement = this._config.targetElement;
 
         if (targetElement) {
             const targetRect = targetElement.getBoundingClientRect();
-            x = String(targetRect.left - config.offset);
-            y = String(targetRect.top - config.offset);
-            width = String(targetRect.width + 2 * config.offset);
-            height = String(targetRect.height + 2 * config.offset);
-            rx = String(config.borderRadius);
-            ry = String(config.borderRadius);
+            x = String(targetRect.left - this._config.offset);
+            y = String(targetRect.top - this._config.offset);
+            width = String(targetRect.width + 2 * this._config.offset);
+            height = String(targetRect.height + 2 * this._config.offset);
+            rx = String(this._config.borderRadius);
+            ry = String(this._config.borderRadius);
         }
 
         this._resetAnimations();
 
-        this._root.append(
+        this._svgRoot.append(
             this._createAnimation({
                 targetId: `#${this._shadowId}`,
                 attribute: 'fill',
@@ -115,7 +122,7 @@ export class SvgShadow extends Shadow {
             })
         );
 
-        this._root.append(
+        this._svgRoot.append(
             this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'x',
@@ -124,7 +131,7 @@ export class SvgShadow extends Shadow {
                 duration: getTransitionDuration(this._transitionDuration),
             })
         );
-        this._root.append(
+        this._svgRoot.append(
             this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'y',
@@ -133,7 +140,7 @@ export class SvgShadow extends Shadow {
                 duration: getTransitionDuration(this._transitionDuration),
             })
         );
-        this._root.append(
+        this._svgRoot.append(
             this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'width',
@@ -142,7 +149,7 @@ export class SvgShadow extends Shadow {
                 duration: getTransitionDuration(this._transitionDuration),
             })
         );
-        this._root.append(
+        this._svgRoot.append(
             this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'height',
@@ -151,7 +158,7 @@ export class SvgShadow extends Shadow {
                 duration: getTransitionDuration(this._transitionDuration),
             })
         );
-        this._root.append(
+        this._svgRoot.append(
             this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'rx',
@@ -160,7 +167,7 @@ export class SvgShadow extends Shadow {
                 duration: getTransitionDuration(this._transitionDuration),
             })
         );
-        this._root.append(
+        this._svgRoot.append(
             this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'ry',
@@ -177,14 +184,13 @@ export class SvgShadow extends Shadow {
         this._rx = rx;
         this._ry = ry;
         this._color = color;
+
+        this._block.innerHTML += '';
+        this._svgRoot = this._block.querySelector(`#${this._svgRootId}`);
     }
 
     private _show() {
         this._block.classList.add(ClassNames.SHADOW_VISIBLE);
-
-        // force rerender svg
-        this._block.innerHTML += '';
-        this._root = this._block.querySelector(`#${this._rootId}`);
     }
 
     private _hide() {
@@ -203,8 +209,15 @@ export class SvgShadow extends Shadow {
     }
 
     private _resetAnimations() {
-        Array.from(this._root.querySelectorAll('animate')).forEach(elem =>
+        Array.from(this._svgRoot.querySelectorAll('animate')).forEach(elem =>
             elem.remove()
         );
     }
 }
+
+type TShadowConfig = {
+    targetElement?: HTMLElement;
+    offset?: number;
+    borderRadius?: number;
+    color?: string;
+};
