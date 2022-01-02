@@ -1,26 +1,24 @@
-import { IHintSettings } from '../../Interfaces';
+import { IHintConfig, IHintSettings } from '../../Interfaces';
 import { ClassNames } from '../../ClassName';
 import { Hint } from './Hint';
 
 export class VanillaHint extends Hint {
-    private _content: object = {};
     private _settings: IHintSettings;
 
-    constructor({ config, content, settings }) {
+    constructor(config: IHintConfig, settings: IHintSettings) {
         super(config);
 
         this._component = config.component;
         this._component.classList.add(ClassNames.HINT);
-        this._content = content;
         this._settings = settings;
     }
 
-    mount() {
+    public mount(): void {
         this._setContent();
         this._addDefaultEventListeners();
     }
 
-    unmount() {
+    public unmount(): void {
         this._removeDefaultEventListeners();
         super.unmount();
     }

@@ -1,19 +1,17 @@
-import { IHintSettings } from '../../Interfaces';
+import { IHintConfig, IHintSettings } from '../../Interfaces';
 import { ClassNames } from '../../ClassName';
 import { Hint } from './Hint';
 
 export class VueHint extends Hint {
     private _vueComponent: object;
-    private _content: object;
     private _Vue: any;
     private _settings: IHintSettings;
 
-    constructor({ config, content, settings }, { Vue }) {
+    constructor(config: IHintConfig, settings: IHintSettings, Vue: object) {
         super(config);
 
         this._Vue = Vue;
         this._vueComponent = config.component;
-        this._content = content;
         this._settings = settings;
     }
 

@@ -1,3 +1,4 @@
+import { StepContainer } from './class/StepContainer/StepContainer';
 import { Position } from './Position';
 
 // classes
@@ -6,10 +7,11 @@ export interface INewbie {
     stop(): void;
     goNext(): void;
     goPrevious(): void;
+    goTo(id: string): void;
 }
 
 export interface IStep {
-    readonly isMounted: boolean;
+    id: string;
     mount(): void;
     unmount(): void;
 }
@@ -21,20 +23,21 @@ export interface IConfig {
 }
 
 export interface IComponentsFactory {
-    createStepContainer(payload);
-    createShadow(payload);
-    createHint(payload);
-    createArrow(payload);
+    createStepContainer(payload: object): StepContainer;
+    createShadow(config: IShadowConfig, settings: object): IShadow;
+    createHint(config: IHintConfig, settings: IHintSettings): IHint;
+    createArrow(config: IArrowConfig): IArrow;
 }
 
 export interface IHintFactory {
-    create({ config, settings }): IHint;
+    create(config: IHintConfig, payload: object): IHint;
 }
 
 export interface IHint {
     elem: HTMLElement;
     mount(): void;
     unmount(): void;
+    setContent(content: object): void;
 }
 
 export interface IShadow {
@@ -43,8 +46,8 @@ export interface IShadow {
 }
 
 export interface IArrow {
-    elem: HTMLElement;
-    mount(config: IArrowConfig, { position, hintRect }): void;
+    elem: TElement;
+    mount(config: IArrowConfig, settings: object): void;
     unmount(): void;
 }
 
@@ -78,7 +81,7 @@ export interface IStepConfig extends ICommonConfig {
 }
 
 export interface IShadowConfig {
-    type?;
+    type?: string;
     color?: string;
     offset?: number;
     borderRadius?: number;
@@ -103,6 +106,8 @@ export interface IHintSettings {
     goPrevious(): void;
     stop(): void;
 }
+
+export type TElement = HTMLElement | null;
 
 export type TNewbieCallback = void;
 

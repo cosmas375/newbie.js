@@ -2,6 +2,7 @@ export interface ILinkedList<Item> {
     add(item: Item): void;
     getFirst(): INode;
     getLast(): INode;
+    getById(id: any): INode | null;
 }
 
 type TLinkedListValue = any;
@@ -10,7 +11,7 @@ export class LinkedList implements ILinkedList<INode> {
     private _head: INode;
     private _tail: INode;
 
-    public add(data) {
+    public add(data: any) {
         const node = new Node(data);
 
         if (!this._head && !this._tail) {
@@ -28,6 +29,16 @@ export class LinkedList implements ILinkedList<INode> {
 
     public getLast(): INode {
         return this._tail;
+    }
+
+    public getById(id: string): INode | null {
+        let node = this._head;
+
+        while (node && node.value.id !== id) {
+            node = node.next;
+        }
+
+        return node || null;
     }
 }
 

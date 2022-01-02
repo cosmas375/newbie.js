@@ -9,6 +9,8 @@ import {
     IShadowConfig,
     IArrowConfig,
     IHintConfig,
+    TElement,
+    IHintSettings,
 } from '../Interfaces';
 import { Position } from '../Position';
 import { StepContainer } from './StepContainer/StepContainer';
@@ -16,6 +18,7 @@ import getCallback from '../utils/getCallback';
 import { Globals } from './Globals';
 
 export class Step implements IStep {
+    private _id: string;
     private _target: TStepTarget;
     private _position: Position;
     private _offsetX: number;
@@ -23,8 +26,8 @@ export class Step implements IStep {
     private _transitionDuration: number;
 
     private _beforeMount(): TStepCallback {}
-    private _mounted(targetElement: HTMLElement): TStepCallback {}
-    private _beforeUnmount(targetElement: HTMLElement): TStepCallback {}
+    private _mounted(targetElement: TElement): TStepCallback {}
+    private _beforeUnmount(targetElement: TElement): TStepCallback {}
     private _unmounted(): TStepCallback {}
 
     private _shadowConfig: IShadowConfig;
@@ -37,12 +40,12 @@ export class Step implements IStep {
     private _hint: IHint;
     private _arrow: IArrow;
 
-    private _targetElement: HTMLElement;
-    private _isMounted: boolean;
+    private _targetElement: TElement;
 
-    private _settings: object;
+    private _stepParams: IHintSettings;
 
-    constructor(config: IStepConfig, settings: object) {
+    constructor(config: IStepConfig, stepParams: IHintSettings) {
+        this._id = config.id;
         this._target = config.target;
         this._position = config.position;
         this._offsetX = config.offsetX;
@@ -54,7 +57,7 @@ export class Step implements IStep {
         this._contentConfig = config.content;
         this._arrowConfig = config.arrow;
 
-        this._settings = settings;
+        this._stepParams = stepParams;
 
         this._createStepContainer();
         this._createShadow();
@@ -63,8 +66,8 @@ export class Step implements IStep {
         this._setLifeCycleHooks(config);
     }
 
-    get isMounted() {
-        return this._isMounted;
+    public get id(): string {
+        return this._id;
     }
 
     public mount(): void {
@@ -76,48 +79,40 @@ export class Step implements IStep {
         this._mountShadow();
         this._mountHint();
         this._mountArrow();
-        this._isMounted = true;
 
         this._mounted(this._targetElement);
     }
 
     public unmount(): void {
-        if (!this._isMounted) {
-            return;
-        }
-
         this._beforeUnmount(this._targetElement);
 
         this._unmountArrow();
         this._unmountHint();
         this._unmountShadow();
         this._unmountStepContainer();
-        this._isMounted = false;
 
         this._unmounted();
     }
 
     private _createStepContainer() {
         this._stepContainer = Globals.componentsFactory.createStepContainer({
-            settings: {
-                transitionDuration: this._transitionDuration,
-            },
+            transitionDuration: this._transitionDuration,
         });
     }
 
     private _createShadow() {
-        this._shadow = Globals.componentsFactory.createShadow({
-            config: this._shadowConfig,
-            settings: { transitionDuration: this._transitionDuration },
-        });
+        this._shadow = Globals.componentsFactory.createShadow(
+            this._shadowConfig,
+            { transitionDuration: this._transitionDuration }
+        );
     }
 
     private _createHint() {
-        this._hint = Globals.componentsFactory.createHint({
-            config: this._hintConfig,
-            content: this._contentConfig,
-            settings: this._settings,
-        });
+        this._hint = Globals.componentsFactory.createHint(
+            this._hintConfig,
+            this._stepParams
+        );
+        this._hint.setContent(this._contentConfig);
     }
 
     private _createArrow() {
@@ -188,6 +183,11 @@ export class Step implements IStep {
 
     private _mountHint(): void {
         this._hint.mount();
+
+        if (!this._hint.elem) {
+            return;
+        }
+
         this._stepContainer.append(this._hint.elem);
     }
     private _unmountHint(): void {
@@ -203,6 +203,11 @@ export class Step implements IStep {
             hintRect,
             position: this._position,
         });
+
+        if (!this._arrow.elem) {
+            return;
+        }
+
         this._stepContainer.append(this._arrow.elem);
     }
     private _unmountArrow(): void {

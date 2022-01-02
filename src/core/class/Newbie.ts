@@ -10,6 +10,7 @@ import { Step } from './Step';
 import { ILinkedList, INode, LinkedList } from '../helpers/LinkedList';
 import getCallback from '../utils/getCallback';
 import _throw from '../utils/throw';
+import _warn from '../utils/warn';
 
 export class Newbie implements INewbie {
     private _steps: ILinkedList<IStep>;
@@ -20,13 +21,7 @@ export class Newbie implements INewbie {
     private _beforeFinish(): TNewbieCallback {}
     private _finished(): TNewbieCallback {}
 
-    private _currentStep: INode = null;
-
-    /**
-     * Used to prevent running of goNext() and goPrevious() before start(),
-     * as both methods may be called from the outside
-     */
-    private _isStarted: boolean = false;
+    private _currentStep: INode | null = null;
 
     constructor(config: INewbieConfig) {
         this._config = new Config(config);
@@ -40,75 +35,56 @@ export class Newbie implements INewbie {
         this._setLifeCycleHooks();
     }
 
-    public async start() {
+    public start(): void {
         this._beforeStart();
 
-        let step = this._steps.getFirst();
-        while (step && !step.value.isMounted) {
-            await step.value.mount();
-
-            if (!step.value.isMounted) {
-                step = step.next;
-            } else {
-                this._currentStep = step;
-            }
-        }
-
-        if (!step) {
-            this.stop();
-            return;
-        }
-
-        this._isStarted = true;
+        this._goTo(this._steps.getFirst());
 
         this._started();
     }
 
-    public async goNext() {
-        if (!this._isStarted) {
+    public goNext(): void {
+        if (!this._currentStep) {
             return;
         }
 
-        if (this._currentStep) {
-            this._currentStep.value.unmount();
-        }
+        const nextStep = this._currentStep.next;
 
-        let step = this._currentStep.next;
-        while (step && !step.value.isMounted) {
-            await step.value.mount();
-
-            if (!step.value.isMounted) {
-                step = step.next;
-            } else {
-                this._currentStep = step;
-            }
-        }
-
-        if (!step) {
+        if (!nextStep) {
             this.stop();
             return;
         }
+
+        this._goTo(nextStep);
     }
 
-    public async goPrevious() {
-        if (!this._isStarted || !this._currentStep.previous) {
+    public goPrevious(): void {
+        if (!this._currentStep) {
             return;
         }
 
-        if (this._currentStep) {
-            this._currentStep.value.unmount();
+        const previousStep = this._currentStep.previous;
+
+        if (!previousStep) {
+            return;
         }
 
-        let step = this._currentStep.previous;
-        while (step && !step.value.isMounted) {
-            await step.value.mount();
+        this._goTo(previousStep);
+    }
 
-            if (!step.value.isMounted) {
-                step = step.previous;
-            } else {
-                this._currentStep = step;
-            }
+    public goTo(id: string): void {
+        if (!this._currentStep) {
+            return;
         }
+
+        const step = this._steps.getById(id);
+
+        if (!step) {
+            _warn(`Step ${id} not found!`);
+            return;
+        }
+
+        this._goTo(step);
     }
 
     public stop(): void {
@@ -119,9 +95,16 @@ export class Newbie implements INewbie {
             this._currentStep = null;
         }
 
-        this._isStarted = false;
-
         this._finished();
+    }
+
+    private _goTo(step: INode): void {
+        if (this._currentStep) {
+            this._currentStep.value.unmount();
+        }
+
+        this._currentStep = step;
+        this._currentStep.value.mount();
     }
 
     private _setSteps(): void {

@@ -15,7 +15,7 @@ export class StepContainer {
     private _slot: HTMLElement;
     private _resizeCallback: any;
 
-    constructor({ settings }) {
+    constructor(settings: object) {
         this._createComponents(settings);
         this._resizeCallback = debounce(this._updatePosition.bind(this)).bind(
             this
@@ -56,11 +56,11 @@ export class StepContainer {
         this._slot.append(elem);
     }
 
-    private _createComponents({ transitionDuration }) {
+    private _createComponents(settings: any) {
         const wrap = document.createElement('div');
         wrap.classList.add(ClassNames.HINT_WRAP);
         wrap.style.transition = `all ${getTransitionDuration(
-            transitionDuration
+            settings.transitionDuration
         )} linear`;
         const inner = document.createElement('div');
         inner.classList.add(ClassNames.HINT_WRAP_INNER);

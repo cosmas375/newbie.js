@@ -24,7 +24,7 @@ export class SvgShadow extends Shadow {
 
     private _config: TShadowConfig = {};
 
-    constructor({ transitionDuration }) {
+    constructor({ transitionDuration }: any) {
         super();
         this._transitionDuration = transitionDuration;
         this._createElements();

@@ -1,4 +1,4 @@
-export default function debounce(func, wait = 50, immediate?) {
+export default function debounce(func, wait = 50, immediate?: boolean) {
     let timeout;
 
     return function executedFunction() {

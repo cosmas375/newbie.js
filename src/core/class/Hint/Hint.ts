@@ -2,8 +2,9 @@ import { IHint } from '../../Interfaces';
 
 export class Hint implements IHint {
     protected _component: HTMLElement;
+    protected _content: object = {};
 
-    constructor(config) {
+    constructor(config: object) {
         /* continue regardless of error */
     }
 
@@ -15,5 +16,9 @@ export class Hint implements IHint {
 
     public unmount() {
         this._component.remove();
+    }
+
+    public setContent(content: object): void {
+        this._content = content;
     }
 }

@@ -5,6 +5,7 @@
 describe('stepping', () => {
     const content1 = 'some random content 1';
     const content2 = 'some random content 2';
+    const content3 = 'some random content 3';
 
     beforeEach(() => {
         document.body.innerHTML = `
@@ -129,5 +130,39 @@ describe('stepping', () => {
 
         expect(document.body.innerHTML).not.toMatch(new RegExp(content1));
         expect(document.body.innerHTML).not.toMatch(new RegExp(content2));
+    });
+
+    it('diplays correct hint when called goTo()', async () => {
+        const instance = new Newbie({
+            hint: {
+                component: document.getElementById('hint-component'),
+            },
+            steps: [
+                {
+                    target: '#hint-target-1',
+                    content: {
+                        '[data-content-slot]': content1,
+                    },
+                },
+                {
+                    target: '#hint-target-2',
+                    content: {
+                        '[data-content-slot]': content2,
+                    },
+                },
+                {
+                    id: 'hint-3',
+                    target: '#hint-target-3',
+                    content: {
+                        '[data-content-slot]': content3,
+                    },
+                },
+            ],
+        });
+        instance.start();
+
+        instance.goTo('hint-3');
+
+        expect(document.body.innerHTML).toMatch(new RegExp(content3));
     });
 });

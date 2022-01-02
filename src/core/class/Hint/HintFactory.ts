@@ -1,21 +1,26 @@
-import { IHintFactory, IHint } from '../../Interfaces';
+import {
+    IHintFactory,
+    IHint,
+    IHintConfig,
+    IHintSettings,
+} from '../../Interfaces';
 import { VanillaHint } from './VanillaHint';
 import { VueHint } from './VueHint';
 
 export class VanillaHintFactory implements IHintFactory {
-    public create(payload): IHint {
-        return new VanillaHint(payload);
+    public create(config: IHintConfig, settings: IHintSettings): IHint {
+        return new VanillaHint(config, settings);
     }
 }
 
 export class VueHintFactory implements IHintFactory {
-    private _vue;
+    private _vue: object;
 
-    constructor({ Vue }) {
+    constructor(Vue: object) {
         this._vue = Vue;
     }
 
-    public create(payload): IHint {
-        return new VueHint(payload, { Vue: this._vue });
+    public create(config: IHintConfig, settings: IHintSettings): IHint {
+        return new VueHint(config, settings, this._vue);
     }
 }

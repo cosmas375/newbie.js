@@ -1,12 +1,12 @@
-import { ArrowType, IArrowConfig } from '../../Interfaces';
+import { ArrowType, IArrow, IArrowConfig } from '../../Interfaces';
 import { NullArrow } from './NullArrow';
 import { TriangleArrow } from './TriangleArrow';
 
 export class ArrowFactory {
-    private static _triangleArrow: TriangleArrow;
-    private static _nullArrow: NullArrow;
+    private static _triangleArrow: IArrow;
+    private static _nullArrow: IArrow;
 
-    static create(config: IArrowConfig) {
+    static create(config: IArrowConfig): IArrow {
         switch (config.type) {
             case ArrowType.TRIAGLE:
                 if (!this._triangleArrow) {

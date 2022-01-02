@@ -1,4 +1,4 @@
-import { IArrow } from '../../Interfaces';
+import { IArrow, IArrowConfig } from '../../Interfaces';
 import { ClassNames } from '../../ClassName';
 import { Position } from '../../Position';
 import setPosition from '../../utils/setPosition';
@@ -15,9 +15,9 @@ export class TriangleArrow implements IArrow {
         return this._component;
     }
 
-    public mount(config, settings): void {
-        this._updateSize(config);
-        this._updateColor(config);
+    public mount(config: IArrowConfig, settings: object): void {
+        this._updateSize(config.size);
+        this._updateColor(config.color);
         this._updatePosition(config, settings);
         this._show();
     }
@@ -40,14 +40,14 @@ export class TriangleArrow implements IArrow {
         this._component = component;
     }
 
-    private _updateSize({ size }) {
+    private _updateSize(size: number) {
         this._component.style.width = px(size * 2);
         this._component.style.height = px(size * 2);
     }
-    private _updateColor({ color }) {
+    private _updateColor(color: string) {
         this._component.style.backgroundColor = color;
     }
-    private _updatePosition(config, { hintRect, position }) {
+    private _updatePosition(config: IArrowConfig, { hintRect, position }: any) {
         const size = config.size;
         const halfOfArrowWidth = (size * Math.sqrt(2)) / 2; // diagonal of a square divided by 2
         const offsetX = Math.max(halfOfArrowWidth, config.offsetX);
