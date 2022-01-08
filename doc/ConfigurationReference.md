@@ -2,25 +2,24 @@
 
 _Notes:_
 
-Some params are marked as `Heritable`. This means that this param can be set in global config and overrided in step configuration object.
+Newbie's configuration is based on params inheritance. This means that some param can be set in global config and overrided in step's config. These params are marked as `Heritable`.
 
 > You can find important notes by blocks of this type.
 
-### Here's what Newbie config is:
+---
 
 ---
 
--   **steps**: Array<[IStepConfig](#step-config)>
+## Here's what Newbie config is:
+
+---
+
+---
+
+-   **steps**: Array<[IStepConfig](#istepconfig)>
 
     > Important!  
     > This field must be present in global configuration object!
-
-    <!--
-            beforeMount?(): TStepCallback;
-            mounted?(targetElement: HTMLElement): TStepCallback;
-            beforeUnmount?(targetElement: HTMLElement): TStepCallback;
-            unmounted?(): TStepCallback;
-    -->
 
     ***
 
@@ -32,12 +31,16 @@ Some params are marked as `Heritable`. This means that this param can be set in 
         > Important!  
         > Used to identify step in [goTo(id)](#go-to) method
 
+        ***
+
     -   target: _string_ | _HTMLElemtnt_  
         _Defaults to `null`_
 
         If **HTML element** provided, then it will work with no surprises :)  
         If **string** provided, then target element will be queried right before mounting the entire step. So if you need to perform some operations to make your target element accessible (can be done using `beforeMount` hook), you should use this option.  
         If **no target element found or provided**, hint will be shown in the center of browser window.
+
+        ***
 
     -   content: _object_  
         _Defaults to `{}`_
@@ -50,10 +53,14 @@ Some params are marked as `Heritable`. This means that this param can be set in 
 
         For **Vue** version, this object is passes as `propsData` to hint component.
 
+        ***
+
     -   beforeMount: _async function_  
         _Defaults to `() => {}`_
 
         This hook will be called asynchronously before mounting the step.
+
+        ***
 
     -   mounted: _async function(targetElement: HTMLElement)_  
         _Defaults to `targetElement => {}`_  
@@ -63,6 +70,8 @@ Some params are marked as `Heritable`. This means that this param can be set in 
 
         This hook will be called asynchronously when the step is fully mounted.
 
+        ***
+
     -   beforeUnmount: _async function(targetElement: HTMLElement)_  
         _Defaults to `targetElement => {}`_  
         _Parameters:_
@@ -71,6 +80,8 @@ Some params are marked as `Heritable`. This means that this param can be set in 
 
         This hook will be called asynchronously when the step is fully mounted.
 
+        ***
+
     -   unmounted: _async function_  
         _Defaults to `() => {}`_
 
@@ -78,70 +89,179 @@ Some params are marked as `Heritable`. This means that this param can be set in 
 
 ---
 
--   **shadow**: [IShadowConfig](#shadow-config) - Heritable
+---
+
+-   **shadow**: [IShadowConfig](#ishadowconfig) - **Heritable**
+
+    ***
+
+    #### IShadowConfig
+
+    -   type: _string_ | _null_  
+        _Defaults to `null`_
+
+        Possible values:  
+        `svg`  
+        `null`
+
+        ***
+
+    -   color: _string_  
+        _Defaults to `rgba(0, 0, 0, .3)`_  
+         _Refers to { type: `svg` }_
+
+        ***
+
+    -   offset: _number_  
+        _Defaults to `10`_  
+         _Refers to { type: `svg` }_
+
+        ***
+
+    -   borderRadius: _number_  
+        _Defaults to `5`_  
+         _Refers to { type: `svg` }_
 
 ---
 
--   **hint**: [IHintConfig](#hint-config) - Heritable
+---
+
+-   **hint**: [IHintConfig](#hint-config) - **Heritable**
+
     > Important!  
-    > This field must be present in global configuration object or in config of each step!
+    > This field must be present in global configuration object or in config of each step!  
+    > Depends on framework!
+
+    For **vanilla** version this should be an HTML element.
+
+    For **Vue** version this must be a Vue component.
 
 ---
 
--   **arrow**: [IArrowConfig](#arrow-config) - Heritable
+---
+
+-   **arrow**: [IArrowConfig](#iarrowconfig) - **Heritable**
+
+    ***
+
+    #### IArrowConfig
+
+    -   type: _string_ | _null_  
+        _Defaults to `null`_
+
+        Possible values:  
+        `arrow`  
+        `null`
+
+        ***
+
+    -   size: _number_  
+         _Defaults to `5`_  
+         _Refers to { type: `arrow` }_
+
+        ***
+
+    -   color: _string_  
+         _Defaults to `#ffffff`_  
+         _Refers to { type: `arrow` }_
+
+        ***
+
+    -   offsetX: _number_  
+         _Defaults to `10`_  
+         _Refers to { type: `arrow` }_
+
+        ***
+
+    -   offsetY: _number_  
+         _Defaults to `10`_  
+         _Refers to { type: `arrow` }_
 
 ---
 
--   **position**: string - Heritable
+---
 
-    _Defaults to 'bottom'_
+-   **position**: _string_ - **Heritable**
+
+    _Defaults to `bottom`_
+
+    Possible values:  
+     `top`  
+     `top-left`  
+     `top-right`  
+     `right`  
+     `right-top`  
+     `right-bottom`  
+     `bottom`  
+     `bottom-left`  
+     `bottom-right`  
+     `left`  
+     `left-top`  
+     `left-bottom`  
+     `center`
 
 ---
 
--   **offsetX**: number - Heritable  
-    _Defaults to 10_
+---
 
-    Horizontal offset of hint position.
+-   **offsetX**: _number_ - **Heritable**  
+    _Defaults to `10`_
+
+    Horizontal offset (_px_) of hint position.
 
 ---
 
--   **offsetY**: string - Heritable  
-    _Defaults to 10_
+---
 
-    Vertical offset of hint position.
+-   **offsetY**: _string_ - **Heritable**  
+    _Defaults to `10`_
+
+    Vertical offset (_px_) of hint position.
 
 ---
 
--   **transitionDuration**: string - Heritable
+---
 
-    _Defaults to 300_
+-   **transitionDuration**: _string_ - **Heritable**
+
+    _Defaults to `300`_
 
 ---
 
--   **beforeStart**: function()  
-    _Defaults to () => {}_
+---
+
+-   **beforeStart**: _function()_  
+    _Defaults to `() => {}`_
 
     This lifecycle hook will be called before first step mount.
 
 ---
 
--   **started**: function(elem)  
-    _Defaults to () => {}_
+---
+
+-   **started**: _function()_  
+    _Defaults to `() => {}`_
 
     This lifecycle hook will be called after first step mount.
 
 ---
 
--   **beforeFinish**: function(elem)  
-    _Defaults to () => {}_
+---
+
+-   **beforeFinish**: _function()_  
+    _Defaults to `() => {}`_
 
     This lifecycle hook will be called before last step mount.
 
 ---
 
--   **finished**: function()  
-    _Defaults to () => {}_
+---
+
+-   **finished**: _function()_  
+    _Defaults to `() => {}`_
 
     This lifecycle hook will be called after last step mount.
+
+---
 
 ---
