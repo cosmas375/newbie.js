@@ -90,9 +90,7 @@ export class Config implements IConfig {
             stepConfig.offsetX = 0;
             stepConfig.offsetY = 0;
 
-            stepConfig.arrow = {
-                type: null,
-            };
+            stepConfig.arrow = { enabled: false };
         }
 
         // shadow
@@ -126,37 +124,19 @@ export class Config implements IConfig {
         // end content
 
         // arrow
-        if (!isDefined(stepConfig.arrow)) {
-            stepConfig.arrow = isDefined(config.arrow)
-                ? config.arrow
-                : {
-                      type: null,
-                  };
-        }
-        if (!isDefined(stepConfig.arrow.size)) {
-            stepConfig.arrow.size =
-                isDefined(config.arrow) && isDefined(config.arrow.size)
-                    ? config.arrow.size
-                    : DEFAULT_VALUES.ARROW_SIZE;
-        }
-        if (!isDefined(stepConfig.arrow.color)) {
-            stepConfig.arrow.color =
-                isDefined(config.arrow) && isDefined(config.arrow.color)
-                    ? config.arrow.color
-                    : DEFAULT_VALUES.ARROW_COLOR;
-        }
-        if (!isDefined(stepConfig.arrow.offsetX)) {
-            stepConfig.arrow.offsetX =
-                isDefined(config.arrow) && isDefined(config.arrow.offsetX)
-                    ? config.arrow.offsetX
-                    : DEFAULT_VALUES.ARROW_OFFSET;
-        }
-        if (!isDefined(stepConfig.arrow.offsetY)) {
-            stepConfig.arrow.offsetY =
-                isDefined(config.arrow) && isDefined(config.arrow.offsetY)
-                    ? config.arrow.offsetY
-                    : DEFAULT_VALUES.ARROW_OFFSET;
-        }
+        const arrow = {
+            ...config.arrow,
+            ...stepConfig.arrow,
+        };
+
+        const defaultArrow = DEFAULT_VALUES.arrow;
+        Object.keys(defaultArrow).forEach(key => {
+            if (!isDefined(arrow[key])) {
+                arrow[key] = defaultArrow[key];
+            }
+        });
+
+        stepConfig.arrow = arrow;
         // end arrow
 
         return stepConfig;

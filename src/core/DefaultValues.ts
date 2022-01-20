@@ -13,7 +13,11 @@ export const DEFAULT_VALUES = {
         rootComponent: document.documentElement,
         disableScroll: true,
     },
-    ARROW_SIZE: 5,
-    ARROW_COLOR: '#fff',
-    ARROW_OFFSET: 10,
+    arrow: {
+        enabled: true,
+        size: 5,
+        color: '#ffffff',
+        offsetX: 0,
+        offsetY: 0,
+    },
 };

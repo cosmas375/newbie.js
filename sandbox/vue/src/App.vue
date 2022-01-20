@@ -108,7 +108,7 @@ export default {
                             'Occaecat eu aute Lorem pariatur mollit sit adipisicing aute dolor fugiat sint eu. Ea deserunt cillum duis dolore laboris eiusmod irure cupidatat pariatur id qui sunt mollit. Sit non officia aliquip aute elit enim est duis commodo voluptate do.',
                     },
                     arrow: {
-                        type: null,
+                        enabled: false,
                     },
                     position: 'right-bottom',
                 },

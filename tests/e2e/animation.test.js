@@ -335,6 +335,7 @@ describe('animated positioning', () => {
                                     target: target[0],
                                 },
                             ],
+                            arrow: { enabled: false },
                         });
 
                         await instance.start();

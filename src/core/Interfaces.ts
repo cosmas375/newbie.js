@@ -94,7 +94,7 @@ export interface IHintConfig {
 }
 
 export interface IArrowConfig {
-    type: ArrowType;
+    enabled: boolean;
     size?: number;
     color?: string;
     offsetX?: number;
@@ -119,8 +119,3 @@ export interface IStepCalllbacks {
 }
 
 export type TStepTarget = HTMLElement;
-
-export enum ArrowType {
-    NULL = 'null',
-    TRIAGLE = 'triangle',
-}
