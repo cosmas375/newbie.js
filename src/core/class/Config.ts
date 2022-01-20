@@ -60,93 +60,54 @@ export class Config implements IConfig {
         stepConfig.transitionDuration = this._resolve(
             config,
             stepConfig,
-            'transitionDuration',
-            DEFAULT_VALUES.transitionDuration
+            'transitionDuration'
         );
 
         if (stepConfig.target) {
-            stepConfig.position = this._resolve(
-                config,
-                stepConfig,
-                'position',
-                DEFAULT_VALUES.position
-            );
-
-            stepConfig.offsetX = this._resolve(
-                config,
-                stepConfig,
-                'offsetX',
-                DEFAULT_VALUES.offsetX
-            );
-
-            stepConfig.offsetY = this._resolve(
-                config,
-                stepConfig,
-                'offsetY',
-                DEFAULT_VALUES.offsetX
-            );
+            stepConfig.position = this._resolve(config, stepConfig, 'position');
+            stepConfig.offsetX = this._resolve(config, stepConfig, 'offsetX');
+            stepConfig.offsetY = this._resolve(config, stepConfig, 'offsetY');
+            stepConfig.arrow = this._resolveObject(config, stepConfig, 'arrow');
         } else {
             stepConfig.position = Position.Center;
             stepConfig.offsetX = 0;
             stepConfig.offsetY = 0;
-
             stepConfig.arrow = { enabled: false };
         }
 
-        // shadow
-        const shadow = {
-            ...config.shadow,
-            ...stepConfig.shadow,
-        };
+        stepConfig.shadow = this._resolveObject(config, stepConfig, 'shadow');
+        stepConfig.hint = this._resolveObject(config, stepConfig, 'hint');
 
-        const defaultShadow = DEFAULT_VALUES.shadow;
-        Object.keys(defaultShadow).forEach(key => {
-            if (!isDefined(shadow[key])) {
-                shadow[key] = defaultShadow[key];
-            }
-        });
-
-        stepConfig.shadow = shadow;
-        // end shadow
-
-        // hint
-        stepConfig.hint = this._resolve(config, stepConfig, 'hint');
-
-        if (!isDefined(stepConfig.hint.component)) {
-            stepConfig.hint.component = config.hint.component;
-        }
-        // end hint
-
-        // content
         if (!isDefined(stepConfig.content)) {
             stepConfig.content = {};
         }
-        // end content
-
-        // arrow
-        const arrow = {
-            ...config.arrow,
-            ...stepConfig.arrow,
-        };
-
-        const defaultArrow = DEFAULT_VALUES.arrow;
-        Object.keys(defaultArrow).forEach(key => {
-            if (!isDefined(arrow[key])) {
-                arrow[key] = defaultArrow[key];
-            }
-        });
-
-        stepConfig.arrow = arrow;
-        // end arrow
 
         return stepConfig;
     }
 
-    private _resolve(config, stepConfig, param, defaultValue?) {
+    private _resolve(config, stepConfig, param) {
         if (isDefined(stepConfig[param])) {
             return stepConfig[param];
         } else {
-            return isDefined(config[param]) ? config[param] : defaultValue;
+            return isDefined(config[param])
+                ? config[param]
+                : DEFAULT_VALUES[param];
         }
+    }
+
+    private _resolveObject(config, stepConfig, param) {
+        const result = {
+            ...config[param],
+            ...stepConfig[param],
+        };
+
+        const defaultValue = DEFAULT_VALUES[param] || {};
+        Object.keys(defaultValue).forEach(key => {
+            if (!isDefined(result[key])) {
+                result[key] = defaultValue[key];
+            }
+        });
+
+        return result;
     }
 }

@@ -53,7 +53,6 @@ export interface IArrow {
 
 // config
 export interface ICommonConfig {
-    steps: IStepConfig[];
     shadow?: IShadowConfig;
     hint?: IHintConfig;
     arrow?: IArrowConfig;
@@ -64,6 +63,7 @@ export interface ICommonConfig {
 }
 
 export interface INewbieConfig extends ICommonConfig {
+    steps: IStepConfig[];
     beforeStart?(): TNewbieCallback;
     started?(): TNewbieCallback;
     beforeFinish?(): TNewbieCallback;
