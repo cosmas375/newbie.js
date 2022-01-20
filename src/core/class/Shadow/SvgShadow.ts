@@ -2,8 +2,11 @@ import { Shadow } from './Shadow';
 import { ClassNames } from '../../ClassName';
 import getTransitionDuration from '../../utils/getTransitionDuration';
 import debounce from '../../utils/debounce';
+import { IShadowConfig } from '../../Interfaces';
 
 export class SvgShadow extends Shadow {
+    private _targetElement: HTMLElement;
+
     private _transitionDuration: number;
 
     private _block: HTMLElement;
@@ -22,17 +25,15 @@ export class SvgShadow extends Shadow {
     private _ry: string = null;
     private _color: string = null;
 
-    private _config: TShadowConfig = {};
-
     constructor({ transitionDuration }: any) {
         super();
         this._transitionDuration = transitionDuration;
         this._createElements();
     }
 
-    public mount(config: TShadowConfig) {
-        super.mount(config);
-        this._config = config;
+    public mount(targetElement: HTMLElement, config: IShadowConfig) {
+        super.mount(targetElement, config);
+        this._targetElement = targetElement;
         this._update();
         this._show();
 
@@ -98,7 +99,7 @@ export class SvgShadow extends Shadow {
         let rx = String(0);
         let ry = String(0);
 
-        const targetElement = this._config.targetElement;
+        const targetElement = this._targetElement;
 
         if (targetElement) {
             const targetRect = targetElement.getBoundingClientRect();
@@ -214,10 +215,3 @@ export class SvgShadow extends Shadow {
         );
     }
 }
-
-type TShadowConfig = {
-    targetElement?: HTMLElement;
-    offset?: number;
-    borderRadius?: number;
-    color?: string;
-};

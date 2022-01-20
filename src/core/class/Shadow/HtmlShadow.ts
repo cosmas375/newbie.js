@@ -14,9 +14,9 @@ export class HtmlShadow extends Shadow {
         super();
     }
 
-    public mount(config) {
+    public mount(targetElement, config) {
         this._offset = config.offset || 0;
-        super.mount(config);
+        super.mount(targetElement, config);
 
         this._createElements();
         this._update(config.target);
@@ -57,10 +57,10 @@ export class HtmlShadow extends Shadow {
             ClassNames.SHADOW_HTML_LEFT
         );
 
-        this._rootComponent.append(this._blockT);
-        this._rootComponent.append(this._blockR);
-        this._rootComponent.append(this._blockB);
-        this._rootComponent.append(this._blockL);
+        this._config.rootComponent.append(this._blockT);
+        this._config.rootComponent.append(this._blockR);
+        this._config.rootComponent.append(this._blockB);
+        this._config.rootComponent.append(this._blockL);
     }
 
     private _removeElements() {

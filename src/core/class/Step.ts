@@ -172,10 +172,7 @@ export class Step implements IStep {
     }
 
     private _mountShadow(): void {
-        this._shadow.mount({
-            ...this._shadowConfig,
-            targetElement: this._targetElement,
-        });
+        this._shadow.mount(this._targetElement, this._shadowConfig);
     }
     private _unmountShadow(): void {
         this._shadow.unmount();

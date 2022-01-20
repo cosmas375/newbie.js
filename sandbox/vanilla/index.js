@@ -1,7 +1,4 @@
 const instance = new Newbie({
-    shadow: {
-        type: 'html',
-    },
     hint: {
         component: document.getElementById('newbie-hint'),
     },
@@ -17,7 +14,6 @@ const instance = new Newbie({
             },
             position: 'bottom-right',
             shadow: {
-                type: 'svg',
                 offset: 10,
                 borderRadius: 10,
             },
@@ -43,9 +39,6 @@ const instance = new Newbie({
                 '[data-newbie-step-content]':
                     'Amet nulla voluptate ipsum et irure. Anim magna nostrud occaecat aute id ullamco laboris elit mollit esse cillum proident ullamco reprehenderit. Irure eiusmod irure labore sit occaecat dolore. In dolor commodo esse mollit dolor quis magna culpa Lorem eu reprehenderit. Minim nostrud officia id mollit voluptate esse qui commodo. Sit aliqua in nisi qui labore eu laborum aliquip ipsum non. Voluptate sint irure tempor nulla velit eiusmod consequat dolore aute sint veniam voluptate nulla.',
             },
-            shadow: {
-                type: null,
-            },
             position: 'left-top',
         },
         {
@@ -56,10 +49,6 @@ const instance = new Newbie({
                     'Incididunt ea magna sit ea officia excepteur deserunt et mollit consectetur aliqua commodo mollit quis. Velit culpa sint cupidatat consequat ut ut laboris ipsum. Adipisicing sint amet amet nisi voluptate excepteur. Officia dolor ipsum excepteur Lorem aute deserunt ut tempor sunt pariatur proident commodo nulla velit.',
                 '[data-newbie-step-content]':
                     'Dolore aliquip fugiat aliqua nulla quis.',
-            },
-            shadow: {
-                type: 'html',
-                offset: 10,
             },
             position: 'right-bottom',
         },

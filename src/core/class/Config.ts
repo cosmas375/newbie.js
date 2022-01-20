@@ -61,7 +61,7 @@ export class Config implements IConfig {
             config,
             stepConfig,
             'transitionDuration',
-            DEFAULT_VALUES.TRANSITION_DURATION
+            DEFAULT_VALUES.transitionDuration
         );
 
         if (stepConfig.target) {
@@ -69,21 +69,21 @@ export class Config implements IConfig {
                 config,
                 stepConfig,
                 'position',
-                DEFAULT_VALUES.POSITION
+                DEFAULT_VALUES.position
             );
 
             stepConfig.offsetX = this._resolve(
                 config,
                 stepConfig,
                 'offsetX',
-                DEFAULT_VALUES.OFFSET_X
+                DEFAULT_VALUES.offsetX
             );
 
             stepConfig.offsetY = this._resolve(
                 config,
                 stepConfig,
                 'offsetY',
-                DEFAULT_VALUES.OFFSET_X
+                DEFAULT_VALUES.offsetX
             );
         } else {
             stepConfig.position = Position.Center;
@@ -96,38 +96,19 @@ export class Config implements IConfig {
         }
 
         // shadow
-        const commonShadowConfig = this._config.shadow || DEFAULT_VALUES.SHADOW;
+        const shadow = {
+            ...config.shadow,
+            ...stepConfig.shadow,
+        };
 
-        stepConfig.shadow = this._resolve(
-            config,
-            stepConfig,
-            'shadow',
-            DEFAULT_VALUES.SHADOW
-        );
+        const defaultShadow = DEFAULT_VALUES.shadow;
+        Object.keys(defaultShadow).forEach(key => {
+            if (!isDefined(shadow[key])) {
+                shadow[key] = defaultShadow[key];
+            }
+        });
 
-        if (!isDefined(stepConfig.shadow.type)) {
-            stepConfig.shadow.type = commonShadowConfig.type;
-        }
-        if (stepConfig.shadow.type === commonShadowConfig.type) {
-            stepConfig.shadow = {
-                ...commonShadowConfig,
-                ...stepConfig.shadow,
-            };
-        }
-        if (!isDefined(stepConfig.shadow.color)) {
-            stepConfig.shadow.color = DEFAULT_VALUES.SHADOW_COLOR;
-        }
-        if (!isDefined(stepConfig.shadow.offset)) {
-            stepConfig.shadow.offset = DEFAULT_VALUES.SHADOW_OFFSET;
-        }
-        if (!isDefined(stepConfig.shadow.borderRadius)) {
-            stepConfig.shadow.borderRadius =
-                DEFAULT_VALUES.SHADOW_BORDER_RADIUS;
-        }
-        if (!isDefined(stepConfig.shadow.rootComponent)) {
-            stepConfig.shadow.rootComponent =
-                DEFAULT_VALUES.SHADOW_ROOT_COMPONENT;
-        }
+        stepConfig.shadow = shadow;
         // end shadow
 
         // hint
@@ -182,10 +163,10 @@ export class Config implements IConfig {
     }
 
     private _resolve(config, stepConfig, param, defaultValue?) {
-        if (!isDefined(stepConfig[param])) {
-            return isDefined(config[param]) ? config[param] : defaultValue;
-        } else {
+        if (isDefined(stepConfig[param])) {
             return stepConfig[param];
+        } else {
+            return isDefined(config[param]) ? config[param] : defaultValue;
         }
     }
 }

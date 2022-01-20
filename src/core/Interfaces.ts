@@ -41,7 +41,7 @@ export interface IHint {
 }
 
 export interface IShadow {
-    mount(settings: object): void;
+    mount(targetElement: HTMLElement, config: IShadowConfig): void;
     unmount(): void;
 }
 
@@ -81,11 +81,12 @@ export interface IStepConfig extends ICommonConfig {
 }
 
 export interface IShadowConfig {
-    type?: string;
+    enabled?: boolean;
     color?: string;
     offset?: number;
     borderRadius?: number;
     rootComponent?: HTMLElement;
+    disableScroll?: boolean;
 }
 
 export interface IHintConfig {

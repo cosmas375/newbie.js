@@ -35,7 +35,7 @@ export default {
     mounted() {
         this.newbie = new Newbie({
             shadow: {
-                type: 'svg',
+                enabled: true,
             },
             hint: {
                 component: Hint,
@@ -83,9 +83,6 @@ export default {
                             'Ipsum consequat dolor velit pariatur nulla et ullamco sint irure consequat.',
                     },
                     position: 'left',
-                    shadow: {
-                        color: 'red',
-                    },
                 },
                 {
                     id: '2',
@@ -95,7 +92,6 @@ export default {
                           Do nisi laborum ex nulla fugiat ut voluptate do adipisicing nisi amet tempor. Pariatur excepteur elit ut laborum. Anim quis labore ullamco nisi ad sit nisi. Labore est sit labore eu aliquip incididunt deserunt. Exercitation nisi aliqua officia minim nostrud laborum nostrud. Occaecat elit culpa cupidatat ea et ea eu. Sunt tempor excepteur enim do ipsum irure excepteur nisi nulla non pariatur consequat ut elit.
                         `,
                     },
-                    shadow: { type: null },
                     position: 'left-top',
                     mounted(target) {
                         target.style.backgroundColor = 'black';
