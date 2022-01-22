@@ -3,6 +3,7 @@ import { ClassNames } from '../../ClassName';
 import getTransitionDuration from '../../utils/getTransitionDuration';
 import debounce from '../../utils/debounce';
 import { IShadowConfig } from '../../Interfaces';
+import px from '../../utils/px';
 
 export class SvgShadow extends Shadow {
     private _targetElement: HTMLElement;
@@ -11,11 +12,16 @@ export class SvgShadow extends Shadow {
 
     private _block: HTMLElement;
     private _svgRoot: HTMLElement;
-    private _svgRootId: string = 'svg_shadow_root';
-    private _maskId: string = 'svg_shadow_mask';
-    private _blackId: string = 'svg_shadow_mask_black';
-    private _shadowId: string = 'svg_shadow';
+    private _svgRootId: string = 'shadow_root';
+    private _maskId: string = 'shadow_mask';
+    private _blackId: string = 'shadow_mask_black';
+    private _shadowId: string = 'shadow';
     private _resizeCallback: any;
+
+    private _overlayBlockT: HTMLElement;
+    private _overlayBlockR: HTMLElement;
+    private _overlayBlockB: HTMLElement;
+    private _overlayBlockL: HTMLElement;
 
     private _x: string = null;
     private _y: string = null;
@@ -27,13 +33,13 @@ export class SvgShadow extends Shadow {
 
     constructor({ transitionDuration }: any) {
         super();
-        this._transitionDuration = transitionDuration;
+        this._transitionDuration = transitionDuration || 1;
         this._createElements();
     }
 
     public mount(targetElement: HTMLElement, config: IShadowConfig) {
-        super.mount(targetElement, config);
         this._targetElement = targetElement;
+        super.mount(targetElement, config);
         this._update();
         this._show();
 
@@ -48,10 +54,31 @@ export class SvgShadow extends Shadow {
     }
 
     private _createElements() {
+        this._createSvgElements();
+        this._createOverlayElements();
+    }
+
+    private _update() {
+        this._updateSvg();
+        this._updateOverlay();
+    }
+
+    private _show() {
+        this._showSvg();
+        this._showOverlay();
+    }
+
+    private _hide() {
+        this._hideSvg();
+        this._hideOverlay();
+    }
+
+    private _createSvgElements() {
         const block = document.createElement('div');
-        block.classList.add(ClassNames.SHADOW, ClassNames.SHADOW_SVG);
+        block.classList.add(ClassNames.SHADOW);
 
         const svg = document.createElement('svg');
+        svg.classList.add(ClassNames.SHADOW_SVG);
         svg.setAttribute('id', this._svgRootId);
         svg.setAttribute('width', '100%');
         svg.setAttribute('height', '100%');
@@ -78,11 +105,9 @@ export class SvgShadow extends Shadow {
         black.setAttribute('fill', '#000000');
 
         block.append(svg);
-        svg.append(shadow);
-        svg.append(defs);
+        svg.append(shadow, defs);
         defs.append(mask);
-        mask.append(white);
-        mask.append(black);
+        mask.append(white, black);
 
         document.body.append(block);
 
@@ -90,7 +115,38 @@ export class SvgShadow extends Shadow {
         this._block = block;
     }
 
-    private _update() {
+    private _createOverlayElements() {
+        const topBlock = document.createElement('div');
+        const rightBlock = document.createElement('div');
+        const bottomBlock = document.createElement('div');
+        const leftBlock = document.createElement('div');
+
+        topBlock.classList.add(
+            ClassNames.SHADOW_OVERLAY,
+            ClassNames.SHADOW_OVERLAY_TOP
+        );
+        rightBlock.classList.add(
+            ClassNames.SHADOW_OVERLAY,
+            ClassNames.SHADOW_OVERLAY_RIGHT
+        );
+        bottomBlock.classList.add(
+            ClassNames.SHADOW_OVERLAY,
+            ClassNames.SHADOW_OVERLAY_BOTTOM
+        );
+        leftBlock.classList.add(
+            ClassNames.SHADOW_OVERLAY,
+            ClassNames.SHADOW_OVERLAY_LEFT
+        );
+
+        this._block.append(topBlock, rightBlock, bottomBlock, leftBlock);
+
+        this._overlayBlockT = topBlock;
+        this._overlayBlockR = rightBlock;
+        this._overlayBlockB = bottomBlock;
+        this._overlayBlockL = leftBlock;
+    }
+
+    private _updateSvg() {
         const color = this._config.color;
         let x = String(window.innerWidth / 2);
         let y = String(window.innerHeight / 2);
@@ -99,10 +155,8 @@ export class SvgShadow extends Shadow {
         let rx = String(0);
         let ry = String(0);
 
-        const targetElement = this._targetElement;
-
-        if (targetElement) {
-            const targetRect = targetElement.getBoundingClientRect();
+        if (this._targetElement) {
+            const targetRect = this._targetElement.getBoundingClientRect();
             x = String(targetRect.left - this._config.offset);
             y = String(targetRect.top - this._config.offset);
             width = String(targetRect.width + 2 * this._config.offset);
@@ -120,55 +174,42 @@ export class SvgShadow extends Shadow {
                 from: this._color === null ? color : this._color,
                 to: color,
                 duration: getTransitionDuration(this._transitionDuration),
-            })
-        );
-
-        this._svgRoot.append(
+            }),
             this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'x',
                 from: this._x === null ? x : this._x,
                 to: x,
                 duration: getTransitionDuration(this._transitionDuration),
-            })
-        );
-        this._svgRoot.append(
+            }),
             this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'y',
                 from: this._y === null ? y : this._y,
                 to: y,
                 duration: getTransitionDuration(this._transitionDuration),
-            })
-        );
-        this._svgRoot.append(
+            }),
             this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'width',
                 from: this._width === null ? width : this._width,
                 to: width,
                 duration: getTransitionDuration(this._transitionDuration),
-            })
-        );
-        this._svgRoot.append(
+            }),
             this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'height',
                 from: this._height === null ? height : this._height,
                 to: height,
                 duration: getTransitionDuration(this._transitionDuration),
-            })
-        );
-        this._svgRoot.append(
+            }),
             this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'rx',
                 from: this._rx === null ? rx : this._rx,
                 to: rx,
                 duration: getTransitionDuration(this._transitionDuration),
-            })
-        );
-        this._svgRoot.append(
+            }),
             this._createAnimation({
                 targetId: `#${this._blackId}`,
                 attribute: 'ry',
@@ -186,16 +227,61 @@ export class SvgShadow extends Shadow {
         this._ry = ry;
         this._color = color;
 
-        this._block.innerHTML += '';
+        this._svgRoot.outerHTML += '';
         this._svgRoot = this._block.querySelector(`#${this._svgRootId}`);
     }
 
-    private _show() {
+    _updateOverlay() {
+        if (this._targetElement) {
+            const targetRect = this._targetElement.getBoundingClientRect();
+
+            this._overlayBlockT.style.height = px(targetRect.top);
+
+            this._overlayBlockR.style.top = px(targetRect.top);
+            this._overlayBlockR.style.left = px(
+                targetRect.left + targetRect.width
+            );
+            this._overlayBlockR.style.width = px(
+                window.innerWidth - (targetRect.left + targetRect.width)
+            );
+            this._overlayBlockR.style.height = px(targetRect.height);
+
+            this._overlayBlockB.style.top = px(
+                targetRect.top + targetRect.height
+            );
+            this._overlayBlockB.style.height = px(
+                window.innerHeight - (targetRect.top + targetRect.height)
+            );
+
+            this._overlayBlockL.style.top = px(targetRect.top);
+            this._overlayBlockL.style.width = px(targetRect.left);
+            this._overlayBlockL.style.height = px(targetRect.height);
+        } else {
+            this._overlayBlockT.style.width = '100vw';
+            this._overlayBlockT.style.height = '100vh';
+        }
+    }
+
+    private _showSvg() {
         this._block.classList.add(ClassNames.SHADOW_VISIBLE);
     }
 
-    private _hide() {
+    private _showOverlay() {
+        this._overlayBlockT.classList.add(ClassNames.SHADOW_VISIBLE);
+        this._overlayBlockR.classList.add(ClassNames.SHADOW_VISIBLE);
+        this._overlayBlockB.classList.add(ClassNames.SHADOW_VISIBLE);
+        this._overlayBlockL.classList.add(ClassNames.SHADOW_VISIBLE);
+    }
+
+    private _hideSvg() {
         this._block.classList.remove(ClassNames.SHADOW_VISIBLE);
+    }
+
+    private _hideOverlay() {
+        this._overlayBlockT.classList.remove(ClassNames.SHADOW_VISIBLE);
+        this._overlayBlockR.classList.remove(ClassNames.SHADOW_VISIBLE);
+        this._overlayBlockB.classList.remove(ClassNames.SHADOW_VISIBLE);
+        this._overlayBlockL.classList.remove(ClassNames.SHADOW_VISIBLE);
     }
 
     private _createAnimation({ targetId, attribute, from, to, duration }) {
