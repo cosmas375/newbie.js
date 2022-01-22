@@ -8,7 +8,7 @@ module.exports = {
     entry: './src/entry-vanilla.ts',
     plugins: [
         new MiniCssExtractPlugin({
-            filename: 'Newbie.css',
+            filename: 'newbie.css',
         }),
         new TSLintPlugin({
             files: ['./src/**/*.ts'],
@@ -33,7 +33,7 @@ module.exports = {
         ],
     },
     output: {
-        filename: 'Newbie.js',
+        filename: 'newbie.js',
         path: path.resolve('./dist/vanilla'),
     },
     resolve: {

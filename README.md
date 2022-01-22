@@ -1,10 +1,10 @@
-# Newbie.js
+# Newbie
 
 Meet the most flexible tour library!
 
 # Where to get
 
-You can get Newbie.js from:
+You can get Newbie from:
 
 1. CDN
 
@@ -19,7 +19,7 @@ You can get Newbie.js from:
 2. npm
 
 ```
-npm install newbie.js --save
+npm install newbie --save
 ```
 
 # Documentation

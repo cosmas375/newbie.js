@@ -119,10 +119,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../../src/assets/scss/shadow';
-@import '../../../src/assets/scss/hint';
-@import '../../../src/assets/scss/hint-wrap';
-@import '../../../src/assets/scss/arrow';
+@import '../../../src/assets/scss/style';
 
 #app {
     height: 200vh;
