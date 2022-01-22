@@ -2,7 +2,26 @@
 
 _Notes:_
 
-Newbie's configuration is based on params inheritance. This means that some param can be set in global config and overrided in step's config. These params are marked as `Heritable`.
+Newbie's configuration is based on params inheritance. This means that some param can be set in global config and overrided in step's one. These params are marked as **Heritable**. This is what config looks like:
+
+```
+{
+    ...
+    shadow: {
+        offset: 10, // set shadow offset for all steps
+    },
+    ...
+    steps: [
+        ...
+        {
+            shadow: {
+                offset: 0, // override shadow offset for single step
+            }
+        },
+        ...
+    ]
+}
+```
 
 > You can find important notes by blocks of this type.
 
@@ -97,30 +116,23 @@ Newbie's configuration is based on params inheritance. This means that some para
 
     #### IShadowConfig
 
-    -   type: _string_ | _null_  
-        _Defaults to `null`_
-
-        Possible values:  
-        `svg`  
-        `null`
+    -   enabled: _boolean_  
+        _Defaults to `true`_
 
         ***
 
     -   color: _string_  
-        _Defaults to `rgba(0, 0, 0, .3)`_  
-         _Refers to { type: `svg` }_
+        _Defaults to `rgba(0, 0, 0, .3)`_
 
         ***
 
     -   offset: _number_  
-        _Defaults to `10`_  
-         _Refers to { type: `svg` }_
+        _Defaults to `10`_
 
         ***
 
     -   borderRadius: _number_  
-        _Defaults to `5`_  
-         _Refers to { type: `svg` }_
+        _Defaults to `5`_
 
 ---
 
@@ -146,36 +158,28 @@ Newbie's configuration is based on params inheritance. This means that some para
 
     #### IArrowConfig
 
-    -   type: _string_ | _null_  
-        _Defaults to `null`_
-
-        Possible values:  
-        `arrow`  
-        `null`
+    -   enabled: _boolean_  
+        _Defaults to `true`_
 
         ***
 
     -   size: _number_  
-         _Defaults to `5`_  
-         _Refers to { type: `arrow` }_
+         _Defaults to `5`_
 
         ***
 
     -   color: _string_  
-         _Defaults to `#ffffff`_  
-         _Refers to { type: `arrow` }_
+         _Defaults to `#ffffff`_
 
         ***
 
     -   offsetX: _number_  
-         _Defaults to `10`_  
-         _Refers to { type: `arrow` }_
+         _Defaults to `10`_
 
         ***
 
     -   offsetY: _number_  
-         _Defaults to `10`_  
-         _Refers to { type: `arrow` }_
+         _Defaults to `10`_
 
 ---
 
