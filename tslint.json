@@ -1,0 +1,8 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+      "no-console": [true, "log", "error"],
+      "no-empty": [true, "allow-empty-functions"],
+      "max-classes-per-file": false
+  }
+}

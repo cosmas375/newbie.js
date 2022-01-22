@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./style.css" />
+        <link rel="stylesheet" href="newbie.css" />
+        <script src="newbie.js"></script>
+        <title>Newbie sandbox</title>
+    </head>
+    <body>
+        <button id="start">start</button>
+        <div data-newbie-target="1">1</div>
+        <div data-newbie-target="2">2</div>
+        <div data-newbie-target="3">3</div>
+
+        <div id="newbie-hint" class="custom-newbie-hint">
+            <div data-newbie-step-title class="custom-newbie-hint__title"></div>
+            <div
+                data-newbie-step-content
+                class="custom-newbie-hint__content"
+            ></div>
+            <div class="custom-newbie-hint__controls">
+                <button data-newbie-go-previous>prev</button>
+                <button data-newbie-go-next>next</button>
+                <button data-newbie-stop>stop</button>
+            </div>
+        </div>
+
+        <script src="./index.js"></script>
+    </body>
+</html>
