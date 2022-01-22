@@ -19,7 +19,7 @@ You can get Newbie from:
 2. npm
 
 ```
-npm install newbie --save
+npm install newbie.js --save
 ```
 
 ## Getting started
@@ -65,4 +65,4 @@ And that's it!
 ## Documentation
 
 It's not ready yet ):  
-But you can find drafts [here](https://github.com/cosmas375/newbie/tree/master/doc).
+But you can find drafts [here](https://github.com/cosmas375/newbie.js/tree/master/doc).

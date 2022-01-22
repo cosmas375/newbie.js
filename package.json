@@ -1,5 +1,5 @@
 {
-    "name": "newbie",
+    "name": "newbie.js",
     "version": "0.0.1",
     "description": "",
     "main": "index.js",
@@ -17,14 +17,14 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/cosmas375/newbie.git"
+        "url": "git+https://github.com/cosmas375/newbie.js.git"
     },
     "author": "",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/cosmas375/newbie/issues"
+        "url": "https://github.com/cosmas375/newbie.js/issues"
     },
-    "homepage": "https://github.com/cosmas375/newbie#readme",
+    "homepage": "https://github.com/cosmas375/newbie.js",
     "devDependencies": {
         "@babel/core": "^7.16.0",
         "@babel/preset-env": "^7.16.4",
