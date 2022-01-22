@@ -4,22 +4,33 @@ Meet the most flexible tour library!
 
 ## Where to get
 
-You can get Newbie from:
+You can get Newbie.js from:
 
-1. CDN
-
-```
-<script src="">
-```
+### 1. CDN
 
 ```
-<script src="">
+<script src="https://unpkg.com/newbie.js@:0.0.1/cdn/newbie.js">
+<link rel="stylesheet" href="https://unpkg.com/newbie.js@:0.0.1/cdn/newbie.css" />
 ```
 
-2. npm
+### 2. npm
+
+Run:
 
 ```
 npm install newbie.js --save
+```
+
+and then import js:
+
+```
+import Newbie from 'newbie.js';
+```
+
+and scss:
+
+```
+@import '~newbie.js/src/assets/scss/style';
 ```
 
 ## Getting started
@@ -27,13 +38,15 @@ npm install newbie.js --save
 Import css and js:
 
 ```
-<link rel="stylesheet" href="newbie.css" />
-<script src="newbie.js"></script>
+<script src="https://unpkg.com/newbie.js@:0.0.1/cdn/newbie.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/newbie.js@:0.0.1/cdn/newbie.css" />
 ```
 
 Add hint layout:
 
 ```
+<div id="target">Hint target</div>
+...
 <div id="hint" class="my-hint">
     <div class="my-hint__content"></div>
     <button
@@ -52,7 +65,14 @@ And then you can create the tour:
 ```
 const myTour = new Newbie({
     steps: [{
-        'my-hint__content': 'My first hint content',
+        content: {
+            'my-hint__content': 'Hi there!',
+        },
+    }, {
+        target: '#target',
+        content: {
+            'my-hint__content': 'This hint is pointed to given target...',
+        },
     }],
     hint: document.querySelector('#hint'),
 });

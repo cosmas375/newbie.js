@@ -5,8 +5,9 @@
     "main": "index.js",
     "scripts": {
         "build": "rm -rf ./dist && npm run build:vanilla && npm run build:vue",
-        "build:vanilla": "rm -rf ./dist/vanilla && ./node_modules/.bin/webpack --config webpack-vanilla.config.js --mode=production --no-devtool",
-        "build:vue": "rm -rf ./dist/vue && sh build-vue.sh",
+        "build:cdn": "sh build-cdn.sh",
+        "build:vanilla": "sh build-vanilla.sh",
+        "build:vue": "sh build-vue.sh",
         "serve:vanilla": "./node_modules/.bin/webpack serve --config webpack-vanilla.config.js --mode=development",
         "serve:vue": "cd sandbox/vue && npm run serve",
         "test": "npm run test:unit && npm run test:e2e",
