@@ -2,34 +2,36 @@
 
 _Notes:_
 
-Newbie's configuration is based on params inheritance. This means that some param can be set in global config and overrided in step's one. These params are marked as **Heritable**. This is what config looks like:
+-   The configuration is based on params inheritance. This means that some param can be set in global config and overrided in step's one. For example:
 
-```
-{
-    ...
-    shadow: {
-        offset: 10, // set shadow offset for all steps
-    },
-    ...
-    steps: [
+    ```
+    {
         ...
-        {
-            shadow: {
-                offset: 0, // override shadow offset for single step
-            }
+        shadow: {
+            offset: 10, // set shadow offset for all steps
         },
         ...
-    ]
-}
-```
+        steps: [
+            ...
+            {
+                shadow: {
+                    offset: 0, // override shadow offset for single step
+                }
+            },
+            ...
+        ]
+    }
+    ```
 
-> You can find important notes by blocks of this type.
+    These params are marked as **Heritable**.
+
+-   > You can find important notes in blocks of this type.
 
 ---
 
 ---
 
-## Here's what Newbie config is:
+## Config:
 
 ---
 
@@ -66,9 +68,29 @@ Newbie's configuration is based on params inheritance. This means that some para
 
         > Depends on framework!
 
-        For **vanilla** version it looks like this:  
-        `{ '.title': 'Title of my awesome hint!', '.content': 'Content of my awesome hint!', ... }`,  
-        e.g. key is selector, value is string.
+        For **vanilla** version it looks like this:
+
+        ```
+        {
+            '.title': 'Title of my awesome hint!',
+            '.content': 'Content of my awesome hint!',
+            ...
+        }
+        ```
+
+        e.g. key is css-selector, value is string.  
+        In this case content will be applied by setting `innerText`. If you want to set `innerHTML`, you need to pass an object containing `useHtml` set to `true` and `text` with your HTML code, like:
+
+        ```
+        {
+            ...
+            '.content': {
+                useHtml: true,
+                text: 'Content of my <strong>awesome</strong> hint!',
+            },
+            ...
+        }
+        ```
 
         For **Vue** version, this object is passes as `propsData` to hint component.
 
@@ -144,9 +166,9 @@ Newbie's configuration is based on params inheritance. This means that some para
     > This field must be present in global configuration object or in config of each step!  
     > Depends on framework!
 
-    For **vanilla** version this should be an HTML element.
+    For **vanilla** version it must be an HTML element.
 
-    For **Vue** version this must be a Vue component.
+    For **Vue** version it must be a Vue component.
 
 ---
 

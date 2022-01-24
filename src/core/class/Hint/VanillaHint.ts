@@ -25,11 +25,20 @@ export class VanillaHint extends Hint {
 
     private _setContent(): void {
         Object.keys(this._content).forEach(key => {
-            const component = this._component.querySelector(key);
-            if (!component) {
+            const component = <HTMLElement>this._component.querySelector(key);
+            const content = this._content[key];
+            if (!component || !content) {
                 return;
             }
-            component.innerHTML = this._content[key];
+            if (typeof content === 'string') {
+                component.innerText = content;
+            } else if (typeof content === 'object') {
+                if (content.useHtml) {
+                    component.innerHTML = content.text;
+                } else {
+                    component.innerText = content.text;
+                }
+            }
         });
     }
 

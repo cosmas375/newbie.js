@@ -84,5 +84,5 @@ And that's it!
 
 ## Documentation
 
-It's not ready yet ):  
+It's not ready ):  
 But you can find drafts [here](https://github.com/cosmas375/newbie.js/tree/master/doc).

@@ -26,7 +26,10 @@ describe('stepping', () => {
                 {
                     target: '#hint-target-1',
                     content: {
-                        '[data-content-slot]': content1,
+                        '[data-content-slot]': {
+                            useHtml: true,
+                            text: content1,
+                        },
                     },
                 },
             ],
@@ -48,13 +51,19 @@ describe('stepping', () => {
                 {
                     target: '#hint-target-missing', // missing
                     content: {
-                        '[data-content-slot]': content1,
+                        '[data-content-slot]': {
+                            useHtml: true,
+                            text: content1,
+                        },
                     },
                 },
                 {
                     target: '#hint-target-1',
                     content: {
-                        '[data-content-slot]': content2,
+                        '[data-content-slot]': {
+                            useHtml: true,
+                            text: content2,
+                        },
                     },
                 },
             ],
@@ -74,13 +83,19 @@ describe('stepping', () => {
                 {
                     target: '#hint-target-1',
                     content: {
-                        '[data-content-slot]': content1,
+                        '[data-content-slot]': {
+                            useHtml: true,
+                            text: content1,
+                        },
                     },
                 },
                 {
                     target: '#hint-target-2',
                     content: {
-                        '[data-content-slot]': content2,
+                        '[data-content-slot]': {
+                            useHtml: true,
+                            text: content2,
+                        },
                     },
                 },
             ],
@@ -109,13 +124,19 @@ describe('stepping', () => {
                 {
                     target: '#hint-target-1',
                     content: {
-                        '[data-content-slot]': content1,
+                        '[data-content-slot]': {
+                            useHtml: true,
+                            text: content1,
+                        },
                     },
                 },
                 {
                     target: '#hint-target-2',
                     content: {
-                        '[data-content-slot]': content2,
+                        '[data-content-slot]': {
+                            useHtml: true,
+                            text: content2,
+                        },
                     },
                 },
             ],
@@ -141,20 +162,29 @@ describe('stepping', () => {
                 {
                     target: '#hint-target-1',
                     content: {
-                        '[data-content-slot]': content1,
+                        '[data-content-slot]': {
+                            useHtml: true,
+                            text: content1,
+                        },
                     },
                 },
                 {
                     target: '#hint-target-2',
                     content: {
-                        '[data-content-slot]': content2,
+                        '[data-content-slot]': {
+                            useHtml: true,
+                            text: content2,
+                        },
                     },
                 },
                 {
                     id: 'hint-3',
                     target: '#hint-target-3',
                     content: {
-                        '[data-content-slot]': content3,
+                        '[data-content-slot]': {
+                            useHtml: true,
+                            text: content3,
+                        },
                     },
                 },
             ],
