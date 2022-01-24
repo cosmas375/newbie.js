@@ -5,7 +5,6 @@ const TSLintPlugin = require('tslint-webpack-plugin');
 module.exports = {
     mode: 'production',
     context: path.resolve(__dirname),
-    devtool: 'inline-source-map',
     entry: './src/entry-vanilla.ts',
     plugins: [
         new MiniCssExtractPlugin({
