@@ -9,8 +9,8 @@ You can get Newbie.js from:
 ### 1. CDN
 
 ```
-<script src="https://unpkg.com/newbie.js@:0.0.1/cdn/newbie.js">
-<link rel="stylesheet" href="https://unpkg.com/newbie.js@:0.0.1/cdn/newbie.css" />
+<script src="https://unpkg.com/newbie.js@0.0.2/cdn/newbie.js">
+<link rel="stylesheet" href="https://unpkg.com/newbie.js@0.0.2/cdn/newbie.css" />
 ```
 
 ### 2. npm
@@ -38,8 +38,8 @@ and scss:
 Import css and js:
 
 ```
-<script src="https://unpkg.com/newbie.js@:0.0.1/cdn/newbie.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/newbie.js@:0.0.1/cdn/newbie.css" />
+<script src="https://unpkg.com/newbie.js@0.0.2/cdn/newbie.js">
+<link rel="stylesheet" href="https://unpkg.com/newbie.js@0.0.2/cdn/newbie.css" />
 ```
 
 Add hint layout:
