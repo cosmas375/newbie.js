@@ -9,8 +9,8 @@ You can get Newbie.js from:
 ### 1. CDN
 
 ```
-<script src="https://unpkg.com/newbie.js@0.0.2/cdn/newbie.js">
-<link rel="stylesheet" href="https://unpkg.com/newbie.js@0.0.2/cdn/newbie.css" />
+<script src="https://unpkg.com/newbie.js/cdn/newbie.js">
+<link rel="stylesheet" href="https://unpkg.com/newbie.js/cdn/newbie.css"/>
 ```
 
 ### 2. npm
@@ -38,15 +38,21 @@ and scss:
 Import css and js:
 
 ```
-<script src="https://unpkg.com/newbie.js@0.0.2/cdn/newbie.js">
-<link rel="stylesheet" href="https://unpkg.com/newbie.js@0.0.2/cdn/newbie.css" />
+<script src="https://unpkg.com/newbie.js/cdn/newbie.js">
+<link rel="stylesheet" href="https://unpkg.com/newbie.js/cdn/newbie.css"/>
 ```
 
 Add hint layout:
 
 ```
-<div id="target">Hint target</div>
-...
+<style>
+#hint {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+</style>
+<span id="target">Hint target</span>
 <div id="hint" class="my-hint">
     <div class="my-hint__content"></div>
     <button
@@ -63,18 +69,21 @@ Add hint layout:
 And then you can create the tour:
 
 ```
-const myTour = new Newbie({
+const myTour = new window.Newbie({
     steps: [{
         content: {
-            'my-hint__content': 'Hi there!',
+            '.my-hint__content': 'Hi there!',
         },
     }, {
         target: '#target',
         content: {
-            'my-hint__content': 'This hint is pointed to given target...',
+            '.my-hint__content': 'This hint is pointed to given target...',
         },
+        position: 'bottom-left',
     }],
-    hint: document.querySelector('#hint'),
+    hint: {
+      component: document.getElementById('hint'),
+    },
 });
 
 myTour.start();

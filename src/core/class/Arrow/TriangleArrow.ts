@@ -50,8 +50,8 @@ export class TriangleArrow implements IArrow {
     private _updatePosition(config: IArrowConfig, { hintRect, position }: any) {
         const size = config.size;
         const halfOfArrowWidth = (size * Math.sqrt(2)) / 2;
-        const offsetX = Math.max(halfOfArrowWidth, config.offsetX);
-        const offsetY = Math.max(halfOfArrowWidth, config.offsetY);
+        const offsetX = Math.max(size, config.offsetX);
+        const offsetY = Math.max(size, config.offsetY);
 
         switch (position) {
             case Position.Top:

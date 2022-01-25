@@ -1,8 +1,19 @@
 {
     "name": "newbie.js",
-    "version": "0.0.2",
-    "description": "",
-    "main": "index.js",
+    "version": "0.0.3",
+    "description": "Meet the most flexible tour library!",
+    "keywords": ["tour", "guide", "quick guide", "getting started", "get started"],
+    "homepage": "https://github.com/cosmas375/newbie.js",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/cosmas375/newbie.js/issues"
+    },
+    "author": "Roman Lyakhovchik <roman.lyakhovchik@gmail.com>",
+    "main": "src/entry-vue.ts",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/cosmas375/newbie.js.git"
+    },
     "scripts": {
         "build": "npm run build:vanilla && npm run build:vue && npm run build:cdn",
         "build:vanilla": "sh build-vanilla.sh",
@@ -16,16 +27,6 @@
         "test-watch:unit": "jest --watchAll",
         "test-watch:e2e": "./node_modules/.bin/cypress open"
     },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/cosmas375/newbie.js.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/cosmas375/newbie.js/issues"
-    },
-    "homepage": "https://github.com/cosmas375/newbie.js",
     "devDependencies": {
         "@babel/core": "^7.16.0",
         "@babel/preset-env": "^7.16.4",
@@ -51,6 +52,5 @@
         "webpack-cli": "^4.9.1",
         "webpack-dev-server": "^4.7.1",
         "webpack-merge": "^5.8.0"
-    },
-    "dependencies": {}
+    }
 }
