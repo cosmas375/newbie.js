@@ -34,7 +34,7 @@ module.exports = {
     },
     output: {
         filename: 'newbie.js',
-        path: path.resolve('./dist/vanilla'),
+        path: path.resolve('./dist/cdn'),
     },
     resolve: {
         modules: ['node_modules'],

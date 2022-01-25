@@ -1,2 +1,2 @@
-npm run build:cdn &&
+npm run build &&
 npm publish --access=public

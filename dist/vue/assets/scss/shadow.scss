@@ -1,0 +1,39 @@
+@import './variables';
+
+.newbie-shadow {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: $z-index-shadow;
+
+    &_visible {
+        display: block;
+    }
+
+    &__svg {
+        pointer-events: none;
+    }
+
+    &__overlay {
+        position: fixed;
+        background-color: transparent;
+
+        &_top {
+            width: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        &_bottom {
+            width: 100%;
+            left: 0;
+        }
+
+        &_left {
+            left: 0;
+        }
+    }
+}
