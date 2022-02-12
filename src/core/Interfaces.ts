@@ -87,7 +87,7 @@ export interface IShadowConfig {
     color?: string;
     offset?: number;
     borderRadius?: number;
-    rootComponent?: HTMLElement;
+    rootComponent?: HTMLElement; // TODO: move it to the root
     disableScroll?: boolean;
 }
 

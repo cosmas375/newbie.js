@@ -2,30 +2,6 @@
 
 _Notes:_
 
-<<<<<<< HEAD
-Newbie's configuration is based on params inheritance. This means that some param can be set in global config and overrided in step's one. These params are marked as **Heritable**. This is what config looks like:
-
-```
-{
-    ...
-    shadow: {
-        offset: 10, // set shadow offset for all steps
-    },
-    ...
-    steps: [
-        ...
-        {
-            shadow: {
-                offset: 0, // override shadow offset for single step
-            }
-        },
-        ...
-    ]
-}
-```
-
-> # You can find important notes by blocks of this type.
-
 -   The configuration is based on params inheritance. This means that some param can be set in global config and overrided in step's one. For example:
 
     ```
@@ -50,22 +26,12 @@ Newbie's configuration is based on params inheritance. This means that some para
     These params are marked as **Heritable**.
 
 -   > You can find important notes in blocks of this type.
-    >
-    > > > > > > > master
 
 ---
 
 ---
-
-<<<<<<< HEAD
-
-## Here's what Newbie config is:
-
-=======
 
 ## Config:
-
-> > > > > > > master
 
 ---
 
@@ -102,12 +68,7 @@ Newbie's configuration is based on params inheritance. This means that some para
 
         > Depends on framework!
 
-<<<<<<< HEAD
-For **vanilla** version it looks like this:  
- `{ '.title': 'Title of my awesome hint!', '.content': 'Content of my awesome hint!', ... }`,  
- e.g. key is selector, value is string.
-=======
-For **vanilla** version it looks like this:
+        For **vanilla** version it looks like this:
 
         ```
         {
@@ -117,7 +78,7 @@ For **vanilla** version it looks like this:
         }
         ```
 
-        e.g. key is css-selector, value is string.
+        e.g. key is css-selector, value is string.  
         In this case content will be applied by setting `innerText`. If you want to set `innerHTML`, you need to pass an object containing `useHtml` set to `true` and `text` with your HTML code, like:
 
         ```
@@ -131,21 +92,19 @@ For **vanilla** version it looks like this:
         }
         ```
 
-> > > > > > > master
-
         For **Vue** version, this object is passes as `propsData` to hint component.
 
         ***
 
-    -   beforeMount: _async function_
+    -   beforeMount: _async function()_  
         _Defaults to `() => {}`_
 
         This hook will be called asynchronously before mounting the step.
 
         ***
 
-    -   mounted: _async function(targetElement: HTMLElement)_
-        _Defaults to `targetElement => {}`_
+    -   mounted: _async function(targetElement: HTMLElement)_  
+        _Defaults to `targetElement => {}`_  
         _Parameters:_
 
         -   `targetElement` - as you might guess it's target element provided in config
@@ -154,8 +113,8 @@ For **vanilla** version it looks like this:
 
         ***
 
-    -   beforeUnmount: _async function(targetElement: HTMLElement)_
-        _Defaults to `targetElement => {}`_
+    -   beforeUnmount: _async function(targetElement: HTMLElement)_  
+        _Defaults to `targetElement => {}`_  
         _Parameters:_
 
         -   `targetElement` - as you might guess it's target element provided in config
@@ -164,7 +123,7 @@ For **vanilla** version it looks like this:
 
         ***
 
-    -   unmounted: _async function_
+    -   unmounted: _async function()_  
         _Defaults to `() => {}`_
 
         This hook will be called asynchronously after unmounting the step.
@@ -204,12 +163,18 @@ For **vanilla** version it looks like this:
 -   **hint**: [IHintConfig](#hint-config) - **Heritable**
 
     > Important!  
-    > This field must be present in global configuration object or in config of each step!  
-    > Depends on framework!
+    > This field must be present in global configuration object or in config of each step!
 
-    For **vanilla** version it must be an HTML element.
+    #### IShadowConfig
 
-    For **Vue** version it must be a Vue component.
+    -   component: _boolean_  
+        _Defaults to `true`_
+
+        > Depends on framework!
+
+        For **vanilla** version it must be an HTML element.
+
+        For **Vue** version it must be a Vue component.
 
 ---
 
@@ -237,12 +202,12 @@ For **vanilla** version it looks like this:
         ***
 
     -   offsetX: _number_  
-         _Defaults to `10`_
+         _Defaults to `0`_
 
         ***
 
     -   offsetY: _number_  
-         _Defaults to `10`_
+         _Defaults to `0`_
 
 ---
 
@@ -291,7 +256,7 @@ For **vanilla** version it looks like this:
 
 -   **transitionDuration**: _string_ - **Heritable**
 
-    _Defaults to `300`_
+    _Defaults to `200`_
 
 ---
 

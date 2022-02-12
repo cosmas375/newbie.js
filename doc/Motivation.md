@@ -75,10 +75,10 @@ That's why we decided to use lificycle hooks for steps and tour in general. Thes
 
 -   ## $$$
 
-**newbie.js** is completely free :)
+**newbie.js** is completely free ;)
 
 ---
 
-I think it's enough for now :)
+I think it's enough for now...
 
 If you have any poblems that are not listed here, please contact us.
