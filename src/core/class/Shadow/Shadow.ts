@@ -17,6 +17,8 @@ export class Shadow implements IShadow {
         }
     }
 
+    public reset() {}
+
     private _disableScroll() {
         this._config.rootComponent.style.overflow = 'hidden';
     }

@@ -53,6 +53,17 @@ export class SvgShadow extends Shadow {
         window.removeEventListener('resize', this._resizeCallback);
     }
 
+    public reset() {
+        this._x = null;
+        this._y = null;
+        this._width = null;
+        this._height = null;
+        this._rx = null;
+        this._ry = null;
+        this._color = null;
+        this._resetAnimations();
+    }
+
     private _createElements() {
         this._createSvgElements();
         this._createOverlayElements();
