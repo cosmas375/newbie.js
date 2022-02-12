@@ -9,7 +9,7 @@
 
 <script>
 import Hint from './components/Hint.vue';
-import Newbie from '../../../dist/vue';
+import Newbie from '../../../src/entry-vue';
 
 export default {
     name: 'App',
@@ -119,7 +119,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../../dist/vue/assets/scss/style';
+@import '../../../src/assets/scss/style';
 
 #app {
     height: 200vh;
