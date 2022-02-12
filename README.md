@@ -4,22 +4,33 @@ Meet the most flexible tour library!
 
 ## Where to get
 
-You can get Newbie from:
+You can get Newbie.js from:
 
-1. CDN
-
-```
-<script src="">
-```
+### 1. CDN
 
 ```
-<script src="">
+<script src="https://unpkg.com/newbie.js/dist/cdn/newbie.js">
+<link rel="stylesheet" href="https://unpkg.com/newbie.js/dist/cdn/newbie.css"/>
 ```
 
-2. npm
+### 2. npm
+
+Run:
 
 ```
 npm install newbie.js --save
+```
+
+and then import js:
+
+```
+import Newbie from 'newbie.js/dist/vue';
+```
+
+and scss:
+
+```
+@import '~newbie.js/dist/vue/assets/scss/style';
 ```
 
 ## Getting started
@@ -27,13 +38,21 @@ npm install newbie.js --save
 Import css and js:
 
 ```
-<link rel="stylesheet" href="newbie.css" />
-<script src="newbie.js"></script>
+<script src="https://unpkg.com/newbie.js/dist/cdn/newbie.js">
+<link rel="stylesheet" href="https://unpkg.com/newbie.js/dist/cdn/newbie.css"/>
 ```
 
 Add hint layout:
 
 ```
+<style>
+#hint {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+</style>
+<span id="target">Hint target</span>
 <div id="hint" class="my-hint">
     <div class="my-hint__content"></div>
     <button
@@ -50,11 +69,21 @@ Add hint layout:
 And then you can create the tour:
 
 ```
-const myTour = new Newbie({
+const myTour = new window.Newbie({
     steps: [{
-        'my-hint__content': 'My first hint content',
+        content: {
+            '.my-hint__content': 'Hi there!',
+        },
+    }, {
+        target: '#target',
+        content: {
+            '.my-hint__content': 'This hint is pointed to given target...',
+        },
+        position: 'bottom-left',
     }],
-    hint: document.querySelector('#hint'),
+    hint: {
+      component: document.getElementById('hint'),
+    },
 });
 
 myTour.start();
@@ -64,5 +93,5 @@ And that's it!
 
 ## Documentation
 
-It's not ready yet ):  
+It's not ready ):  
 But you can find drafts [here](https://github.com/cosmas375/newbie.js/tree/master/doc).

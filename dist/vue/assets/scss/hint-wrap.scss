@@ -1,0 +1,18 @@
+@import './variables';
+
+.newbie-hint-wrap {
+    position: absolute;
+    display: flex;
+    width: 0;
+    height: 0;
+    z-index: $z-index-hint;
+
+    &__inner {
+        position: absolute;
+        display: flex;
+    }
+
+    .newbie-hint {
+        display: block;
+    }
+}
