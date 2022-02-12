@@ -159,12 +159,14 @@ export class SvgShadow extends Shadow {
 
     private _updateSvg() {
         const color = this._config.color;
-        let x = String(window.innerWidth / 2);
-        let y = String(window.innerHeight / 2);
-        let width = String(0);
-        let height = String(0);
-        let rx = String(0);
-        let ry = String(0);
+        let x = null;
+        let y = null;
+        let width = null;
+        let height = null;
+        let rx = null;
+        let ry = null;
+
+        this._resetAnimations();
 
         if (this._targetElement) {
             const targetRect = this._targetElement.getBoundingClientRect();
@@ -174,61 +176,69 @@ export class SvgShadow extends Shadow {
             height = String(targetRect.height + 2 * this._config.offset);
             rx = String(this._config.borderRadius);
             ry = String(this._config.borderRadius);
+
+            this._svgRoot.append(
+                this._createAnimation({
+                    targetId: `#${this._shadowId}`,
+                    attribute: 'fill',
+                    from: this._color === null ? color : this._color,
+                    to: color,
+                    duration: getTransitionDuration(this._transitionDuration),
+                }),
+                this._createAnimation({
+                    targetId: `#${this._blackId}`,
+                    attribute: 'x',
+                    from: this._x === null ? x : this._x,
+                    to: x,
+                    duration: getTransitionDuration(this._transitionDuration),
+                }),
+                this._createAnimation({
+                    targetId: `#${this._blackId}`,
+                    attribute: 'y',
+                    from: this._y === null ? y : this._y,
+                    to: y,
+                    duration: getTransitionDuration(this._transitionDuration),
+                }),
+                this._createAnimation({
+                    targetId: `#${this._blackId}`,
+                    attribute: 'width',
+                    from: this._width === null ? width : this._width,
+                    to: width,
+                    duration: getTransitionDuration(this._transitionDuration),
+                }),
+                this._createAnimation({
+                    targetId: `#${this._blackId}`,
+                    attribute: 'height',
+                    from: this._height === null ? height : this._height,
+                    to: height,
+                    duration: getTransitionDuration(this._transitionDuration),
+                }),
+                this._createAnimation({
+                    targetId: `#${this._blackId}`,
+                    attribute: 'rx',
+                    from: this._rx === null ? rx : this._rx,
+                    to: rx,
+                    duration: getTransitionDuration(this._transitionDuration),
+                }),
+                this._createAnimation({
+                    targetId: `#${this._blackId}`,
+                    attribute: 'ry',
+                    from: this._ry === null ? ry : this._ry,
+                    to: ry,
+                    duration: getTransitionDuration(this._transitionDuration),
+                })
+            );
+        } else {
+            this._svgRoot.append(
+                this._createAnimation({
+                    targetId: `#${this._shadowId}`,
+                    attribute: 'fill',
+                    from: this._color === null ? color : this._color,
+                    to: color,
+                    duration: getTransitionDuration(this._transitionDuration),
+                })
+            );
         }
-
-        this._resetAnimations();
-
-        this._svgRoot.append(
-            this._createAnimation({
-                targetId: `#${this._shadowId}`,
-                attribute: 'fill',
-                from: this._color === null ? color : this._color,
-                to: color,
-                duration: getTransitionDuration(this._transitionDuration),
-            }),
-            this._createAnimation({
-                targetId: `#${this._blackId}`,
-                attribute: 'x',
-                from: this._x === null ? x : this._x,
-                to: x,
-                duration: getTransitionDuration(this._transitionDuration),
-            }),
-            this._createAnimation({
-                targetId: `#${this._blackId}`,
-                attribute: 'y',
-                from: this._y === null ? y : this._y,
-                to: y,
-                duration: getTransitionDuration(this._transitionDuration),
-            }),
-            this._createAnimation({
-                targetId: `#${this._blackId}`,
-                attribute: 'width',
-                from: this._width === null ? width : this._width,
-                to: width,
-                duration: getTransitionDuration(this._transitionDuration),
-            }),
-            this._createAnimation({
-                targetId: `#${this._blackId}`,
-                attribute: 'height',
-                from: this._height === null ? height : this._height,
-                to: height,
-                duration: getTransitionDuration(this._transitionDuration),
-            }),
-            this._createAnimation({
-                targetId: `#${this._blackId}`,
-                attribute: 'rx',
-                from: this._rx === null ? rx : this._rx,
-                to: rx,
-                duration: getTransitionDuration(this._transitionDuration),
-            }),
-            this._createAnimation({
-                targetId: `#${this._blackId}`,
-                attribute: 'ry',
-                from: this._ry === null ? ry : this._ry,
-                to: ry,
-                duration: getTransitionDuration(this._transitionDuration),
-            })
-        );
 
         this._x = x;
         this._y = y;
