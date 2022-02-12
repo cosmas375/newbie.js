@@ -41,14 +41,6 @@ export class StepContainer {
         window.removeEventListener('resize', this._resizeCallback);
     }
 
-    public show(): void {
-        this._container.classList.add(ClassNames.HINT_WRAP_VISIBLE);
-    }
-
-    public hide(): void {
-        this._container.classList.add(ClassNames.HINT_WRAP_VISIBLE);
-    }
-
     public append(elem: HTMLElement): void {
         if (!elem) {
             return;
@@ -59,9 +51,9 @@ export class StepContainer {
     private _createComponents(settings: any) {
         const wrap = document.createElement('div');
         wrap.classList.add(ClassNames.HINT_WRAP);
-        wrap.style.transition = `all ${getTransitionDuration(
+        wrap.style.transitionDuration = getTransitionDuration(
             settings.transitionDuration
-        )} linear`;
+        );
         const inner = document.createElement('div');
         inner.classList.add(ClassNames.HINT_WRAP_INNER);
         wrap.append(inner);
