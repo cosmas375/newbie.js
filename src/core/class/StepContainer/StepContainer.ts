@@ -72,11 +72,12 @@ export class StepContainer {
 
     private _updatePosition() {
         if (!this._targetElement) {
-            this._container.style.position = 'fixed';
             this._container.style.alignItems = 'center';
             this._container.style.justifyContent = 'center';
             setPosition(this._container, {
-                top: px(window.innerHeight / 2),
+                top: px(
+                    document.documentElement.scrollTop + window.innerHeight / 2
+                ),
                 left: px(window.innerWidth / 2),
             });
             setPosition(this._slot, {});
