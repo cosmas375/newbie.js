@@ -1,8 +1,11 @@
+@import './variables';
+
 .newbie-arrow {
     display: none;
     position: absolute;
     transform-origin: center;
     transform: rotate(45deg);
+    z-index: $z-index-arrow;
 
     &_visible {
         display: block;
