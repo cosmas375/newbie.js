@@ -12,13 +12,13 @@ _Notes:_
         },
         ...
         steps: [
-            ...
             {
+                ...
                 shadow: {
                     offset: 0, // override shadow offset for single step
                 }
-            },
-            ...
+                ...
+            }
         ]
     }
     ```
