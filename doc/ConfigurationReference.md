@@ -12,13 +12,13 @@ _Notes:_
         },
         ...
         steps: [
-            ...
             {
+                ...
                 shadow: {
                     offset: 0, // override shadow offset for single step
                 }
-            },
-            ...
+                ...
+            }
         ]
     }
     ```
@@ -96,7 +96,7 @@ _Notes:_
 
         ***
 
-    -   beforeMount: _async function_  
+    -   beforeMount: _async function()_  
         _Defaults to `() => {}`_
 
         This hook will be called asynchronously before mounting the step.
@@ -123,7 +123,7 @@ _Notes:_
 
         ***
 
-    -   unmounted: _async function_  
+    -   unmounted: _async function()_  
         _Defaults to `() => {}`_
 
         This hook will be called asynchronously after unmounting the step.
@@ -163,12 +163,18 @@ _Notes:_
 -   **hint**: [IHintConfig](#hint-config) - **Heritable**
 
     > Important!  
-    > This field must be present in global configuration object or in config of each step!  
-    > Depends on framework!
+    > This field must be present in global configuration object or in config of each step!
 
-    For **vanilla** version it must be an HTML element.
+    #### IShadowConfig
 
-    For **Vue** version it must be a Vue component.
+    -   component: _boolean_  
+        _Defaults to `true`_
+
+        > Depends on framework!
+
+        For **vanilla** version it must be an HTML element.
+
+        For **Vue** version it must be a Vue component.
 
 ---
 
@@ -196,12 +202,12 @@ _Notes:_
         ***
 
     -   offsetX: _number_  
-         _Defaults to `10`_
+         _Defaults to `0`_
 
         ***
 
     -   offsetY: _number_  
-         _Defaults to `10`_
+         _Defaults to `0`_
 
 ---
 
@@ -250,7 +256,7 @@ _Notes:_
 
 -   **transitionDuration**: _string_ - **Heritable**
 
-    _Defaults to `300`_
+    _Defaults to `200`_
 
 ---
 

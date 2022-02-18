@@ -94,6 +94,10 @@ export class Step implements IStep {
         this._unmounted();
     }
 
+    public reset(): void {
+        this._shadow.reset();
+    }
+
     private _createStepContainer() {
         this._stepContainer = Globals.componentsFactory.createStepContainer({
             transitionDuration: this._transitionDuration,

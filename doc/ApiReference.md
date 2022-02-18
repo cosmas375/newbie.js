@@ -30,7 +30,13 @@ nextBtn.addEventListener('click', nextCallback);
 
 ## Vanilla way:
 
-Mark your buttons with specific data-attributes to let the library add default event listeners: `data-newbie-go-next`, `data-newbie-go-previous`, `data-newbie-stop`.
+Mark your buttons with specific data-attributes to let the library add default event listeners:
+
+`data-newbie-go-next`
+
+`data-newbie-go-previous`
+
+`data-newbie-stop`
 
 This would look like:
 

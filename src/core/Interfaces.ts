@@ -14,6 +14,7 @@ export interface IStep {
     id: string;
     mount(): void;
     unmount(): void;
+    reset(): void;
 }
 
 export interface IConfig {
@@ -43,6 +44,7 @@ export interface IHint {
 export interface IShadow {
     mount(targetElement: HTMLElement, config: IShadowConfig): void;
     unmount(): void;
+    reset(): void;
 }
 
 export interface IArrow {
@@ -85,7 +87,7 @@ export interface IShadowConfig {
     color?: string;
     offset?: number;
     borderRadius?: number;
-    rootComponent?: HTMLElement;
+    rootComponent?: HTMLElement; // TODO: move it to the root
     disableScroll?: boolean;
 }
 

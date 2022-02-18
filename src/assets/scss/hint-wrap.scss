@@ -5,7 +5,7 @@
     display: flex;
     width: 0;
     height: 0;
-    z-index: $z-index-hint;
+    z-index: $z-index-hint-wrap;
 
     &__inner {
         position: absolute;
@@ -14,5 +14,6 @@
 
     .newbie-hint {
         display: block;
+        z-index: $z-index-hint;
     }
 }

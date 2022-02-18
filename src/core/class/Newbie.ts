@@ -95,6 +95,8 @@ export class Newbie implements INewbie {
             this._currentStep = null;
         }
 
+        this._reset();
+
         this._finished();
     }
 
@@ -133,5 +135,14 @@ export class Newbie implements INewbie {
         this._started = getCallback(config.started);
         this._beforeFinish = getCallback(config.beforeFinish);
         this._finished = getCallback(config.finished);
+    }
+
+    private _reset() {
+        let step = this._steps.getFirst();
+
+        while (step) {
+            step.value.reset();
+            step = step.next;
+        }
     }
 }

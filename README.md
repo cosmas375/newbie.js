@@ -2,6 +2,12 @@
 
 Meet the most flexible tour library!
 
+[Motivation](https://github.com/cosmas375/newbie.js/tree/master/doc/Motivation.md)
+
+---
+
+---
+
 ## Where to get
 
 You can get Newbie.js from:
@@ -12,6 +18,8 @@ You can get Newbie.js from:
 <script src="https://unpkg.com/newbie.js/dist/cdn/newbie.js">
 <link rel="stylesheet" href="https://unpkg.com/newbie.js/dist/cdn/newbie.css"/>
 ```
+
+---
 
 ### 2. npm
 
@@ -33,6 +41,10 @@ and scss:
 @import '~newbie.js/dist/vue/assets/scss/style';
 ```
 
+---
+
+---
+
 ## Getting started
 
 Import css and js:
@@ -42,7 +54,7 @@ Import css and js:
 <link rel="stylesheet" href="https://unpkg.com/newbie.js/dist/cdn/newbie.css"/>
 ```
 
-Add hint layout:
+Create you hint layout:
 
 ```
 <style>
@@ -66,7 +78,7 @@ Add hint layout:
 </div>
 ```
 
-And then you can create the tour:
+Now you can create the tour:
 
 ```
 const myTour = new window.Newbie({
@@ -91,7 +103,15 @@ myTour.start();
 
 And that's it!
 
+---
+
+---
+
 ## Documentation
 
-It's not ready ):  
-But you can find drafts [here](https://github.com/cosmas375/newbie.js/tree/master/doc).
+[API reference](https://github.com/cosmas375/newbie.js/tree/master/doc/ApiReference.md)
+
+[Configuration reference](https://github.com/cosmas375/newbie.js/tree/master/doc/ConfigurationReference.md)
+
+And if you missed in the beginning:  
+[Motivation](https://github.com/cosmas375/newbie.js/tree/master/doc/Motivation.md)
