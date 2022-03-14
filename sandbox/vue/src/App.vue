@@ -1,6 +1,7 @@
 <template>
     <div id="app">
         <button @click="doStart" id="start">start</button>
+        <div data-newbie-target="center">center</div>
         <div data-newbie-target="1">1</div>
         <div data-newbie-target="2">2</div>
         <div data-newbie-target="3">3</div>
@@ -45,19 +46,115 @@ export default {
                 size: 5,
             },
             steps: [
+                // {
+                //     id: '666',
+                //     content: {
+                //         title: 'popup',
+                //         content: 'Must be centered if no target specified',
+                //     },
+                //     position: 'bottom',
+                //     offsetX: 1,
+                //     offsetY: 40,
+                //     shadow: {
+                //         offset: 10,
+                //         borderRadius: 22,
+                //     },
+                // },
                 {
-                    id: '666',
+                    id: 'top-left',
+                    target: '[data-newbie-target="center"]',
                     content: {
-                        title: 'popup',
-                        content: 'Must be centered if no target specified',
+                        content: 'top-left',
+                    },
+                    position: 'top-left',
+                },
+                {
+                    id: 'top',
+                    target: '[data-newbie-target="center"]',
+                    content: {
+                        content: 'top',
+                    },
+                    position: 'top',
+                },
+                {
+                    id: 'top-right',
+                    target: '[data-newbie-target="center"]',
+                    content: {
+                        content: 'top-right',
+                    },
+                    position: 'top-right',
+                },
+                {
+                    id: 'right-top',
+                    target: '[data-newbie-target="center"]',
+                    content: {
+                        content: 'right-top',
+                    },
+                    position: 'right-top',
+                },
+                {
+                    id: 'right',
+                    target: '[data-newbie-target="center"]',
+                    content: {
+                        content: 'right',
+                    },
+                    position: 'right',
+                },
+                {
+                    id: 'right-bottom',
+                    target: '[data-newbie-target="center"]',
+                    content: {
+                        content: 'right-bottom',
+                    },
+                    position: 'right-bottom',
+                },
+                {
+                    id: 'bottom-right',
+                    target: '[data-newbie-target="center"]',
+                    content: {
+                        content: 'bottom-right',
+                    },
+                    position: 'bottom-right',
+                },
+                {
+                    id: 'bottom',
+                    target: '[data-newbie-target="center"]',
+                    content: {
+                        content: 'bottom',
                     },
                     position: 'bottom',
-                    offsetX: 1,
-                    offsetY: 40,
-                    shadow: {
-                        offset: 10,
-                        borderRadius: 22,
+                },
+                {
+                    id: 'bottom-left',
+                    target: '[data-newbie-target="center"]',
+                    content: {
+                        content: 'bottom-left',
                     },
+                    position: 'bottom-left',
+                },
+                {
+                    id: 'left-bottom',
+                    target: '[data-newbie-target="center"]',
+                    content: {
+                        content: 'left-bottom',
+                    },
+                    position: 'left-bottom',
+                },
+                {
+                    id: 'left',
+                    target: '[data-newbie-target="center"]',
+                    content: {
+                        content: 'left',
+                    },
+                    position: 'left',
+                },
+                {
+                    id: 'left-top',
+                    target: '[data-newbie-target="center"]',
+                    content: {
+                        content: 'left-top',
+                    },
+                    position: 'left-top',
                 },
                 {
                     id: '0',
@@ -138,6 +235,15 @@ export default {
         align-items: center;
         justify-content: center;
         font-size: 16px;
+    }
+
+    [data-newbie-target='center'] {
+        $size: 200px;
+        width: $size;
+        height: $size;
+        top: calc(50vh - $size / 2);
+        left: calc(50vw - $size / 2);
+        background-color: rgb(255, 168, 168);
     }
 
     [data-newbie-target='1'] {
