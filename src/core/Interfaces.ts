@@ -17,6 +17,12 @@ export interface IStep {
     reset(): void;
 }
 
+export interface IStepView {
+    mount(): void;
+    unmount(): void;
+    reset(): void;
+}
+
 export interface IConfig {
     config: INewbieConfig;
     validate(): string | null;
@@ -35,8 +41,7 @@ export interface IHintFactory {
 }
 
 export interface IHint {
-    elem: HTMLElement;
-    mount(): void;
+    mount(): HTMLElement | null;
     unmount(): void;
     setContent(content: object): void;
 }
@@ -48,8 +53,7 @@ export interface IShadow {
 }
 
 export interface IArrow {
-    elem: TElement;
-    mount(config: IArrowConfig, settings: object): void;
+    mount(config: IArrowConfig): HTMLElement | null;
     unmount(): void;
 }
 
@@ -66,20 +70,20 @@ export interface ICommonConfig {
 
 export interface INewbieConfig extends ICommonConfig {
     steps: IStepConfig[];
-    beforeStart?(): TNewbieCallback;
-    started?(): TNewbieCallback;
-    beforeFinish?(): TNewbieCallback;
-    finished?(): TNewbieCallback;
+    beforeStart?(): TCallback;
+    started?(): TCallback;
+    beforeFinish?(): TCallback;
+    finished?(): TCallback;
 }
 
 export interface IStepConfig extends ICommonConfig {
     id: string;
-    target: TStepTarget;
+    target: TElement;
     content?: object;
-    beforeMount?(): TStepCallback;
-    mounted?(targetElement: HTMLElement): TStepCallback;
-    beforeUnmount?(targetElement: HTMLElement): TStepCallback;
-    unmounted?(): TStepCallback;
+    beforeMount?(): TCallback;
+    mounted?(targetElement: HTMLElement): TCallback;
+    beforeUnmount?(targetElement: HTMLElement): TCallback;
+    unmounted?(): TCallback;
 }
 
 export interface IShadowConfig {
@@ -99,8 +103,7 @@ export interface IArrowConfig {
     enabled: boolean;
     size?: number;
     color?: string;
-    offsetX?: number;
-    offsetY?: number;
+    padding?: number;
 }
 // end config
 
@@ -112,12 +115,8 @@ export interface IHintSettings {
 
 export type TElement = HTMLElement | null;
 
-export type TNewbieCallback = void;
-
-export type TStepCallback = void;
+export type TCallback = Promise<void>;
 
 export interface IStepCalllbacks {
     onTargetNotFound?(): void;
 }
-
-export type TStepTarget = HTMLElement;

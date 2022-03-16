@@ -43,23 +43,24 @@ export default {
             },
             arrow: {
                 type: 'triangle',
-                size: 5,
+                size: 20,
+                padding: 10,
             },
             steps: [
-                // {
-                //     id: '666',
-                //     content: {
-                //         title: 'popup',
-                //         content: 'Must be centered if no target specified',
-                //     },
-                //     position: 'bottom',
-                //     offsetX: 1,
-                //     offsetY: 40,
-                //     shadow: {
-                //         offset: 10,
-                //         borderRadius: 22,
-                //     },
-                // },
+                {
+                    id: '666',
+                    content: {
+                        title: 'popup',
+                        content: 'Must be centered if no target specified',
+                    },
+                    position: 'bottom',
+                    offsetX: 1,
+                    offsetY: 40,
+                    shadow: {
+                        offset: 10,
+                        borderRadius: 22,
+                    },
+                },
                 {
                     id: 'top-left',
                     target: '[data-newbie-target="center"]',

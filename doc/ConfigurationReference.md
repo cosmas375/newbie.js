@@ -103,21 +103,17 @@ _Notes:_
 
         ***
 
-    -   mounted: _async function(targetElement: HTMLElement)_  
+    -   mounted: _async function()_  
         _Defaults to `targetElement => {}`_  
         _Parameters:_
-
-        -   `targetElement` - as you might guess it's target element provided in config
 
         This hook will be called asynchronously when the step is fully mounted.
 
         ***
 
-    -   beforeUnmount: _async function(targetElement: HTMLElement)_  
+    -   beforeUnmount: _async function()_  
         _Defaults to `targetElement => {}`_  
         _Parameters:_
-
-        -   `targetElement` - as you might guess it's target element provided in config
 
         This hook will be called asynchronously when the step is fully mounted.
 
@@ -201,12 +197,7 @@ _Notes:_
 
         ***
 
-    -   offsetX: _number_  
-         _Defaults to `0`_
-
-        ***
-
-    -   offsetY: _number_  
+    -   padding: _number_  
          _Defaults to `0`_
 
 ---
@@ -237,7 +228,7 @@ _Notes:_
 ---
 
 -   **offsetX**: _number_ - **Heritable**  
-    _Defaults to `10`_
+    _Defaults to `0`_
 
     Horizontal offset (_px_) of hint position.
 
@@ -246,7 +237,7 @@ _Notes:_
 ---
 
 -   **offsetY**: _string_ - **Heritable**  
-    _Defaults to `10`_
+    _Defaults to `0`_
 
     Vertical offset (_px_) of hint position.
 

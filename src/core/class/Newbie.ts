@@ -1,10 +1,4 @@
-import {
-    IConfig,
-    INewbie,
-    INewbieConfig,
-    IStep,
-    TNewbieCallback,
-} from '../Interfaces';
+import { IConfig, INewbie, INewbieConfig, IStep } from '../Interfaces';
 import { Config } from './Config';
 import { Step } from './Step';
 import { ILinkedList, INode, LinkedList } from '../helpers/LinkedList';
@@ -15,11 +9,7 @@ import _warn from '../utils/warn';
 export class Newbie implements INewbie {
     private _steps: ILinkedList<IStep>;
     private _config: IConfig;
-
-    private _beforeStart(): TNewbieCallback {}
-    private _started(): TNewbieCallback {}
-    private _beforeFinish(): TNewbieCallback {}
-    private _finished(): TNewbieCallback {}
+    private _lifecycleHooks;
 
     private _currentStep: INode | null = null;
 
@@ -35,12 +25,12 @@ export class Newbie implements INewbie {
         this._setLifeCycleHooks();
     }
 
-    public start(): void {
-        this._beforeStart();
+    public async start(): Promise<void> {
+        await this._lifecycleHooks.beforeStart();
 
         this._goTo(this._steps.getFirst());
 
-        this._started();
+        await this._lifecycleHooks.started();
     }
 
     public goNext(): void {
@@ -87,8 +77,8 @@ export class Newbie implements INewbie {
         this._goTo(step);
     }
 
-    public stop(): void {
-        this._beforeFinish();
+    public async stop(): Promise<void> {
+        await this._lifecycleHooks.beforeFinish();
 
         if (this._currentStep) {
             this._currentStep.value.unmount();
@@ -97,7 +87,7 @@ export class Newbie implements INewbie {
 
         this._reset();
 
-        this._finished();
+        await this._lifecycleHooks.finished();
     }
 
     private _goTo(step: INode): void {
@@ -131,10 +121,12 @@ export class Newbie implements INewbie {
 
     private _setLifeCycleHooks(): void {
         const config = this._config.config;
-        this._beforeStart = getCallback(config.beforeStart);
-        this._started = getCallback(config.started);
-        this._beforeFinish = getCallback(config.beforeFinish);
-        this._finished = getCallback(config.finished);
+        this._lifecycleHooks = {
+            beforeStart: getCallback(config.beforeStart),
+            started: getCallback(config.started),
+            beforeFinish: getCallback(config.beforeFinish),
+            finished: getCallback(config.finished),
+        };
     }
 
     private _reset() {

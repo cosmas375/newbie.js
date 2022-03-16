@@ -2,8 +2,8 @@ import { Position } from './Position';
 
 export const DEFAULT_VALUES = {
     position: Position.Bottom,
-    offsetX: 15,
-    offsetY: 15,
+    offsetX: 0,
+    offsetY: 0,
     transitionDuration: 200,
     shadow: {
         enabled: true,
