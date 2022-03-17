@@ -26,5 +26,6 @@
 
     .newbie-hint {
         display: block;
+        z-index: $z-index-hint;
     }
 }

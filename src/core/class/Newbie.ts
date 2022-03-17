@@ -137,4 +137,13 @@ export class Newbie implements INewbie {
             step = step.next;
         }
     }
+
+    private _reset() {
+        let step = this._steps.getFirst();
+
+        while (step) {
+            step.value.reset();
+            step = step.next;
+        }
+    }
 }
