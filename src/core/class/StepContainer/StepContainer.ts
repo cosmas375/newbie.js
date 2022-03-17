@@ -21,9 +21,7 @@ export class StepContainer {
 
     constructor(settings: object) {
         this._createComponents(settings);
-        this._resizeCallback = debounce(this._updatePosition.bind(this)).bind(
-            this
-        );
+        this._resizeCallback = debounce(this._updatePosition).bind(this);
         document.body.append(this._wrap);
     }
 

@@ -28,12 +28,12 @@ export class Newbie implements INewbie {
     public async start(): Promise<void> {
         await this._lifecycleHooks.beforeStart();
 
-        this._goTo(this._steps.getFirst());
+        await this._goTo(this._steps.getFirst());
 
         await this._lifecycleHooks.started();
     }
 
-    public goNext(): void {
+    public async goNext(): Promise<void> {
         if (!this._currentStep) {
             return;
         }
@@ -41,14 +41,14 @@ export class Newbie implements INewbie {
         const nextStep = this._currentStep.next;
 
         if (!nextStep) {
-            this.stop();
+            await this.stop();
             return;
         }
 
-        this._goTo(nextStep);
+        await this._goTo(nextStep);
     }
 
-    public goPrevious(): void {
+    public async goPrevious(): Promise<void> {
         if (!this._currentStep) {
             return;
         }
@@ -59,10 +59,10 @@ export class Newbie implements INewbie {
             return;
         }
 
-        this._goTo(previousStep);
+        await this._goTo(previousStep);
     }
 
-    public goTo(id: string): void {
+    public async goTo(id: string): Promise<void> {
         if (!this._currentStep) {
             return;
         }
@@ -74,7 +74,7 @@ export class Newbie implements INewbie {
             return;
         }
 
-        this._goTo(step);
+        await this._goTo(step);
     }
 
     public async stop(): Promise<void> {
@@ -90,13 +90,13 @@ export class Newbie implements INewbie {
         await this._lifecycleHooks.finished();
     }
 
-    private _goTo(step: INode): void {
+    private async _goTo(step: INode): Promise<void> {
         if (this._currentStep) {
             this._currentStep.value.unmount();
         }
 
         this._currentStep = step;
-        this._currentStep.value.mount();
+        await this._currentStep.value.mount();
     }
 
     private _setSteps(): void {
