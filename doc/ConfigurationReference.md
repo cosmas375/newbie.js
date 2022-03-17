@@ -103,17 +103,21 @@ _Notes:_
 
         ***
 
-    -   mounted: _async function()_  
+    -   mounted: _async function(targetElement: HTMLElement)_  
         _Defaults to `targetElement => {}`_  
         _Parameters:_
+
+        -   `targetElement` - as you might guess it's target element provided in config
 
         This hook will be called asynchronously when the step is fully mounted.
 
         ***
 
-    -   beforeUnmount: _async function()_  
+    -   beforeUnmount: _async function(targetElement: HTMLElement)_  
         _Defaults to `targetElement => {}`_  
         _Parameters:_
+
+        -   `targetElement` - as you might guess it's target element provided in config
 
         This hook will be called asynchronously when the step is fully mounted.
 
