@@ -1,7 +1,7 @@
 describe('Hint positioning', () => {
     const targetSelector = '[data-newbie-target="1"]';
     const hintSelector = '#newbie-hint';
-    const defaultOffset = 15;
+    const defaultOffset = 0;
     const round = value => Math.round(value);
 
     beforeEach(function () {

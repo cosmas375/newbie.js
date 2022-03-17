@@ -13,9 +13,10 @@ export class VanillaHint extends Hint {
         this._settings = settings;
     }
 
-    public mount(): void {
+    public mount() {
         this._setContent();
         this._addDefaultEventListeners();
+        return this._component;
     }
 
     public unmount(): void {

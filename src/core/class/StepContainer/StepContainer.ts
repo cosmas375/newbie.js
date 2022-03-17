@@ -1,4 +1,5 @@
 import { ClassNames } from '../../ClassName';
+import { IStepConfig } from '../../Interfaces';
 import { Position } from '../../Position';
 import debounce from '../../utils/debounce';
 import getTransitionDuration from '../../utils/getTransitionDuration';
@@ -10,25 +11,28 @@ export class StepContainer {
     private _position: Position;
     private _offsetX: number;
     private _offsetY: number;
+    private _arrowPadding: number;
 
+    private _wrap: HTMLElement;
     private _container: HTMLElement;
-    private _slot: HTMLElement;
+    private _hintSlot: HTMLElement;
+    private _arrowSlot: HTMLElement;
     private _resizeCallback: any;
 
     constructor(settings: object) {
         this._createComponents(settings);
-        this._resizeCallback = debounce(this._updatePosition.bind(this)).bind(
-            this
-        );
+        this._resizeCallback = debounce(this._updatePosition).bind(this);
+        document.body.append(this._wrap);
     }
 
     public mount(config): void {
-        document.body.append(this._container);
+        this._wrap.classList.add(ClassNames.HINT_WRAP_VISIBLE);
 
         this._targetElement = config.targetElement;
         this._position = config.position;
         this._offsetX = config.offsetX;
         this._offsetY = config.offsetY;
+        this._arrowPadding = config.arrowPadding;
 
         this._updatePosition();
 
@@ -36,16 +40,24 @@ export class StepContainer {
     }
 
     public unmount(): void {
-        this._container.remove();
+        this._wrap.classList.remove(ClassNames.HINT_WRAP_VISIBLE);
 
         window.removeEventListener('resize', this._resizeCallback);
     }
 
-    public append(elem: HTMLElement): void {
+    public appendHint(elem: HTMLElement): void {
+        this._appendToSlot(elem, this._hintSlot);
+    }
+
+    public appendArrow(elem: HTMLElement): void {
+        this._appendToSlot(elem, this._arrowSlot);
+    }
+
+    private _appendToSlot(elem: HTMLElement, slot: HTMLElement): void {
         if (!elem) {
             return;
         }
-        this._slot.append(elem);
+        slot.append(elem);
     }
 
     private _createComponents(settings: any) {
@@ -54,215 +66,304 @@ export class StepContainer {
         wrap.style.transitionDuration = getTransitionDuration(
             settings.transitionDuration
         );
-        const inner = document.createElement('div');
-        inner.classList.add(ClassNames.HINT_WRAP_INNER);
-        wrap.append(inner);
 
-        this._container = wrap;
-        this._slot = inner;
+        const container = document.createElement('div');
+        container.classList.add(ClassNames.HINT_WRAP_CONTAINER);
+        container.style.transitionDuration = getTransitionDuration(
+            settings.transitionDuration
+        );
+        wrap.append(container);
+
+        const hintSlot = document.createElement('div');
+        hintSlot.classList.add(ClassNames.HINT_WRAP_HINT);
+        container.append(hintSlot);
+
+        const arrowSlot = document.createElement('div');
+        arrowSlot.classList.add(ClassNames.HINT_WRAP_ARROW);
+        arrowSlot.style.transitionDuration = getTransitionDuration(
+            settings.transitionDuration
+        );
+        hintSlot.append(arrowSlot);
+
+        this._wrap = wrap;
+        this._container = container;
+        this._arrowSlot = arrowSlot;
+        this._hintSlot = hintSlot;
     }
 
     private _updatePosition() {
+        const hintRect = this._hintSlot.getBoundingClientRect();
+        const hintWidth = hintRect.width;
+        const hintHeight = hintRect.height;
+
+        const arrowRect = this._arrowSlot.getBoundingClientRect();
+        const arrowWidth = arrowRect.width;
+        const arrowHeight = arrowRect.height;
+
         if (!this._targetElement) {
-            this._container.style.alignItems = 'center';
-            this._container.style.justifyContent = 'center';
-            setPosition(this._container, {
+            setPosition(this._wrap, {
                 top: px(
                     document.documentElement.scrollTop + window.innerHeight / 2
                 ),
                 left: px(window.innerWidth / 2),
             });
-            setPosition(this._slot, {});
+            setPosition(this._container, {
+                top: px(-hintHeight / 2),
+                left: px(-hintWidth / 2),
+            });
             return;
         }
 
         const targetRect = this._targetElement.getBoundingClientRect();
 
-        this._container.style.position = 'absolute';
-
         switch (this._position) {
             case Position.Top:
             default:
-                this._container.style.alignItems = 'center';
-                this._container.style.justifyContent = 'center';
-                setPosition(this._container, {
+                setPosition(this._wrap, {
                     top: px(
                         document.documentElement.scrollTop +
                             targetRect.top -
+                            arrowHeight +
                             this._offsetY
                     ),
-                    left: px(targetRect.left + targetRect.width / 2),
+                    left: px(
+                        targetRect.left + targetRect.width / 2 + this._offsetX
+                    ),
                 });
-                setPosition(this._slot, {
-                    bottom: px(0),
+                setPosition(this._container, {
+                    top: px(-hintHeight),
+                    left: px(-hintWidth / 2),
                 });
+                setPosition(this._arrowSlot, {
+                    top: px(hintHeight),
+                    left: px(hintWidth / 2 - arrowWidth / 2),
+                });
+                this._arrowSlot.style.transform = 'rotate(180deg)';
                 break;
             case Position.TopLeft:
-                this._container.style.alignItems = 'center';
-                this._container.style.justifyContent = 'flex-start';
-                setPosition(this._container, {
+                setPosition(this._wrap, {
                     top: px(
                         document.documentElement.scrollTop +
                             targetRect.top -
+                            arrowHeight +
                             this._offsetY
                     ),
-                    left: px(targetRect.left),
+                    left: px(targetRect.left + this._offsetX),
                 });
-                setPosition(this._slot, {
-                    bottom: px(0),
+                setPosition(this._container, {
+                    top: px(-hintHeight),
                     left: px(0),
                 });
+                setPosition(this._arrowSlot, {
+                    top: px(hintHeight),
+                    left: px(0 + this._arrowPadding),
+                });
+                this._arrowSlot.style.transform = 'rotate(180deg)';
                 break;
             case Position.TopRight:
-                this._container.style.alignItems = 'center';
-                this._container.style.justifyContent = 'flex-end';
-                setPosition(this._container, {
+                setPosition(this._wrap, {
                     top: px(
                         document.documentElement.scrollTop +
                             targetRect.top -
+                            arrowHeight +
                             this._offsetY
                     ),
-                    left: px(targetRect.right),
+                    left: px(targetRect.right + this._offsetX),
                 });
-                setPosition(this._slot, {
-                    bottom: px(0),
-                    right: px(0),
+                setPosition(this._container, {
+                    top: px(-hintHeight),
+                    left: px(-hintWidth),
                 });
+                setPosition(this._arrowSlot, {
+                    top: px(hintHeight),
+                    left: px(hintWidth - arrowWidth - this._arrowPadding),
+                });
+                this._arrowSlot.style.transform = 'rotate(180deg)';
                 break;
             case Position.Right:
-                this._container.style.alignItems = 'center';
-                this._container.style.justifyContent = 'flex-start';
-                setPosition(this._container, {
+                setPosition(this._wrap, {
                     top: px(
                         document.documentElement.scrollTop +
                             targetRect.top +
-                            targetRect.height / 2
+                            targetRect.height / 2 +
+                            this._offsetY
+                    ),
+                    left: px(
+                        targetRect.left +
+                            targetRect.width +
+                            arrowWidth +
+                            this._offsetX
+                    ),
+                });
+                setPosition(this._container, {
+                    top: px(-hintHeight / 2),
+                    left: px(0),
+                });
+                setPosition(this._arrowSlot, {
+                    top: px(hintHeight / 2 - arrowWidth / 2),
+                    left: px(-arrowWidth),
+                });
+                this._arrowSlot.style.transform = 'rotate(270deg)';
+                break;
+            case Position.RightTop:
+                setPosition(this._wrap, {
+                    top: px(
+                        document.documentElement.scrollTop +
+                            targetRect.top +
+                            this._offsetY
+                    ),
+                    left: px(targetRect.right + arrowWidth + this._offsetX),
+                });
+                setPosition(this._container, {
+                    top: px(0),
+                    left: px(0),
+                });
+                setPosition(this._arrowSlot, {
+                    top: px(this._arrowPadding),
+                    left: px(-arrowWidth),
+                });
+                this._arrowSlot.style.transform = 'rotate(270deg)';
+                break;
+            case Position.RightBottom:
+                setPosition(this._wrap, {
+                    top: px(
+                        document.documentElement.scrollTop +
+                            targetRect.bottom +
+                            this._offsetY
+                    ),
+                    left: px(targetRect.right + arrowWidth + this._offsetX),
+                });
+                setPosition(this._container, {
+                    top: px(-hintHeight),
+                    left: px(0),
+                });
+                setPosition(this._arrowSlot, {
+                    top: px(hintHeight - arrowHeight - this._arrowPadding),
+                    left: px(-arrowWidth),
+                });
+                this._arrowSlot.style.transform = 'rotate(270deg)';
+                break;
+            case Position.Bottom:
+                setPosition(this._wrap, {
+                    top: px(
+                        document.documentElement.scrollTop +
+                            targetRect.bottom +
+                            arrowHeight +
+                            this._offsetY
+                    ),
+                    left: px(
+                        targetRect.left + targetRect.width / 2 + this._offsetX
+                    ),
+                });
+                setPosition(this._container, {
+                    top: px(0),
+                    left: px(-hintWidth / 2),
+                });
+                setPosition(this._arrowSlot, {
+                    top: px(-arrowHeight),
+                    left: px(hintWidth / 2 - arrowWidth / 2),
+                });
+                this._arrowSlot.style.transform = 'rotate(0deg)';
+                break;
+            case Position.BottomLeft:
+                setPosition(this._wrap, {
+                    top: px(
+                        document.documentElement.scrollTop +
+                            targetRect.bottom +
+                            arrowHeight +
+                            this._offsetY
+                    ),
+                    left: px(targetRect.left + this._offsetX),
+                });
+                setPosition(this._container, {
+                    top: px(0),
+                    left: px(0),
+                });
+                setPosition(this._arrowSlot, {
+                    top: px(-arrowHeight),
+                    left: px(this._arrowPadding),
+                });
+                this._arrowSlot.style.transform = 'rotate(0deg)';
+                break;
+            case Position.BottomRight:
+                setPosition(this._wrap, {
+                    top: px(
+                        document.documentElement.scrollTop +
+                            targetRect.bottom +
+                            arrowHeight +
+                            this._offsetY
                     ),
                     left: px(
                         targetRect.left + targetRect.width + this._offsetX
                     ),
                 });
-                setPosition(this._slot, {
-                    left: px(0),
-                });
-                break;
-            case Position.RightTop:
-                this._container.style.alignItems = 'flex-start';
-                this._container.style.justifyContent = 'flex-start';
                 setPosition(this._container, {
-                    top: px(
-                        document.documentElement.scrollTop + targetRect.top
-                    ),
-                    left: px(targetRect.right + this._offsetX),
-                });
-                setPosition(this._slot, {
                     top: px(0),
-                    left: px(0),
+                    left: px(-hintWidth),
                 });
-                break;
-            case Position.RightBottom:
-                this._slot.style.alignItems = 'flex-end';
-                this._slot.style.justifyContent = 'flex-start';
-                setPosition(this._container, {
-                    top: px(
-                        document.documentElement.scrollTop + targetRect.bottom
-                    ),
-                    left: px(targetRect.right + this._offsetX),
+                setPosition(this._arrowSlot, {
+                    top: px(-arrowHeight),
+                    left: px(hintWidth - arrowWidth - this._arrowPadding),
                 });
-                setPosition(this._slot, {
-                    left: px(0),
-                    bottom: px(0),
-                });
-                break;
-            case Position.Bottom:
-                this._container.style.alignItems = 'flex-start';
-                this._container.style.justifyContent = 'center';
-                setPosition(this._container, {
-                    top: px(
-                        document.documentElement.scrollTop +
-                            targetRect.bottom +
-                            this._offsetY
-                    ),
-                    left: px(targetRect.left + targetRect.width / 2),
-                });
-                setPosition(this._slot, {
-                    top: px(0),
-                });
-                break;
-            case Position.BottomLeft:
-                this._container.style.alignItems = 'flex-start';
-                this._container.style.justifyContent = 'flex-start';
-                setPosition(this._container, {
-                    top: px(
-                        document.documentElement.scrollTop +
-                            targetRect.bottom +
-                            this._offsetY
-                    ),
-                    left: px(targetRect.left),
-                });
-                setPosition(this._slot, {
-                    top: px(0),
-                    left: px(0),
-                });
-                break;
-            case Position.BottomRight:
-                this._container.style.alignItems = 'flex-start';
-                this._container.style.justifyContent = 'flex-end';
-                setPosition(this._container, {
-                    top: px(
-                        document.documentElement.scrollTop +
-                            targetRect.bottom +
-                            this._offsetY
-                    ),
-                    left: px(targetRect.left + targetRect.width),
-                });
-                setPosition(this._slot, {
-                    top: px(0),
-                    right: px(0),
-                });
+                this._arrowSlot.style.transform = 'rotate(0deg)';
                 break;
             case Position.Left:
-                this._container.style.alignItems = 'center';
-                this._container.style.justifyContent = 'flex-end';
-                setPosition(this._container, {
+                setPosition(this._wrap, {
                     top: px(
                         document.documentElement.scrollTop +
                             targetRect.top +
-                            targetRect.height / 2
+                            targetRect.height / 2 +
+                            this._offsetY
                     ),
-                    left: px(targetRect.left - this._offsetX),
+                    left: px(targetRect.left - arrowWidth + this._offsetX),
                 });
-                setPosition(this._slot, {
-                    right: px(0),
+                setPosition(this._container, {
+                    top: px(-hintHeight / 2),
+                    left: px(-hintWidth),
                 });
+                setPosition(this._arrowSlot, {
+                    top: px(hintHeight / 2 - arrowWidth / 2),
+                    left: px(hintWidth),
+                });
+                this._arrowSlot.style.transform = 'rotate(90deg)';
                 break;
             case Position.LeftTop:
-                this._container.style.alignItems = 'flex-start';
-                this._container.style.justifyContent = 'flex-end';
-                setPosition(this._container, {
+                setPosition(this._wrap, {
                     top: px(
-                        document.documentElement.scrollTop + targetRect.top
+                        document.documentElement.scrollTop +
+                            targetRect.top +
+                            this._offsetY
                     ),
-                    left: px(targetRect.left - this._offsetX),
+                    left: px(targetRect.left - arrowWidth + this._offsetX),
                 });
-                setPosition(this._slot, {
+                setPosition(this._container, {
                     top: px(0),
-                    right: px(0),
+                    left: px(-hintWidth),
                 });
+                setPosition(this._arrowSlot, {
+                    top: px(this._arrowPadding),
+                    left: px(hintWidth),
+                });
+                this._arrowSlot.style.transform = 'rotate(90deg)';
                 break;
             case Position.LeftBottom:
-                this._container.style.alignItems = 'flex-end';
-                this._container.style.justifyContent = 'flex-end';
-                setPosition(this._container, {
+                setPosition(this._wrap, {
                     top: px(
-                        document.documentElement.scrollTop + targetRect.bottom
+                        document.documentElement.scrollTop +
+                            targetRect.bottom +
+                            this._offsetY
                     ),
-                    left: px(targetRect.left - this._offsetX),
+                    left: px(targetRect.left - arrowWidth + this._offsetX),
                 });
-                setPosition(this._slot, {
-                    bottom: px(0),
-                    right: px(0),
+                setPosition(this._container, {
+                    top: px(-hintHeight),
+                    left: px(-hintWidth),
                 });
+                setPosition(this._arrowSlot, {
+                    top: px(hintHeight - arrowHeight - this._arrowPadding),
+                    left: px(hintWidth),
+                });
+                this._arrowSlot.style.transform = 'rotate(90deg)';
                 break;
         }
     }

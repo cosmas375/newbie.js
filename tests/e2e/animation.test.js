@@ -3,7 +3,7 @@ describe('animated positioning', () => {
     const transitionDurationForAssert = transitionDuration * 5;
     const targetSelector = '[data-newbie-target="1"]';
     const hintSelector = '#newbie-hint';
-    const defaultOffset = 15;
+    const defaultOffset = 0;
     const round = value => Math.round(value);
 
     let globalHint;
