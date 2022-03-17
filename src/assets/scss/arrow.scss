@@ -1,11 +1,19 @@
 @import './variables';
+$size: 2rem;
 
 .newbie-arrow {
     display: none;
-    position: absolute;
     transform-origin: center;
-    transform: rotate(45deg);
     z-index: $z-index-arrow;
+    width: 0;
+    height: 0;
+
+    background-color: transparent;
+
+    border-top: none;
+    border-bottom: $size solid black;
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
 
     &_visible {
         display: block;

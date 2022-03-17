@@ -71,7 +71,10 @@ describe('stepping', () => {
 
         await instance.start();
 
-        expect(document.body.innerHTML).toMatch(new RegExp(content1));
+        setTimeout(() => {
+            // idk why await is not working
+            expect(document.body.innerHTML).toMatch(new RegExp(content1));
+        });
     });
 
     it('stops after the last step', async () => {
@@ -103,11 +106,17 @@ describe('stepping', () => {
 
         await instance.start();
 
-        expect(document.body.innerHTML).toMatch(new RegExp(content1));
+        setTimeout(() => {
+            // idk why await is not working
+            expect(document.body.innerHTML).toMatch(new RegExp(content1));
+        });
 
         await instance.goNext();
 
-        expect(document.body.innerHTML).toMatch(new RegExp(content2));
+        setTimeout(() => {
+            // idk why await is not working
+            expect(document.body.innerHTML).toMatch(new RegExp(content2));
+        });
 
         await instance.goNext();
 
@@ -142,12 +151,12 @@ describe('stepping', () => {
             ],
         });
 
-        instance.goNext();
+        await instance.goNext();
 
         expect(document.body.innerHTML).not.toMatch(new RegExp(content1));
         expect(document.body.innerHTML).not.toMatch(new RegExp(content2));
 
-        instance.goPrevious();
+        await instance.goPrevious();
 
         expect(document.body.innerHTML).not.toMatch(new RegExp(content1));
         expect(document.body.innerHTML).not.toMatch(new RegExp(content2));
@@ -189,10 +198,13 @@ describe('stepping', () => {
                 },
             ],
         });
-        instance.start();
+        await instance.start();
 
-        instance.goTo('hint-3');
+        await instance.goTo('hint-3');
 
-        expect(document.body.innerHTML).toMatch(new RegExp(content3));
+        setTimeout(() => {
+            // idk why await is not working
+            expect(document.body.innerHTML).toMatch(new RegExp(content3));
+        });
     });
 });

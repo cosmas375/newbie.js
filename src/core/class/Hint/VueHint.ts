@@ -15,8 +15,9 @@ export class VueHint extends Hint {
         this._settings = settings;
     }
 
-    public mount(): void {
+    public mount() {
         this._component = this._getHintHTMLElement();
+        return this._component;
     }
 
     private _getHintHTMLElement(): HTMLElement {

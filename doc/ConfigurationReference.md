@@ -201,12 +201,7 @@ _Notes:_
 
         ***
 
-    -   offsetX: _number_  
-         _Defaults to `0`_
-
-        ***
-
-    -   offsetY: _number_  
+    -   padding: _number_  
          _Defaults to `0`_
 
 ---
@@ -237,7 +232,7 @@ _Notes:_
 ---
 
 -   **offsetX**: _number_ - **Heritable**  
-    _Defaults to `10`_
+    _Defaults to `0`_
 
     Horizontal offset (_px_) of hint position.
 
@@ -246,7 +241,7 @@ _Notes:_
 ---
 
 -   **offsetY**: _string_ - **Heritable**  
-    _Defaults to `10`_
+    _Defaults to `0`_
 
     Vertical offset (_px_) of hint position.
 

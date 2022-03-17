@@ -1,7 +1,9 @@
 export enum ClassNames {
     HINT_WRAP = 'newbie-hint-wrap',
-    HINT_WRAP_INNER = 'newbie-hint-wrap__inner',
     HINT_WRAP_VISIBLE = 'newbie-hint-wrap_visible',
+    HINT_WRAP_CONTAINER = 'newbie-hint-wrap__container',
+    HINT_WRAP_HINT = 'newbie-hint-wrap__hint',
+    HINT_WRAP_ARROW = 'newbie-hint-wrap__arrow',
     HINT = 'newbie-hint',
     SHADOW = 'newbie-shadow',
     SHADOW_SVG = 'newbie-shadow__svg',

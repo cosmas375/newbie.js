@@ -7,7 +7,7 @@ export default function getCallback(f) {
 
     return (...args) => {
         try {
-            f(...args);
+            return f(...args);
         } catch (e) {
             _warn(e);
         }

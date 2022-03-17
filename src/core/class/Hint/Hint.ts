@@ -8,11 +8,9 @@ export class Hint implements IHint {
         /* continue regardless of error */
     }
 
-    public get elem(): HTMLElement {
-        return this._component;
+    public mount() {
+        return null;
     }
-
-    public mount() {}
 
     public unmount() {
         this._component.remove();
