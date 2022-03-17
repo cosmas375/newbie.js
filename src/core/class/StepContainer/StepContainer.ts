@@ -193,7 +193,7 @@ export class StepContainer {
                     left: px(
                         targetRect.left +
                             targetRect.width +
-                            arrowHeight +
+                            arrowWidth +
                             this._offsetX
                     ),
                 });
@@ -203,7 +203,7 @@ export class StepContainer {
                 });
                 setPosition(this._arrowSlot, {
                     top: px(hintHeight / 2 - arrowWidth / 2),
-                    left: px(-arrowHeight),
+                    left: px(-arrowWidth),
                 });
                 this._arrowSlot.style.transform = 'rotate(270deg)';
                 break;
@@ -214,7 +214,7 @@ export class StepContainer {
                             targetRect.top +
                             this._offsetY
                     ),
-                    left: px(targetRect.right + arrowHeight + this._offsetX),
+                    left: px(targetRect.right + arrowWidth + this._offsetX),
                 });
                 setPosition(this._container, {
                     top: px(0),
@@ -222,7 +222,7 @@ export class StepContainer {
                 });
                 setPosition(this._arrowSlot, {
                     top: px(this._arrowPadding),
-                    left: px(-arrowHeight),
+                    left: px(-arrowWidth),
                 });
                 this._arrowSlot.style.transform = 'rotate(270deg)';
                 break;
@@ -233,7 +233,7 @@ export class StepContainer {
                             targetRect.bottom +
                             this._offsetY
                     ),
-                    left: px(targetRect.right + arrowHeight + this._offsetX),
+                    left: px(targetRect.right + arrowWidth + this._offsetX),
                 });
                 setPosition(this._container, {
                     top: px(-hintHeight),
@@ -241,7 +241,7 @@ export class StepContainer {
                 });
                 setPosition(this._arrowSlot, {
                     top: px(hintHeight - arrowHeight - this._arrowPadding),
-                    left: px(-arrowHeight),
+                    left: px(-arrowWidth),
                 });
                 this._arrowSlot.style.transform = 'rotate(270deg)';
                 break;
@@ -317,7 +317,7 @@ export class StepContainer {
                             targetRect.height / 2 +
                             this._offsetY
                     ),
-                    left: px(targetRect.left - arrowHeight + this._offsetX),
+                    left: px(targetRect.left - arrowWidth + this._offsetX),
                 });
                 setPosition(this._container, {
                     top: px(-hintHeight / 2),
@@ -336,7 +336,7 @@ export class StepContainer {
                             targetRect.top +
                             this._offsetY
                     ),
-                    left: px(targetRect.left - arrowHeight + this._offsetX),
+                    left: px(targetRect.left - arrowWidth + this._offsetX),
                 });
                 setPosition(this._container, {
                     top: px(0),
@@ -355,7 +355,7 @@ export class StepContainer {
                             targetRect.bottom +
                             this._offsetY
                     ),
-                    left: px(targetRect.left - arrowHeight + this._offsetX),
+                    left: px(targetRect.left - arrowWidth + this._offsetX),
                 });
                 setPosition(this._container, {
                     top: px(-hintHeight),
