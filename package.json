@@ -1,6 +1,6 @@
 {
     "name": "newbie.js",
-    "version": "0.0.6",
+    "version": "0.0.8",
     "description": "Meet the most flexible tour library!",
     "keywords": ["tour", "guide", "quick guide", "getting started", "get started"],
     "homepage": "https://github.com/cosmas375/newbie.js",
@@ -9,7 +9,7 @@
         "url": "https://github.com/cosmas375/newbie.js/issues"
     },
     "author": "Roman Lyakhovchik <roman.lyakhovchik@gmail.com>",
-    "main": "src/entry-vue.ts",
+    "main": "dist/vue/index.ts",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/cosmas375/newbie.js.git"
