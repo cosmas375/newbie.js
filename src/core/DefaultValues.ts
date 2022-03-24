@@ -17,7 +17,6 @@ export const DEFAULT_VALUES = {
         enabled: true,
         size: 5,
         color: '#ffffff',
-        offsetX: 0,
-        offsetY: 0,
+        padding: 0,
     },
 };
