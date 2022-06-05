@@ -4,10 +4,10 @@ import {
     IHintConfig,
     IHintSettings,
 } from '../../Interfaces';
-import { VueHintFactory } from '../Hint/HintFactory';
+import { Vue2HintFactory } from '../Hint/HintFactory';
 import { ComponentsFactory } from './ComponentsFactory';
 
-export class VueComponentsFactory extends ComponentsFactory {
+export class Vue2ComponentsFactory extends ComponentsFactory {
     private _Vue;
     private _hintFactory: IHintFactory;
 
@@ -18,7 +18,7 @@ export class VueComponentsFactory extends ComponentsFactory {
 
     public createHint(config: IHintConfig, settings: IHintSettings): IHint {
         if (!this._hintFactory) {
-            this._hintFactory = new VueHintFactory(this._Vue);
+            this._hintFactory = new Vue2HintFactory(this._Vue);
         }
         return this._hintFactory.create(config, settings);
     }
