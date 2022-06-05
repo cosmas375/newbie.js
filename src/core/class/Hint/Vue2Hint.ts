@@ -2,7 +2,7 @@ import { IHintConfig, IHintSettings } from '../../Interfaces';
 import { ClassNames } from '../../ClassName';
 import { Hint } from './Hint';
 
-export class VueHint extends Hint {
+export class Vue2Hint extends Hint {
     private _vueComponent: object;
     private _Vue: any;
     private _settings: IHintSettings;

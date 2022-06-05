@@ -5,7 +5,7 @@ import {
     IHintSettings,
 } from '../../Interfaces';
 import { VanillaHint } from './VanillaHint';
-import { VueHint } from './VueHint';
+import { Vue2Hint } from './Vue2Hint';
 
 export class VanillaHintFactory implements IHintFactory {
     public create(config: IHintConfig, settings: IHintSettings): IHint {
@@ -13,14 +13,14 @@ export class VanillaHintFactory implements IHintFactory {
     }
 }
 
-export class VueHintFactory implements IHintFactory {
-    private _vue: object;
+export class Vue2HintFactory implements IHintFactory {
+    private _Vue: object;
 
     constructor(Vue: object) {
-        this._vue = Vue;
+        this._Vue = Vue;
     }
 
     public create(config: IHintConfig, settings: IHintSettings): IHint {
-        return new VueHint(config, settings, this._vue);
+        return new Vue2Hint(config, settings, this._Vue);
     }
 }

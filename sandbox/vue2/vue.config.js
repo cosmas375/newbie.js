@@ -5,13 +5,10 @@ module.exports = {
       .test(/\.ts$/)
       .use('ts-loader')
       .loader('ts-loader')
-      .end()
+      .end();
 
-    config.resolve.extensions
-      .add('.ts')
-      .add('.tsx')
+    config.resolve.extensions.add('.ts').add('.tsx');
 
-    config.resolve.modules
-      .add('node_modules')
-  }
+    config.resolve.modules.add('node_modules');
+  },
 };

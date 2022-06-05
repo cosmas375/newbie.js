@@ -33,13 +33,13 @@ npm install newbie.js --save
 and then import js:
 
 ```
-import Newbie from 'newbie.js/dist/vue';
+import Newbie from 'newbie.js/dist/vue2';
 ```
 
 and scss:
 
 ```
-@import '~newbie.js/dist/vue/assets/scss/style';
+@import '~newbie.js/dist/vue2/assets/scss/style';
 ```
 
 ---

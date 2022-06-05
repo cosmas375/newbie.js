@@ -10,7 +10,7 @@
 
 <script>
 import Hint from './components/Hint.vue';
-import Newbie from '../../../src/entry-vue';
+import Newbie from '../../../src/entry-vue2';
 
 export default {
     name: 'App',
