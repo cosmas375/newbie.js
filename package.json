@@ -20,11 +20,13 @@
         "url": "git+https://github.com/cosmas375/newbie.js.git"
     },
     "scripts": {
-        "build": "npm run build:vanilla && npm run build:vue2",
+        "build": "npm run build:vanilla && npm run build:vue2 && npm run build:vue3",
         "build:vanilla": "sh build-vanilla.sh",
         "build:vue2": "sh build-vue2.sh",
+        "build:vue3": "sh build-vue3.sh",
         "serve:vanilla": "./node_modules/.bin/webpack serve --config webpack-vanilla.config.js --mode=development",
         "serve:vue2": "cd sandbox/vue2 && npm run serve",
+        "serve:vue3": "cd sandbox/vue3 && npm run dev",
         "test": "npm run test:unit && npm run test:e2e",
         "test:unit": "jest",
         "test:e2e": "./node_modules/.bin/cypress run",
