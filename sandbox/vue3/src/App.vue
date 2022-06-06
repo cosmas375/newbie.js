@@ -56,6 +56,7 @@ export default {
                     target: '[data-newbie-target="center"]',
                     content: {
                         content: 'top-left',
+                        lastHintId: '3',
                     },
                     position: 'top-left',
                 },

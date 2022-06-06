@@ -3,8 +3,9 @@ export default {
     props: {
         title: String,
         content: String,
+        lastHintId: String,
     },
-    inject: ['goNext', 'goPrevious', 'stop'],
+    inject: ['goNext', 'goPrevious', 'stop', 'goTo'],
 };
 </script>
 
@@ -15,6 +16,13 @@ export default {
         <div class="hint__controls">
             <button @click="goPrevious" class="hint__btn">prev</button>
             <button @click="goNext" class="hint__btn">next</button>
+            <button
+                v-if="lastHintId"
+                @click="goTo(lastHintId)"
+                class="hint__btn"
+            >
+                last
+            </button>
         </div>
         <span @click="stop" class="hint__close">x</span>
     </div>

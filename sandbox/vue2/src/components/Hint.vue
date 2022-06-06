@@ -5,6 +5,9 @@
         <div class="hint__controls">
             <button @click="goPrev" class="hint__btn">prev</button>
             <button @click="goNext" class="hint__btn">next</button>
+            <button v-if="lastHintId" @click="goToLastHint" class="hint__btn">
+                last
+            </button>
         </div>
         <span @click="doStop" class="hint__close">x</span>
     </div>
@@ -16,6 +19,7 @@ export default {
     props: {
         title: String,
         content: String,
+        lastHintId: String,
     },
     methods: {
         goNext() {
@@ -26,6 +30,9 @@ export default {
         },
         doStop() {
             this.$emit('stop');
+        },
+        goToLastHint() {
+            this.$emit('go-to', this.lastHintId);
         },
     },
 };
