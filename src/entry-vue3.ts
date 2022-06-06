@@ -5,7 +5,7 @@ import { Vue3ComponentsFactory } from './core/class/ComponentsFactory/Vue3Compon
 export default Newbie;
 
 export const NewbiePlugin = {
-    install({ createApp }) {
+    install(app, { createApp }) {
         Globals.componentsFactory = new Vue3ComponentsFactory({ createApp });
     },
 };
