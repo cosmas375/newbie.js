@@ -14,7 +14,7 @@
 
 # Handling options
 
-## Straightforward way (framework agnostic):
+## 1) Straightforward (framework agnostic):
 
 Add custom event listeners, like so:
 
@@ -28,7 +28,7 @@ nextBtn.addEventListener('click', nextCallback);
 
 ---
 
-## Vanilla way:
+## 2) Vanilla:
 
 Mark your buttons with specific data-attributes to let the library add default event listeners:
 
@@ -55,7 +55,7 @@ Clicking button with `data-newbie-go-next` attribute is equivalent to `newbieIns
 
 ---
 
-## Vue way:
+## 3) Vue 2:
 
 Emit `go-next`, `go-previous`, `stop` events from your hint component:
 
@@ -68,3 +68,29 @@ Emit `go-next`, `go-previous`, `stop` events from your hint component:
 ```
 
 Emitting `go-next` is equivalent to `newbieInstance.goNext()`.
+
+---
+
+## 4) Vue 3:
+
+Inject methods `goNext`, `goPrevious`, `stop` in your hint component:
+
+```
+<template>
+    ...
+    <my-next-button
+        @click="goNext"
+    >
+        Go to the next step
+    </my-next-button>
+    ...
+</template>
+
+<script>
+export default {
+    inject: ['goNext'],
+};
+</script>
+```
+
+Calling `goNext` is equivalent to `newbieInstance.goNext()`.
