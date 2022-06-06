@@ -1,24 +1,4 @@
 {
-    "name": "newbie.js",
-    "version": "0.0.8",
-    "description": "Meet the most flexible tour library!",
-    "keywords": [
-        "tour",
-        "guide",
-        "quick guide",
-        "getting started",
-        "get started"
-    ],
-    "homepage": "https://github.com/cosmas375/newbie.js",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/cosmas375/newbie.js/issues"
-    },
-    "author": "Roman Lyakhovchik <roman.lyakhovchik@gmail.com>",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/cosmas375/newbie.js.git"
-    },
     "scripts": {
         "build": "npm run build:vanilla && npm run build:vue2 && npm run build:vue3",
         "build:vanilla": "sh build-vanilla.sh",
