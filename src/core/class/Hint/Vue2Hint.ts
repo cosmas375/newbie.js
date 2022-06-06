@@ -29,6 +29,7 @@ export class Vue2Hint extends Hint {
         hint.$on('go-next', this._settings.goNext);
         hint.$on('go-previous', this._settings.goPrevious);
         hint.$on('stop', this._settings.stop);
+        hint.$on('go-to', this._settings.goTo);
 
         const elem = hint.$el;
         elem.classList.add(ClassNames.HINT);

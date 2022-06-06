@@ -31,6 +31,7 @@ export class Vue3Hint extends Hint {
         app.provide('goNext', this._settings.goNext);
         app.provide('goPrevious', this._settings.goPrevious);
         app.provide('stop', this._settings.stop);
+        app.provide('goTo', this._settings.goTo);
 
         const hint = app.mount(div);
 

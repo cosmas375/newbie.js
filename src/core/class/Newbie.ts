@@ -111,6 +111,7 @@ export class Newbie implements INewbie {
                 goNext: this.goNext.bind(this),
                 goPrevious: this.goPrevious.bind(this),
                 stop: this.stop.bind(this),
+                goTo: this.goTo.bind(this),
             });
 
             list.add(step);

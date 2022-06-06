@@ -111,6 +111,7 @@ export interface IHintSettings {
     goNext(): void;
     goPrevious(): void;
     stop(): void;
+    goTo(id: string): void;
 }
 
 export type TElement = HTMLElement | null;
