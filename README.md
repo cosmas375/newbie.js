@@ -16,8 +16,8 @@ You can get Newbie.js from:
 ### 1. CDN
 
 ```
-<script src="https://unpkg.com/newbie.js/dist/cdn/newbie.js">
-<link rel="stylesheet" href="https://unpkg.com/newbie.js/dist/cdn/newbie.css"/>
+<script src="https://unpkg.com/newbie.js/cdn/newbie.js">
+<link rel="stylesheet" href="https://unpkg.com/newbie.js/cdn/newbie.css"/>
 ```
 
 ---
@@ -33,13 +33,13 @@ npm install newbie.js --save
 and then import js:
 
 ```
-import Newbie from 'newbie.js/dist/vue2';
+import Newbie from 'newbie.js/vue2';
 ```
 
 and scss:
 
 ```
-@import '~newbie.js/dist/vue2/assets/scss/style';
+@import '~newbie.js/vue2/assets/scss/style';
 ```
 
 ---
@@ -51,8 +51,8 @@ and scss:
 Import css and js:
 
 ```
-<script src="https://unpkg.com/newbie.js/dist/cdn/newbie.js">
-<link rel="stylesheet" href="https://unpkg.com/newbie.js/dist/cdn/newbie.css"/>
+<script src="https://unpkg.com/newbie.js/cdn/newbie.js">
+<link rel="stylesheet" href="https://unpkg.com/newbie.js/cdn/newbie.css"/>
 ```
 
 Create you hint layout:
