@@ -1,6 +1,7 @@
-describe('hint positioning', () => {
+describe('hint positioning with arrow', () => {
     const targetSelector = '[data-newbie-target="1"]';
     const hintSelector = '#newbie-hint';
+    const arrowSize = 8;
     const round = value => Math.round(value);
 
     beforeEach(function () {
@@ -11,7 +12,9 @@ describe('hint positioning', () => {
         {
             position: 'top',
             assertion: (hintRect, targetRect) => {
-                expect(targetRect.top).to.equal(round(hintRect.bottom));
+                expect(targetRect.top).to.equal(
+                    round(hintRect.bottom + arrowSize)
+                );
                 expect(round(targetRect.left - hintRect.left)).to.equal(
                     round(hintRect.right - targetRect.right)
                 );
@@ -20,21 +23,27 @@ describe('hint positioning', () => {
         {
             position: 'top-left',
             assertion: (hintRect, targetRect) => {
-                expect(round(targetRect.top)).to.equal(round(hintRect.bottom));
+                expect(round(targetRect.top)).to.equal(
+                    round(hintRect.bottom + arrowSize)
+                );
                 expect(round(targetRect.left)).to.equal(round(hintRect.left));
             },
         },
         {
             position: 'top-right',
             assertion: (hintRect, targetRect) => {
-                expect(round(targetRect.top)).to.equal(round(hintRect.bottom));
+                expect(round(targetRect.top)).to.equal(
+                    round(hintRect.bottom + arrowSize)
+                );
                 expect(round(targetRect.right)).to.equal(round(hintRect.right));
             },
         },
         {
             position: 'right',
             assertion: (hintRect, targetRect) => {
-                expect(round(targetRect.right)).to.equal(round(hintRect.left));
+                expect(round(targetRect.right)).to.equal(
+                    round(hintRect.left - arrowSize)
+                );
                 expect(round(targetRect.top - hintRect.top)).to.equal(
                     round(hintRect.bottom - targetRect.bottom)
                 );
@@ -43,14 +52,16 @@ describe('hint positioning', () => {
         {
             position: 'right-top',
             assertion: (hintRect, targetRect) => {
-                expect(targetRect.right).to.equal(hintRect.left);
+                expect(targetRect.right).to.equal(hintRect.left - arrowSize);
                 expect(targetRect.top).to.equal(hintRect.top);
             },
         },
         {
             position: 'right-bottom',
             assertion: (hintRect, targetRect) => {
-                expect(round(targetRect.right)).to.equal(round(hintRect.left));
+                expect(round(targetRect.right)).to.equal(
+                    round(hintRect.left - arrowSize)
+                );
                 expect(round(targetRect.bottom)).to.equal(
                     round(hintRect.bottom)
                 );
@@ -59,7 +70,7 @@ describe('hint positioning', () => {
         {
             position: 'bottom',
             assertion: (hintRect, targetRect) => {
-                expect(targetRect.bottom).to.equal(hintRect.top);
+                expect(targetRect.bottom).to.equal(hintRect.top - arrowSize);
                 expect(Math.round(targetRect.left - hintRect.left)).to.equal(
                     Math.round(hintRect.right - targetRect.right)
                 );
@@ -68,21 +79,27 @@ describe('hint positioning', () => {
         {
             position: 'bottom-left',
             assertion: (hintRect, targetRect) => {
-                expect(round(targetRect.bottom)).to.equal(round(hintRect.top));
+                expect(round(targetRect.bottom)).to.equal(
+                    round(hintRect.top - arrowSize)
+                );
                 expect(round(targetRect.left)).to.equal(round(hintRect.left));
             },
         },
         {
             position: 'bottom-right',
             assertion: (hintRect, targetRect) => {
-                expect(round(targetRect.bottom)).to.equal(round(hintRect.top));
+                expect(round(targetRect.bottom)).to.equal(
+                    round(hintRect.top - arrowSize)
+                );
                 expect(round(targetRect.right)).to.equal(round(hintRect.right));
             },
         },
         {
             position: 'left',
             assertion: (hintRect, targetRect) => {
-                expect(round(targetRect.left)).to.equal(round(hintRect.right));
+                expect(round(targetRect.left)).to.equal(
+                    round(hintRect.right + arrowSize)
+                );
                 expect(round(targetRect.top - hintRect.top)).to.equal(
                     round(hintRect.bottom - targetRect.bottom)
                 );
@@ -91,14 +108,18 @@ describe('hint positioning', () => {
         {
             position: 'left-top',
             assertion: (hintRect, targetRect) => {
-                expect(round(targetRect.left)).to.equal(round(hintRect.right));
+                expect(round(targetRect.left)).to.equal(
+                    round(hintRect.right + arrowSize)
+                );
                 expect(round(targetRect.top)).to.equal(round(hintRect.top));
             },
         },
         {
             position: 'left-bottom',
             assertion: (hintRect, targetRect) => {
-                expect(round(targetRect.left)).to.equal(round(hintRect.right));
+                expect(round(targetRect.left)).to.equal(
+                    round(hintRect.right + arrowSize)
+                );
                 expect(round(targetRect.bottom)).to.equal(
                     round(hintRect.bottom)
                 );
@@ -111,6 +132,11 @@ describe('hint positioning', () => {
                     cy.get(targetSelector).then(async target => {
                         const instance = new window.Newbie({
                             position,
+                            arrow: {
+                                enabled: true,
+                                size: arrowSize,
+                                color: 'green',
+                            },
                             hint: {
                                 component: hint[0],
                             },
@@ -119,7 +145,6 @@ describe('hint positioning', () => {
                                     target: target[0],
                                 },
                             ],
-                            arrow: { enabled: false },
                         });
 
                         await instance.start();
