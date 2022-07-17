@@ -4,8 +4,12 @@ Meet the most flexible tour library!
 
 [Motivation](https://github.com/cosmas375/newbie.js/tree/master/doc/Motivation.md)
 
+[Examples](https://github.com/cosmas375/newbie.js/tree/master/doc/Examples.md)
+
 Try it:
 https://codesandbox.io/s/old-hooks-f41m34
+
+---
 
 ---
 
@@ -28,18 +32,6 @@ Run:
 
 ```
 npm install newbie.js --save
-```
-
-and then import js:
-
-```
-import Newbie from 'newbie.js/vue2';
-```
-
-and scss:
-
-```
-@import '~newbie.js/vue2/assets/scss/style';
 ```
 
 ---

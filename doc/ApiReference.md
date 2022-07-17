@@ -57,7 +57,7 @@ This would look like:
 
 ## 3) Vue 2:
 
-Emit `go-next`, `go-previous`, `stop`, `goTo` events from your hint component:
+Emit `go-next`, `go-previous`, `stop`, `go-to` events from your hint component:
 
 ```
 <my-next-button
@@ -89,4 +89,18 @@ export default {
     inject: ['goNext'],
 };
 </script>
+```
+
+## 5) React:
+
+Call `goNext`, `goPrevious`, `stop`, `goTo` functions from your hint component:
+
+```
+    ...
+    <my-next-button
+        onClick={props.goNext}
+    >
+        Go to the next step
+    </my-next-button>
+    ...
 ```
