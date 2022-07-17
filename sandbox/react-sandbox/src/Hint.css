@@ -1,0 +1,33 @@
+.hint {
+    box-sizing: border-box;
+    width: 20rem;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+    position: relative;
+}
+
+.hint__title {
+    font-size: 2rem;
+}
+
+.hint__content {
+    font-size: 1.4rem;
+}
+
+.hint__controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.hint__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    cursor: pointer;
+}
