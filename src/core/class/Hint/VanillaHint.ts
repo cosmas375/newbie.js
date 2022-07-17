@@ -20,7 +20,7 @@ export class VanillaHint extends Hint {
         this._settings = settings;
     }
 
-    public mount() {
+    public async mount() {
         this._setContent();
         this._addDefaultEventListeners();
         return this._component;

@@ -4,21 +4,23 @@ import {
     IHintConfig,
     IHintSettings,
 } from '../../Interfaces';
-import { Vue2HintFactory } from '../HintFactory/Vue2HintFactory';
+import { ReactHintFactory } from '../HintFactory/ReactHintFactory';
 import { ComponentsFactory } from './ComponentsFactory';
 
-export class Vue2ComponentsFactory extends ComponentsFactory {
-    private _Vue;
+export class ReactComponentsFactory extends ComponentsFactory {
+    private _ReactDOM: any;
     private _hintFactory: IHintFactory;
 
-    constructor(Vue: object) {
+    constructor({ ReactDOM }) {
         super();
-        this._Vue = Vue;
+        this._ReactDOM = ReactDOM;
     }
 
     public createHint(config: IHintConfig, settings: IHintSettings): IHint {
         if (!this._hintFactory) {
-            this._hintFactory = new Vue2HintFactory(this._Vue);
+            this._hintFactory = new ReactHintFactory({
+                ReactDom: this._ReactDOM,
+            });
         }
         return this._hintFactory.create(config, settings);
     }

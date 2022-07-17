@@ -4,7 +4,7 @@ import {
     IHintFactory,
     IHintSettings,
 } from '../../Interfaces';
-import { VanillaHintFactory } from '../Hint/HintFactory';
+import { VanillaHintFactory } from '../HintFactory/VanillaHintFactory';
 import { ComponentsFactory } from './ComponentsFactory';
 
 export class VanillaComponentsFactory extends ComponentsFactory {

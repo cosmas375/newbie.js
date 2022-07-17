@@ -1,21 +1,23 @@
-<script>
-import Hint from './components/Hint.vue';
-import Newbie from '../../../src/entry-vue3';
+import Newbie, { useNewbie } from 'newbiesrc/entry-react';
+import 'newbiesrc/assets/scss/style.scss';
 
-export default {
-    name: 'App',
-    data() {
-        return {
-            newbie: null,
-        };
-    },
-    methods: {
-        doStart() {
-            this.newbie.start();
-        },
-    },
-    mounted() {
-        this.newbie = new Newbie({
+import ReactDOM from 'react-dom/client';
+import { useEffect } from 'react';
+
+import Hint from './Hint';
+import './App.css';
+
+function App() {
+    let newbie = null;
+
+    function doStart() {
+        newbie.start();
+    }
+
+    useNewbie({ ReactDOM });
+
+    useEffect(() => {
+        newbie = new Newbie({
             shadow: {
                 enabled: true,
             },
@@ -169,8 +171,8 @@ export default {
                     target: '[data-newbie-target="2"]',
                     content: {
                         content: `
-                          Do nisi laborum ex nulla fugiat ut voluptate do adipisicing nisi amet tempor. Pariatur excepteur elit ut laborum. Anim quis labore ullamco nisi ad sit nisi. Labore est sit labore eu aliquip incididunt deserunt. Exercitation nisi aliqua officia minim nostrud laborum nostrud. Occaecat elit culpa cupidatat ea et ea eu. Sunt tempor excepteur enim do ipsum irure excepteur nisi nulla non pariatur consequat ut elit.
-                        `,
+                      Do nisi laborum ex nulla fugiat ut voluptate do adipisicing nisi amet tempor. Pariatur excepteur elit ut laborum. Anim quis labore ullamco nisi ad sit nisi. Labore est sit labore eu aliquip incididunt deserunt. Exercitation nisi aliqua officia minim nostrud laborum nostrud. Occaecat elit culpa cupidatat ea et ea eu. Sunt tempor excepteur enim do ipsum irure excepteur nisi nulla non pariatur consequat ut elit.
+                    `,
                     },
                     position: 'left-top',
                     mounted(target) {
@@ -194,79 +196,19 @@ export default {
                 },
             ],
         });
-    },
-};
-</script>
+    }, []);
 
-<template>
-    <div id="app">
-        <button @click="doStart" id="start">start</button>
-        <div data-newbie-target="center">center</div>
-        <div data-newbie-target="1">1</div>
-        <div data-newbie-target="2">2</div>
-        <div data-newbie-target="3">3</div>
-    </div>
-</template>
-
-<style lang="scss">
-@import '../../../src/assets/scss/style';
-
-#app {
-    height: 200vh;
-
-    #start {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        font-size: 20px;
-        z-index: 2;
-    }
-
-    [data-newbie-target] {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-    }
-
-    [data-newbie-target='center'] {
-        $size: 200px;
-        width: $size;
-        height: $size;
-        top: calc(50vh - $size / 2);
-        left: calc(50vw - $size / 2);
-        background-color: rgb(255, 168, 168);
-    }
-
-    [data-newbie-target='1'] {
-        width: 100px;
-        height: 200px;
-        top: 20px;
-        left: 500px;
-        background-color: rgb(255, 168, 168);
-    }
-
-    [data-newbie-target='2'] {
-        width: 100px;
-        height: 20px;
-        top: 100vh;
-        left: calc(95vw - 100px);
-        background-color: rgb(255, 168, 168);
-    }
-
-    [data-newbie-target='3'] {
-        width: 10px;
-        height: 200px;
-        top: 140vh;
-        left: 50px;
-        background-color: rgb(255, 168, 168);
-    }
+    return (
+        <div className="App">
+            <button id="start" onClick={doStart}>
+                start
+            </button>
+            <div data-newbie-target="center">center</div>
+            <div data-newbie-target="1">1</div>
+            <div data-newbie-target="2">2</div>
+            <div data-newbie-target="3">3</div>
+        </div>
+    );
 }
 
-@media screen and (max-width: 1200px) {
-    [data-newbie-target='1'] {
-        left: 200px !important;
-    }
-}
-</style>
+export default App;

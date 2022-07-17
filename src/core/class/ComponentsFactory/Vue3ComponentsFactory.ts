@@ -4,7 +4,7 @@ import {
     IHintConfig,
     IHintSettings,
 } from '../../Interfaces';
-import { Vue3HintFactory } from '../Hint/HintFactory';
+import { Vue3HintFactory } from '../HintFactory/Vue3HintFactory';
 import { ComponentsFactory } from './ComponentsFactory';
 
 export class Vue3ComponentsFactory extends ComponentsFactory {
