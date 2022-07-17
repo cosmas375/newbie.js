@@ -2,7 +2,7 @@ import { IHintConfig, IHintSettings } from '../../Interfaces';
 import { ClassNames } from '../../ClassName';
 import { Hint } from './Hint';
 
-export class VueHint extends Hint {
+export class Vue2Hint extends Hint {
     private _vueComponent: object;
     private _Vue: any;
     private _settings: IHintSettings;
@@ -15,7 +15,7 @@ export class VueHint extends Hint {
         this._settings = settings;
     }
 
-    public mount() {
+    public async mount() {
         this._component = this._getHintHTMLElement();
         return this._component;
     }
@@ -29,6 +29,7 @@ export class VueHint extends Hint {
         hint.$on('go-next', this._settings.goNext);
         hint.$on('go-previous', this._settings.goPrevious);
         hint.$on('stop', this._settings.stop);
+        hint.$on('go-to', this._settings.goTo);
 
         const elem = hint.$el;
         elem.classList.add(ClassNames.HINT);

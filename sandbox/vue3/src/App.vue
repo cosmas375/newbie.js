@@ -1,16 +1,6 @@
-<template>
-    <div id="app">
-        <button @click="doStart" id="start">start</button>
-        <div data-newbie-target="center">center</div>
-        <div data-newbie-target="1">1</div>
-        <div data-newbie-target="2">2</div>
-        <div data-newbie-target="3">3</div>
-    </div>
-</template>
-
 <script>
 import Hint from './components/Hint.vue';
-import Newbie from '../../../src/entry-vue';
+import Newbie from '../../../src/entry-vue3';
 
 export default {
     name: 'App',
@@ -22,15 +12,6 @@ export default {
     methods: {
         doStart() {
             this.newbie.start();
-        },
-        goPrevious() {
-            this.newbie.goPrevious();
-        },
-        goNext() {
-            this.newbie.goNext();
-        },
-        doStop() {
-            this.newbie.stop();
         },
     },
     mounted() {
@@ -66,6 +47,7 @@ export default {
                     target: '[data-newbie-target="center"]',
                     content: {
                         content: 'top-left',
+                        lastHintId: '3',
                     },
                     position: 'top-left',
                 },
@@ -215,6 +197,16 @@ export default {
     },
 };
 </script>
+
+<template>
+    <div id="app">
+        <button @click="doStart" id="start">start</button>
+        <div data-newbie-target="center">center</div>
+        <div data-newbie-target="1">1</div>
+        <div data-newbie-target="2">2</div>
+        <div data-newbie-target="3">3</div>
+    </div>
+</template>
 
 <style lang="scss">
 @import '../../../src/assets/scss/style';

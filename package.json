@@ -1,25 +1,14 @@
 {
-    "name": "newbie.js",
-    "version": "0.0.8",
-    "description": "Meet the most flexible tour library!",
-    "keywords": ["tour", "guide", "quick guide", "getting started", "get started"],
-    "homepage": "https://github.com/cosmas375/newbie.js",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/cosmas375/newbie.js/issues"
-    },
-    "author": "Roman Lyakhovchik <roman.lyakhovchik@gmail.com>",
-    "main": "dist/vue/index.ts",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/cosmas375/newbie.js.git"
-    },
     "scripts": {
-        "build": "npm run build:vanilla && npm run build:vue",
+        "build": "npm run build:vanilla && npm run build:vue2 && npm run build:vue3 && npm run build:react",
         "build:vanilla": "sh build-vanilla.sh",
-        "build:vue": "sh build-vue.sh",
+        "build:vue2": "sh build-vue2.sh",
+        "build:vue3": "sh build-vue3.sh",
+        "build:react": "sh build-react.sh",
         "serve:vanilla": "./node_modules/.bin/webpack serve --config webpack-vanilla.config.js --mode=development",
-        "serve:vue": "cd sandbox/vue && npm run serve",
+        "serve:vue2": "cd sandbox/vue2 && npm run serve",
+        "serve:vue3": "cd sandbox/vue3 && npm run dev",
+        "serve:react": "cd sandbox/react-sandbox && npm start",
         "test": "npm run test:unit && npm run test:e2e",
         "test:unit": "jest",
         "test:e2e": "./node_modules/.bin/cypress run",
@@ -30,10 +19,6 @@
         "@babel/core": "^7.16.0",
         "@babel/preset-env": "^7.16.4",
         "@babel/preset-typescript": "^7.16.0",
-        "@vue/cli": "^4.5.15",
-        "@vue/cli-plugin-babel": "~4.5.0",
-        "@vue/cli-plugin-eslint": "~4.5.0",
-        "@vue/cli-service": "~4.5.0",
         "babel-jest": "^27.4.4",
         "css-loader": "^6.5.1",
         "cypress": "^9.2.0",

@@ -34,9 +34,9 @@ export class StepView implements IStepView {
     public async mount(): Promise<HTMLElement> {
         this._setTargetElement();
         this._scrollToTarget();
-        this._mountHint();
-        this._mountArrow();
         this._mountShadow();
+        await this._mountHint();
+        this._mountArrow();
         this._mountStepContainer();
         return this._targetElement;
     }
@@ -132,8 +132,9 @@ export class StepView implements IStepView {
         this._shadow.unmount();
     }
 
-    private _mountHint(): void {
-        this._stepContainer.appendHint(this._hint.mount());
+    private async _mountHint(): Promise<void> {
+        const component = await this._hint.mount();
+        this._stepContainer.appendHint(component);
     }
     private _unmountHint(): void {
         this._hint.unmount();

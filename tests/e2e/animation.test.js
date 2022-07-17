@@ -3,7 +3,6 @@ describe('animated positioning', () => {
     const transitionDurationForAssert = transitionDuration * 5;
     const targetSelector = '[data-newbie-target="1"]';
     const hintSelector = '#newbie-hint';
-    const defaultOffset = 0;
     const round = value => Math.round(value);
 
     let globalHint;
@@ -20,9 +19,7 @@ describe('animated positioning', () => {
                 const hintRect = globalHint.getBoundingClientRect();
                 const targetRect = globalTarget.getBoundingClientRect();
 
-                expect(targetRect.top).not.to.equal(
-                    round(hintRect.bottom + defaultOffset)
-                );
+                expect(targetRect.top).not.to.equal(round(hintRect.bottom));
                 expect(round(targetRect.left - hintRect.left)).not.to.equal(
                     round(hintRect.right - targetRect.right)
                 );
@@ -31,9 +28,7 @@ describe('animated positioning', () => {
                     const hintRect = globalHint.getBoundingClientRect();
                     const targetRect = globalTarget.getBoundingClientRect();
 
-                    expect(targetRect.top).to.equal(
-                        round(hintRect.bottom + defaultOffset)
-                    );
+                    expect(targetRect.top).to.equal(round(hintRect.bottom));
                     expect(round(targetRect.left - hintRect.left)).to.equal(
                         round(hintRect.right - targetRect.right)
                     );
@@ -47,7 +42,7 @@ describe('animated positioning', () => {
                 const targetRect = globalTarget.getBoundingClientRect();
 
                 expect(round(targetRect.top)).not.to.equal(
-                    round(hintRect.bottom + defaultOffset)
+                    round(hintRect.bottom)
                 );
                 expect(round(targetRect.left)).not.to.equal(
                     round(hintRect.left)
@@ -58,7 +53,7 @@ describe('animated positioning', () => {
                     const targetRect = globalTarget.getBoundingClientRect();
 
                     expect(round(targetRect.top)).to.equal(
-                        round(hintRect.bottom + defaultOffset)
+                        round(hintRect.bottom)
                     );
                     expect(round(targetRect.left)).to.equal(
                         round(hintRect.left)
@@ -73,7 +68,7 @@ describe('animated positioning', () => {
                 const targetRect = globalTarget.getBoundingClientRect();
 
                 expect(round(targetRect.top)).not.to.equal(
-                    round(hintRect.bottom + defaultOffset)
+                    round(hintRect.bottom)
                 );
                 expect(round(targetRect.right)).not.to.equal(
                     round(hintRect.right)
@@ -84,7 +79,7 @@ describe('animated positioning', () => {
                     const targetRect = globalTarget.getBoundingClientRect();
 
                     expect(round(targetRect.top)).to.equal(
-                        round(hintRect.bottom + defaultOffset)
+                        round(hintRect.bottom)
                     );
                     expect(round(targetRect.right)).to.equal(
                         round(hintRect.right)
@@ -99,7 +94,7 @@ describe('animated positioning', () => {
                 const targetRect = globalTarget.getBoundingClientRect();
 
                 expect(round(targetRect.right)).not.to.equal(
-                    round(hintRect.left - defaultOffset)
+                    round(hintRect.left)
                 );
                 expect(round(targetRect.top - hintRect.top)).not.to.equal(
                     round(hintRect.bottom - targetRect.bottom)
@@ -110,7 +105,7 @@ describe('animated positioning', () => {
                     const targetRect = globalTarget.getBoundingClientRect();
 
                     expect(round(targetRect.right)).to.equal(
-                        round(hintRect.left - defaultOffset)
+                        round(hintRect.left)
                     );
                     expect(round(targetRect.top - hintRect.top)).to.equal(
                         round(hintRect.bottom - targetRect.bottom)
@@ -124,18 +119,14 @@ describe('animated positioning', () => {
                 const hintRect = globalHint.getBoundingClientRect();
                 const targetRect = globalTarget.getBoundingClientRect();
 
-                expect(targetRect.right).not.to.equal(
-                    hintRect.left - defaultOffset
-                );
+                expect(targetRect.right).not.to.equal(hintRect.left);
                 expect(targetRect.top).not.to.equal(hintRect.top);
 
                 cy.wait(transitionDurationForAssert).then(() => {
                     const hintRect = globalHint.getBoundingClientRect();
                     const targetRect = globalTarget.getBoundingClientRect();
 
-                    expect(targetRect.right).to.equal(
-                        hintRect.left - defaultOffset
-                    );
+                    expect(targetRect.right).to.equal(hintRect.left);
                     expect(targetRect.top).to.equal(hintRect.top);
                 });
             },
@@ -147,7 +138,7 @@ describe('animated positioning', () => {
                 const targetRect = globalTarget.getBoundingClientRect();
 
                 expect(round(targetRect.right)).not.to.equal(
-                    round(hintRect.left - defaultOffset)
+                    round(hintRect.left)
                 );
                 expect(round(targetRect.bottom)).not.to.equal(
                     round(hintRect.bottom)
@@ -158,7 +149,7 @@ describe('animated positioning', () => {
                     const targetRect = globalTarget.getBoundingClientRect();
 
                     expect(round(targetRect.right)).to.equal(
-                        round(hintRect.left - defaultOffset)
+                        round(hintRect.left)
                     );
                     expect(round(targetRect.bottom)).to.equal(
                         round(hintRect.bottom)
@@ -172,9 +163,7 @@ describe('animated positioning', () => {
                 const hintRect = globalHint.getBoundingClientRect();
                 const targetRect = globalTarget.getBoundingClientRect();
 
-                expect(targetRect.bottom).not.to.equal(
-                    hintRect.top - defaultOffset
-                );
+                expect(targetRect.bottom).not.to.equal(hintRect.top);
                 expect(
                     Math.round(targetRect.left - hintRect.left)
                 ).not.to.equal(Math.round(hintRect.right - targetRect.right));
@@ -183,9 +172,7 @@ describe('animated positioning', () => {
                     const hintRect = globalHint.getBoundingClientRect();
                     const targetRect = globalTarget.getBoundingClientRect();
 
-                    expect(targetRect.bottom).to.equal(
-                        hintRect.top - defaultOffset
-                    );
+                    expect(targetRect.bottom).to.equal(hintRect.top);
                     expect(
                         Math.round(targetRect.left - hintRect.left)
                     ).to.equal(Math.round(hintRect.right - targetRect.right));
@@ -199,7 +186,7 @@ describe('animated positioning', () => {
                 const targetRect = globalTarget.getBoundingClientRect();
 
                 expect(round(targetRect.bottom)).not.to.equal(
-                    round(hintRect.top - defaultOffset)
+                    round(hintRect.top)
                 );
                 expect(round(targetRect.left)).not.to.equal(
                     round(hintRect.left)
@@ -210,7 +197,7 @@ describe('animated positioning', () => {
                     const targetRect = globalTarget.getBoundingClientRect();
 
                     expect(round(targetRect.bottom)).to.equal(
-                        round(hintRect.top - defaultOffset)
+                        round(hintRect.top)
                     );
                     expect(round(targetRect.left)).to.equal(
                         round(hintRect.left)
@@ -225,7 +212,7 @@ describe('animated positioning', () => {
                 const targetRect = globalTarget.getBoundingClientRect();
 
                 expect(round(targetRect.bottom)).not.to.equal(
-                    round(hintRect.top - defaultOffset)
+                    round(hintRect.top)
                 );
                 expect(round(targetRect.right)).not.to.equal(
                     round(hintRect.right)
@@ -236,7 +223,7 @@ describe('animated positioning', () => {
                     const targetRect = globalTarget.getBoundingClientRect();
 
                     expect(round(targetRect.bottom)).to.equal(
-                        round(hintRect.top - defaultOffset)
+                        round(hintRect.top)
                     );
                     expect(round(targetRect.right)).to.equal(
                         round(hintRect.right)
@@ -251,7 +238,7 @@ describe('animated positioning', () => {
                 const targetRect = globalTarget.getBoundingClientRect();
 
                 expect(round(targetRect.left)).not.to.equal(
-                    round(hintRect.right + defaultOffset)
+                    round(hintRect.right)
                 );
                 expect(round(targetRect.top - hintRect.top)).not.to.equal(
                     round(hintRect.bottom - targetRect.bottom)
@@ -262,7 +249,7 @@ describe('animated positioning', () => {
                     const targetRect = globalTarget.getBoundingClientRect();
 
                     expect(round(targetRect.left)).to.equal(
-                        round(hintRect.right + defaultOffset)
+                        round(hintRect.right)
                     );
                     expect(round(targetRect.top - hintRect.top)).to.equal(
                         round(hintRect.bottom - targetRect.bottom)
@@ -277,7 +264,7 @@ describe('animated positioning', () => {
                 const targetRect = globalTarget.getBoundingClientRect();
 
                 expect(round(targetRect.left)).not.to.equal(
-                    round(hintRect.right + defaultOffset)
+                    round(hintRect.right)
                 );
                 expect(round(targetRect.top)).not.to.equal(round(hintRect.top));
 
@@ -286,7 +273,7 @@ describe('animated positioning', () => {
                     const targetRect = globalTarget.getBoundingClientRect();
 
                     expect(round(targetRect.left)).to.equal(
-                        round(hintRect.right + defaultOffset)
+                        round(hintRect.right)
                     );
                     expect(round(targetRect.top)).to.equal(round(hintRect.top));
                 });
@@ -299,7 +286,7 @@ describe('animated positioning', () => {
                 const targetRect = globalTarget.getBoundingClientRect();
 
                 expect(round(targetRect.left)).not.to.equal(
-                    round(hintRect.right + defaultOffset)
+                    round(hintRect.right)
                 );
                 expect(round(targetRect.bottom)).not.to.equal(
                     round(hintRect.bottom)
@@ -310,7 +297,7 @@ describe('animated positioning', () => {
                     const targetRect = globalTarget.getBoundingClientRect();
 
                     expect(round(targetRect.left)).to.equal(
-                        round(hintRect.right + defaultOffset)
+                        round(hintRect.right)
                     );
                     expect(round(targetRect.bottom)).to.equal(
                         round(hintRect.bottom)

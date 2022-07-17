@@ -41,7 +41,7 @@ export interface IHintFactory {
 }
 
 export interface IHint {
-    mount(): HTMLElement | null;
+    mount(): Promise<HTMLElement | null>;
     unmount(): void;
     setContent(content: object): void;
 }
@@ -108,9 +108,10 @@ export interface IArrowConfig {
 // end config
 
 export interface IHintSettings {
-    goNext(): void;
-    goPrevious(): void;
-    stop(): void;
+    goNext(): Promise<void>;
+    goPrevious(): Promise<void>;
+    stop(): Promise<void>;
+    goTo(id: string): Promise<void>;
 }
 
 export type TElement = HTMLElement | null;
