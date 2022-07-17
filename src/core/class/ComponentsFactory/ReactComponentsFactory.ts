@@ -4,7 +4,7 @@ import {
     IHintConfig,
     IHintSettings,
 } from '../../Interfaces';
-import { ReactHintFactory } from '../Hint/HintFactory';
+import { ReactHintFactory } from '../HintFactory/ReactHintFactory';
 import { ComponentsFactory } from './ComponentsFactory';
 
 export class ReactComponentsFactory extends ComponentsFactory {
