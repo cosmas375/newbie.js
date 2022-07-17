@@ -1,7 +1,10 @@
 import Newbie, { useNewbie } from 'newbiesrc/entry-react';
 import 'newbiesrc/assets/scss/style.scss';
-import Hint from './Hint';
+
+import ReactDOM from 'react-dom/client';
 import { useEffect } from 'react';
+
+import Hint from './Hint';
 import './App.css';
 
 function App() {
@@ -11,7 +14,7 @@ function App() {
         newbie.start();
     }
 
-    useNewbie();
+    useNewbie({ ReactDOM });
 
     useEffect(() => {
         newbie = new Newbie({

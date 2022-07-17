@@ -4,6 +4,7 @@ import {
     IHintConfig,
     IHintSettings,
 } from '../../Interfaces';
+import { ReactHint } from './ReactHint';
 import { VanillaHint } from './VanillaHint';
 import { Vue2Hint } from './Vue2Hint';
 import { Vue3Hint } from './Vue3Hint';
@@ -35,5 +36,17 @@ export class Vue3HintFactory implements IHintFactory {
 
     public create(config: IHintConfig, settings: IHintSettings): IHint {
         return new Vue3Hint(config, settings, this._createApp);
+    }
+}
+
+export class ReactHintFactory implements IHintFactory {
+    private _ReactDOM: any;
+
+    constructor({ ReactDom }) {
+        this._ReactDOM = ReactDom;
+    }
+
+    public create(config: IHintConfig, settings: IHintSettings): IHint {
+        return new ReactHint(config, settings, this._ReactDOM);
     }
 }

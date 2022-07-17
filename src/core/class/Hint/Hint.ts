@@ -8,7 +8,7 @@ export class Hint implements IHint {
         /* continue regardless of error */
     }
 
-    public mount() {
+    public async mount() {
         return null;
     }
 

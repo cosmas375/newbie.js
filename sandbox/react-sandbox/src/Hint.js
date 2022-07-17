@@ -1,6 +1,10 @@
 import './Hint.css';
 
 function Hint(props) {
+    function goToLastHint() {
+        props.goTo(props.lastHintId);
+    }
+
     return (
         <div id="hint" className="hint">
             <div className="hint__title">{props.title}</div>
@@ -12,13 +16,11 @@ function Hint(props) {
                 <button onClick={props.goNext} className="hint__btn">
                     next
                 </button>
-                <button
-                    v-if="lastHintId"
-                    onClick={props.goNext}
-                    className="hint__btn"
-                >
-                    last
-                </button>
+                {props.lastHintId && (
+                    <button onClick={goToLastHint} className="hint__btn">
+                        last
+                    </button>
+                )}
             </div>
             <span onClick={props.stop} className="hint__close">
                 x
