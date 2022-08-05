@@ -67,7 +67,10 @@ export class Newbie implements INewbie {
             return;
         }
 
-        const step = this._steps.getById(id);
+        let step = this._steps.getFirst();
+        while (step && step.value.id !== id) {
+            step = step.next;
+        }
 
         if (!step) {
             _warn(`Step ${id} not found!`);
