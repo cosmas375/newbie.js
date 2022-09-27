@@ -5,7 +5,6 @@ export default {
         content: String,
         lastHintId: String,
     },
-    inject: ['goNext', 'goPrevious', 'stop', 'goTo'],
 };
 </script>
 
@@ -14,17 +13,17 @@ export default {
         <div class="hint__title">{{ title }}</div>
         <div class="hint__content">{{ content }}</div>
         <div class="hint__controls">
-            <button @click="goPrevious" class="hint__btn">prev</button>
-            <button @click="goNext" class="hint__btn">next</button>
+            <button @click="$emit('go-previous')" class="hint__btn">prev</button>
+            <button @click="$emit('go-next')" class="hint__btn">next</button>
             <button
                 v-if="lastHintId"
-                @click="goTo(lastHintId)"
+                @click="$emit('go-to', lastHintId)"
                 class="hint__btn"
             >
                 last
             </button>
         </div>
-        <span @click="stop" class="hint__close">x</span>
+        <span @click="$emit('stop')" class="hint__close">x</span>
     </div>
 </template>
 

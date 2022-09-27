@@ -55,7 +55,7 @@ This would look like:
 
 ---
 
-## 3) Vue 2:
+## 3) Vue (both 2 and 3):
 
 Emit `go-next`, `go-previous`, `stop`, `go-to` events from your hint component:
 
@@ -68,28 +68,6 @@ Emit `go-next`, `go-previous`, `stop`, `go-to` events from your hint component:
 ```
 
 ---
-
-## 4) Vue 3:
-
-Inject methods `goNext`, `goPrevious`, `stop`, `goTo` in your hint component:
-
-```
-<template>
-    ...
-    <my-next-button
-        @click="goNext"
-    >
-        Go to the next step
-    </my-next-button>
-    ...
-</template>
-
-<script>
-export default {
-    inject: ['goNext'],
-};
-</script>
-```
 
 ## 5) React:
 
