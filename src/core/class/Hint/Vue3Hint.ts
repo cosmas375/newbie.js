@@ -23,15 +23,17 @@ export class Vue3Hint extends Hint {
     private _getHintHTMLElement(): HTMLElement {
         const div = document.createElement('div');
 
-        const app = this._createApp(this._vueComponent, {
-            ...this._content,
-            ...this._settings,
-        });
+        const app = this._createApp(
+            this._vueComponent,
+            {
+                ...this._content,
 
-        app.provide('goNext', this._settings.goNext);
-        app.provide('goPrevious', this._settings.goPrevious);
-        app.provide('stop', this._settings.stop);
-        app.provide('goTo', this._settings.goTo);
+                onGoNext: this._settings.goNext,
+                onGoPrevious: this._settings.goPrevious,
+                onStop: this._settings.stop,
+                onGoTo: this._settings.goTo,
+            },
+        );
 
         const hint = app.mount(div);
 
