@@ -3,8 +3,8 @@ import { NullArrow } from './NullArrow';
 import { TriangleArrow } from './TriangleArrow';
 
 export class ArrowFactory {
-    private static _triangleArrow: IArrow;
-    private static _nullArrow: IArrow;
+    private static _triangleArrow: IArrow = null;
+    private static _nullArrow: IArrow = null;
 
     static create(config: IArrowConfig): IArrow {
         if (config.enabled) {
