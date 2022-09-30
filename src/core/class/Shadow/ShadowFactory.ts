@@ -3,7 +3,7 @@ import { SvgShadow } from './SvgShadow';
 import { NullShadow } from './NullShadow';
 
 export class ShadowFactory {
-    private static _svgShadow: SvgShadow;
+    private static _svgShadow: SvgShadow = null;
 
     public static create(config: IShadowConfig, settings: object): IShadow {
         if (config.enabled) {
