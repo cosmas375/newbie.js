@@ -1,6 +1,10 @@
+import { TValidStepConfig } from './Interfaces';
 import { Position } from './Position';
 
-export const DEFAULT_VALUES = {
+export const DEFAULT_VALUES: Omit<
+    TValidStepConfig,
+    'id' | 'content' | 'hint' | 'target'
+> = {
     position: Position.Bottom,
     offsetX: 0,
     offsetY: 0,

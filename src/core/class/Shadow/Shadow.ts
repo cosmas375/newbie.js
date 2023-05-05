@@ -1,9 +1,9 @@
-import { IShadow, IShadowConfig } from '../../Interfaces';
+import { IShadow, TElement, TValidShadowConfig } from '../../Interfaces';
 
-export class Shadow implements IShadow {
-    protected _config: IShadowConfig;
+export abstract class Shadow implements IShadow {
+    protected _config: TValidShadowConfig | null = null;
 
-    public mount(targetElement, config) {
+    public mount(_: TElement, config: TValidShadowConfig): void {
         this._config = config;
 
         if (this._config.disableScroll) {
@@ -12,7 +12,7 @@ export class Shadow implements IShadow {
     }
 
     public unmount() {
-        if (this._config.disableScroll) {
+        if (this._config?.disableScroll) {
             this._enableScroll();
         }
     }
@@ -20,9 +20,13 @@ export class Shadow implements IShadow {
     public reset() {}
 
     private _disableScroll() {
-        this._config.rootComponent.style.overflow = 'hidden';
+        if (this._config && this._config.rootComponent) {
+            this._config.rootComponent.style.overflow = 'hidden';
+        }
     }
     private _enableScroll() {
-        this._config.rootComponent.style.removeProperty('overflow');
+        if (this._config && this._config.rootComponent) {
+            this._config.rootComponent.style.removeProperty('overflow');
+        }
     }
 }

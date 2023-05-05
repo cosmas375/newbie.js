@@ -1,20 +1,26 @@
-import { IStep, IStepConfig, IHintSettings } from '../Interfaces';
+import {
+    IStep,
+    THintSettings,
+    TStepId,
+    TTargetElement,
+    TValidStepConfig,
+} from '../Interfaces';
 import getCallback from '../utils/getCallback';
 import { StepView } from './StepView';
 
 export class Step implements IStep {
-    private _config: IStepConfig;
+    private _config: TValidStepConfig;
     private _lifecycleHooks;
     private _view: StepView;
-    private _targetElement: HTMLElement;
+    private _targetElement: TTargetElement = null;
 
-    constructor(config: IStepConfig, hintSettings: IHintSettings) {
+    constructor(config: TValidStepConfig, hintSettings: THintSettings) {
         this._view = new StepView(config, hintSettings);
         this._config = config;
-        this._setLifeCycleHooks();
+        this._lifecycleHooks = this._getLifecycleHooks();
     }
 
-    public get id(): string {
+    public getId(): TStepId {
         return this._config.id;
     }
 
@@ -34,8 +40,8 @@ export class Step implements IStep {
         this._view.reset();
     }
 
-    private _setLifeCycleHooks(): void {
-        this._lifecycleHooks = {
+    private _getLifecycleHooks() {
+        return {
             beforeMount: getCallback(this._config.beforeMount),
             mounted: getCallback(this._config.mounted),
             beforeUnmount: getCallback(this._config.beforeUnmount),

@@ -1,11 +1,11 @@
-import { IShadow, IShadowConfig } from '../../Interfaces';
-import { SvgShadow } from './SvgShadow';
+import { IShadow, TShadowConfig } from '../../Interfaces';
 import { NullShadow } from './NullShadow';
+import { SvgShadow } from './SvgShadow';
 
 export class ShadowFactory {
-    private static _svgShadow: SvgShadow = null;
+    private static _svgShadow: SvgShadow | null = null;
 
-    public static create(config: IShadowConfig, settings: object): IShadow {
+    public static create(config: TShadowConfig, settings: object): IShadow {
         if (config.enabled) {
             if (!this._svgShadow) {
                 this._svgShadow = new SvgShadow(settings);

@@ -1,27 +1,23 @@
 import {
-    IHintFactory,
     IHint,
-    IHintConfig,
-    IHintSettings,
+    IHintFactory,
+    THintConfig,
+    THintSettings,
 } from '../../Interfaces';
 import { ReactHintFactory } from '../HintFactory/ReactHintFactory';
 import { ComponentsFactory } from './ComponentsFactory';
 
 export class ReactComponentsFactory extends ComponentsFactory {
-    private _ReactDOM: any;
     private _hintFactory: IHintFactory;
 
-    constructor({ ReactDOM }) {
+    constructor({ ReactDOM }: { ReactDOM: any }) {
         super();
-        this._ReactDOM = ReactDOM;
+        this._hintFactory = new ReactHintFactory({
+            ReactDOM,
+        });
     }
 
-    public createHint(config: IHintConfig, settings: IHintSettings): IHint {
-        if (!this._hintFactory) {
-            this._hintFactory = new ReactHintFactory({
-                ReactDom: this._ReactDOM,
-            });
-        }
+    public createHint(config: THintConfig, settings: THintSettings): IHint {
         return this._hintFactory.create(config, settings);
     }
 }

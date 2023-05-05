@@ -1,7 +1,7 @@
 import { IComponentsFactory } from '../Interfaces';
 
 export class Globals {
-    private static _componentsFactory: IComponentsFactory = null;
+    private static _componentsFactory: IComponentsFactory;
 
     static set componentsFactory(factory: IComponentsFactory) {
         if (this._componentsFactory) {

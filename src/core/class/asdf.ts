@@ -2,6 +2,7 @@ import {
     IArrow,
     IHint,
     IShadow,
+    TElement,
     THintSettings,
     TTargetElement,
     TValidStepConfig,
@@ -15,6 +16,8 @@ export class StepView {
     private _hintSettings: THintSettings;
 
     private _targetElement: TTargetElement = null;
+    private _hintElement: TElement | null = null;
+    private _arrowElement: TElement | null = null;
 
     private _stepContainer: StepContainer;
     private _shadow: IShadow;
@@ -33,11 +36,11 @@ export class StepView {
 
     public async mount(): Promise<TTargetElement> {
         this._setTargetElement();
-        this._scrollToTarget();
-        this._mountShadow();
         await this._mountHint();
         this._mountArrow();
         this._mountStepContainer();
+        this._scrollToTarget();
+        this._mountShadow();
         return this._targetElement;
     }
 
@@ -87,26 +90,61 @@ export class StepView {
     }
 
     private _scrollToTarget(): void {
-        if (!this._targetElement) {
+        if (!this._targetElement || !this._hintElement || !this._arrowElement) {
             return;
         }
 
         const targetRect = this._targetElement.getBoundingClientRect();
+        const hintRect = this._hintElement.getBoundingClientRect();
+        const arrowRect = this._arrowElement.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
 
-        const beautifyingFactor = 0.8;
         let offsetTop = 0;
-        if (window.innerHeight > targetRect.height) {
+        const scrollTop = document.documentElement.scrollTop;
+
+        if (targetRect.height + hintRect.height > windowHeight) {
+            const beautifyingOffset = 10;
+
+            switch (this._config.position) {
+                case Position.Top:
+                case Position.TopLeft:
+                case Position.TopRight:
+                    offsetTop =
+                        scrollTop +
+                        targetRect.top -
+                        hintRect.height -
+                        arrowRect.height -
+                        this._config.offsetY -
+                        beautifyingOffset;
+                    break;
+                case Position.Bottom:
+                case Position.BottomLeft:
+                case Position.BottomRight:
+                    offsetTop =
+                        scrollTop +
+                        targetRect.top +
+                        targetRect.height +
+                        hintRect.height +
+                        arrowRect.height +
+                        this._config.offsetY +
+                        beautifyingOffset -
+                        windowHeight +
+                        beautifyingOffset;
+
+                    break;
+            }
+        } else if (window.innerHeight > targetRect.height) {
+            const beautifyingFactor = 0.8;
             offsetTop =
+                scrollTop +
+                targetRect.top -
                 ((window.innerHeight - targetRect.height) / 2) *
-                beautifyingFactor;
+                    beautifyingFactor;
         }
 
         const top = Math.min(
             document.documentElement.scrollHeight,
-            Math.max(
-                0,
-                document.documentElement.scrollTop + targetRect.top - offsetTop
-            )
+            Math.max(0, offsetTop)
         );
 
         window.scrollTo({ top });
@@ -136,8 +174,8 @@ export class StepView {
     }
 
     private async _mountHint(): Promise<void> {
-        const component = await this._hint.mount();
-        this._stepContainer.appendHint(component);
+        this._hintElement = await this._hint.mount();
+        this._stepContainer.appendHint(this._hintElement);
     }
     private _unmountHint(): void {
         this._hint.unmount();
@@ -148,7 +186,8 @@ export class StepView {
             return;
         }
 
-        this._stepContainer.appendArrow(this._arrow.mount(this._config.arrow));
+        this._arrowElement = this._arrow.mount(this._config.arrow);
+        this._stepContainer.appendArrow(this._arrowElement);
     }
     private _unmountArrow(): void {
         this._arrow.unmount();

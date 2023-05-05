@@ -1,17 +1,26 @@
 import { DEFAULT_VALUES } from '../DefaultValues';
-import { IConfig, INewbieConfig, IStepConfig } from '../Interfaces';
-import { Position } from '../Position';
 import { Error } from '../Error';
-import isDefined from '../utils/isDefined';
+import {
+    IConfig,
+    TCommonUserConfig,
+    TNewbieConfig,
+    TStepConfig,
+    TStepId,
+    TValidNewbieConfig,
+    TValidStepConfig,
+} from '../Interfaces';
+import { Position } from '../Position';
+import { assertIsDefined } from '../utils/isDefined';
+import _throw from '../utils/throw';
 
 export class Config implements IConfig {
-    private _config: INewbieConfig;
+    private _config: TNewbieConfig;
 
-    constructor(config: INewbieConfig) {
+    constructor(config: TNewbieConfig) {
         this._config = config;
     }
 
-    get config(): INewbieConfig {
+    public getConfig(): TValidNewbieConfig {
         return this._config;
     }
 
@@ -46,14 +55,14 @@ export class Config implements IConfig {
         return null;
     }
 
-    public resolveStepConfig(stepId): IStepConfig {
-        const stepConfig =
-            typeof stepId === 'string'
-                ? this._config.steps.find(step => step.id === stepId)
-                : this._config.steps[stepId];
+    public getStepConfig(stepId: TStepId): TValidStepConfig {
+        const stepConfig = this._config.steps.find(step => step.id === stepId);
+
+        assertIsDefined(stepConfig);
+
         const config = this._config;
 
-        if (!isDefined(stepConfig.id)) {
+        if (!stepConfig.id) {
             stepConfig.id = `No. ${stepId}`;
         }
 
@@ -67,47 +76,48 @@ export class Config implements IConfig {
             stepConfig.position = this._resolve(config, stepConfig, 'position');
             stepConfig.offsetX = this._resolve(config, stepConfig, 'offsetX');
             stepConfig.offsetY = this._resolve(config, stepConfig, 'offsetY');
-            stepConfig.arrow = this._resolveObject(config, stepConfig, 'arrow');
+            stepConfig.arrow = this._resolve(config, stepConfig, 'arrow');
         } else {
             stepConfig.position = Position.Center;
             stepConfig.offsetX = 0;
             stepConfig.offsetY = 0;
-            stepConfig.arrow = { enabled: false };
+            stepConfig.arrow = {
+                enabled: false,
+                padding: 0,
+            };
         }
 
-        stepConfig.shadow = this._resolveObject(config, stepConfig, 'shadow');
-        stepConfig.hint = this._resolveObject(config, stepConfig, 'hint');
+        stepConfig.shadow = this._resolve(config, stepConfig, 'shadow');
+        stepConfig.hint = this._resolve(config, stepConfig, 'hint');
 
-        if (!isDefined(stepConfig.content)) {
+        if (!stepConfig.content) {
             stepConfig.content = {};
         }
 
         return stepConfig;
     }
 
-    private _resolve(config, stepConfig, param) {
-        if (isDefined(stepConfig[param])) {
-            return stepConfig[param];
+    private _resolve<T extends keyof TCommonUserConfig>(
+        newbieConfig: TNewbieConfig,
+        stepConfig: TStepConfig,
+        param: T
+    ): TValidStepConfig[T] {
+        const newbieConfigValue = newbieConfig[param];
+        const stepConfigValue = stepConfig[param];
+        // @ts-ignore
+        const defaultValue = DEFAULT_VALUES[param];
+
+        if (typeof defaultValue === 'object') {
+            const result = Object.assign(
+                {},
+                defaultValue,
+                newbieConfigValue,
+                stepConfigValue
+            );
+            return result;
         } else {
-            return isDefined(config[param])
-                ? config[param]
-                : DEFAULT_VALUES[param];
+            const value = stepConfigValue || newbieConfigValue || defaultValue;
+            return value;
         }
-    }
-
-    private _resolveObject(config, stepConfig, param) {
-        const result = {
-            ...config[param],
-            ...stepConfig[param],
-        };
-
-        const defaultValue = DEFAULT_VALUES[param] || {};
-        Object.keys(defaultValue).forEach(key => {
-            if (!isDefined(result[key])) {
-                result[key] = defaultValue[key];
-            }
-        });
-
-        return result;
     }
 }

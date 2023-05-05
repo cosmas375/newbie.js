@@ -1,4 +1,4 @@
-export enum ClassNames {
+export enum ClassName {
     HINT_WRAP = 'newbie-hint-wrap',
     HINT_WRAP_VISIBLE = 'newbie-hint-wrap_visible',
     HINT_WRAP_CONTAINER = 'newbie-hint-wrap__container',

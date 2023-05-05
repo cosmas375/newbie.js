@@ -1,8 +1,9 @@
-import { IArrow } from '../../Interfaces';
+import { IArrow, TElement } from '../../Interfaces';
 
 export class NullArrow implements IArrow {
-    public mount() {
-        return null;
+    public mount(): TElement {
+        return document.createElement('div');
     }
+
     public unmount(): void {}
 }

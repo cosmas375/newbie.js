@@ -1,19 +1,19 @@
 import {
-    IHintFactory,
     IHint,
-    IHintConfig,
-    IHintSettings,
+    IHintFactory,
+    THintConfig,
+    THintSettings,
 } from '../../Interfaces';
 import { ReactHint } from '../Hint/ReactHint';
 
 export class ReactHintFactory implements IHintFactory {
     private _ReactDOM: any;
 
-    constructor({ ReactDom }) {
-        this._ReactDOM = ReactDom;
+    constructor({ ReactDOM }: { ReactDOM: any }) {
+        this._ReactDOM = ReactDOM;
     }
 
-    public create(config: IHintConfig, settings: IHintSettings): IHint {
+    public create(config: THintConfig, settings: THintSettings): IHint {
         return new ReactHint(config, settings, this._ReactDOM);
     }
 }
