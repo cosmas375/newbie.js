@@ -2,13 +2,14 @@
 
 .newbie-hint-wrap {
     position: absolute;
-    display: none;
+    display: flex;
     width: 0;
     height: 0;
     z-index: $z-index-hint-wrap;
+    opacity: 0;
 
     &_visible {
-        display: flex;
+        opacity: 1;
     }
 
     &__container {

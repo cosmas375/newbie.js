@@ -120,7 +120,9 @@ export class StepContainer {
                 top: px(
                     document.documentElement.scrollTop + window.innerHeight / 2
                 ),
-                left: px(window.innerWidth / 2),
+                left: px(
+                    document.documentElement.scrollLeft + window.innerWidth / 2
+                ),
             });
             setPosition(this._container, {
                 top: px(-hintHeight / 2),
@@ -142,7 +144,10 @@ export class StepContainer {
                             this._offsetY
                     ),
                     left: px(
-                        targetRect.left + targetRect.width / 2 + this._offsetX
+                        document.documentElement.scrollLeft +
+                            targetRect.left +
+                            targetRect.width / 2 +
+                            this._offsetX
                     ),
                 });
                 setPosition(this._container, {
@@ -163,7 +168,11 @@ export class StepContainer {
                             arrowHeight +
                             this._offsetY
                     ),
-                    left: px(targetRect.left + this._offsetX),
+                    left: px(
+                        document.documentElement.scrollLeft +
+                            targetRect.left +
+                            this._offsetX
+                    ),
                 });
                 setPosition(this._container, {
                     top: px(-hintHeight),
@@ -183,7 +192,11 @@ export class StepContainer {
                             arrowHeight +
                             this._offsetY
                     ),
-                    left: px(targetRect.right + this._offsetX),
+                    left: px(
+                        document.documentElement.scrollLeft +
+                            targetRect.right +
+                            this._offsetX
+                    ),
                 });
                 setPosition(this._container, {
                     top: px(-hintHeight),
@@ -204,8 +217,8 @@ export class StepContainer {
                             this._offsetY
                     ),
                     left: px(
-                        targetRect.left +
-                            targetRect.width +
+                        document.documentElement.scrollLeft +
+                            targetRect.right +
                             arrowWidth +
                             this._offsetX
                     ),
@@ -227,7 +240,12 @@ export class StepContainer {
                             targetRect.top +
                             this._offsetY
                     ),
-                    left: px(targetRect.right + arrowWidth + this._offsetX),
+                    left: px(
+                        document.documentElement.scrollLeft +
+                            targetRect.right +
+                            arrowWidth +
+                            this._offsetX
+                    ),
                 });
                 setPosition(this._container, {
                     top: px(0),
@@ -246,7 +264,12 @@ export class StepContainer {
                             targetRect.bottom +
                             this._offsetY
                     ),
-                    left: px(targetRect.right + arrowWidth + this._offsetX),
+                    left: px(
+                        document.documentElement.scrollLeft +
+                            targetRect.right +
+                            arrowWidth +
+                            this._offsetX
+                    ),
                 });
                 setPosition(this._container, {
                     top: px(-hintHeight),
@@ -267,7 +290,10 @@ export class StepContainer {
                             this._offsetY
                     ),
                     left: px(
-                        targetRect.left + targetRect.width / 2 + this._offsetX
+                        document.documentElement.scrollLeft +
+                            targetRect.left +
+                            targetRect.width / 2 +
+                            this._offsetX
                     ),
                 });
                 setPosition(this._container, {
@@ -288,7 +314,11 @@ export class StepContainer {
                             arrowHeight +
                             this._offsetY
                     ),
-                    left: px(targetRect.left + this._offsetX),
+                    left: px(
+                        document.documentElement.scrollLeft +
+                            targetRect.left +
+                            this._offsetX
+                    ),
                 });
                 setPosition(this._container, {
                     top: px(0),
@@ -309,7 +339,10 @@ export class StepContainer {
                             this._offsetY
                     ),
                     left: px(
-                        targetRect.left + targetRect.width + this._offsetX
+                        document.documentElement.scrollLeft +
+                            targetRect.left +
+                            targetRect.width +
+                            this._offsetX
                     ),
                 });
                 setPosition(this._container, {
@@ -330,7 +363,12 @@ export class StepContainer {
                             targetRect.height / 2 +
                             this._offsetY
                     ),
-                    left: px(targetRect.left - arrowWidth + this._offsetX),
+                    left: px(
+                        document.documentElement.scrollLeft +
+                            targetRect.left -
+                            arrowWidth +
+                            this._offsetX
+                    ),
                 });
                 setPosition(this._container, {
                     top: px(-hintHeight / 2),
@@ -349,7 +387,12 @@ export class StepContainer {
                             targetRect.top +
                             this._offsetY
                     ),
-                    left: px(targetRect.left - arrowWidth + this._offsetX),
+                    left: px(
+                        document.documentElement.scrollLeft +
+                            targetRect.left -
+                            arrowWidth +
+                            this._offsetX
+                    ),
                 });
                 setPosition(this._container, {
                     top: px(0),
@@ -368,7 +411,12 @@ export class StepContainer {
                             targetRect.bottom +
                             this._offsetY
                     ),
-                    left: px(targetRect.left - arrowWidth + this._offsetX),
+                    left: px(
+                        document.documentElement.scrollLeft +
+                            targetRect.left -
+                            arrowWidth +
+                            this._offsetX
+                    ),
                 });
                 setPosition(this._container, {
                     top: px(-hintHeight),

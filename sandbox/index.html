@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>newbie.js sandbox</title>
+        <style>
+            body {
+                padding: 0;
+                margin: 0;
+                min-width: 100vw;
+                min-height: 100vh;
+            }
+
+            #start {
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                font-size: 20px;
+                z-index: 2;
+            }
+
+            [data-newbie-target='walk-around'] {
+                width: 200px;
+                height: 200px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #ff9b9b;
+            }
+
+            [data-newbie-target='high'] {
+                width: 200px;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #9bffa5;
+            }
+
+            [data-newbie-target='wide'] {
+                width: 100vh;
+                height: 200px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #9bb7ff;
+            }
+        </style>
+    </head>
+    <body>
+        <button id="start">start</button>
+        <div
+            style="
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            "
+        >
+            <div data-newbie-target="walk-around">walk-around</div>
+        </div>
+        <div
+            style="
+                width: 100vw;
+                height: 200vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            "
+        >
+            <div data-newbie-target="high">high</div>
+        </div>
+        <div
+            style="
+                width: 200vw;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            "
+        >
+            <div data-newbie-target="wide">wide</div>
+        </div>
+        <div id="app"></div>
+        <script type="module" src="/src/main.js"></script>
+    </body>
+</html>
