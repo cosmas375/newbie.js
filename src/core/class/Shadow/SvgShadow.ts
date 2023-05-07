@@ -52,7 +52,7 @@ export class SvgShadow extends Shadow {
         this._overlayBlockL = leftBlock;
     }
 
-    public mount(targetElement: TElement, config: TValidShadowConfig) {
+    public mount(targetElement: TTargetElement, config: TValidShadowConfig) {
         this._targetElement = targetElement;
         super.mount(targetElement, config);
         this._update();
@@ -111,33 +111,50 @@ export class SvgShadow extends Shadow {
         svg.setAttribute('width', '100%');
         svg.setAttribute('height', '100%');
 
-        const shadow = document.createElement('rect');
+        const shadow = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'rect'
+        );
         shadow.setAttribute('id', this._shadowId);
         shadow.setAttribute('width', '100%');
         shadow.setAttribute('height', '100%');
         shadow.setAttribute('mask', `url(#${this._maskId})`);
 
-        const defs = document.createElement('defs');
-        const mask = document.createElement('mask');
+        const defs = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'defs'
+        );
+        const mask = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'mask'
+        );
         mask.setAttribute('id', this._maskId);
 
-        const white = document.createElement('rect');
+        const white = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'rect'
+        );
         white.setAttribute('x', '0');
         white.setAttribute('y', '0');
         white.setAttribute('width', '100%');
         white.setAttribute('height', '100%');
         white.setAttribute('fill', '#ffffff');
 
-        const black = document.createElement('rect');
+        const black = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'rect'
+        );
         black.setAttribute('id', this._blackId);
         black.setAttribute('fill', '#000000');
 
-        block.append(svg);
-        svg.append(shadow, defs);
-        defs.append(mask);
-        mask.append(white, black);
+        block.appendChild(svg);
+        svg.appendChild(shadow);
+        svg.appendChild(defs);
+        defs.appendChild(mask);
+        mask.appendChild(white);
+        mask.appendChild(black);
 
-        document.body.append(block);
+        document.body.appendChild(block);
 
         return {
             svg,
@@ -209,59 +226,65 @@ export class SvgShadow extends Shadow {
                 this._createAnimation({
                     targetId: `#${this._shadowId}`,
                     attribute: 'fill',
-                    from: this._color === null ? color : this._color,
+                    from: !this._color ? color : this._color,
                     to: color,
                     duration: getTransitionDuration(this._transitionDuration),
                 }),
                 this._createAnimation({
                     targetId: `#${this._blackId}`,
                     attribute: 'x',
-                    from: this._x === null ? x : this._x,
+                    from: !this._x ? x : this._x,
                     to: x,
                     duration: getTransitionDuration(this._transitionDuration),
                 }),
                 this._createAnimation({
                     targetId: `#${this._blackId}`,
                     attribute: 'y',
-                    from: this._y === null ? y : this._y,
+                    from: !this._y ? y : this._y,
                     to: y,
                     duration: getTransitionDuration(this._transitionDuration),
                 }),
                 this._createAnimation({
                     targetId: `#${this._blackId}`,
                     attribute: 'width',
-                    from: this._width === null ? width : this._width,
+                    from: !this._width ? width : this._width,
                     to: width,
                     duration: getTransitionDuration(this._transitionDuration),
                 }),
                 this._createAnimation({
                     targetId: `#${this._blackId}`,
                     attribute: 'height',
-                    from: this._height === null ? height : this._height,
+                    from: !this._height ? height : this._height,
                     to: height,
                     duration: getTransitionDuration(this._transitionDuration),
                 }),
                 this._createAnimation({
                     targetId: `#${this._blackId}`,
                     attribute: 'rx',
-                    from: this._rx === null ? rx : this._rx,
+                    from: !this._rx ? rx : this._rx,
                     to: rx,
                     duration: getTransitionDuration(this._transitionDuration),
                 }),
                 this._createAnimation({
                     targetId: `#${this._blackId}`,
                     attribute: 'ry',
-                    from: this._ry === null ? ry : this._ry,
+                    from: !this._ry ? ry : this._ry,
                     to: ry,
                     duration: getTransitionDuration(this._transitionDuration),
                 })
             );
         } else {
+            x = String(window.innerWidth / 2);
+            y = String(window.innerHeight / 2);
+            width = String(0);
+            height = String(0);
+            rx = String(0);
+            ry = String(0);
             this._svgRoot.append(
                 this._createAnimation({
                     targetId: `#${this._shadowId}`,
                     attribute: 'fill',
-                    from: this._color === null ? color : this._color,
+                    from: !this._color ? color : this._color,
                     to: color,
                     duration: getTransitionDuration(this._transitionDuration),
                 })
@@ -348,7 +371,10 @@ export class SvgShadow extends Shadow {
         to: string;
         duration: string;
     }) {
-        const animation = document.createElement('animate');
+        const animation = document.createElementNS(
+            'http://www.w3.org/2000/svg ',
+            'animate'
+        );
         animation.setAttribute('xlink:href', targetId);
         animation.setAttribute('attributeName', attribute);
         animation.setAttribute('from', from);

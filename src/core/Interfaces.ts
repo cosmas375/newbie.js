@@ -41,7 +41,7 @@ export interface IHint {
 }
 
 export interface IShadow {
-    mount(targetElement: HTMLElement, config: TValidShadowConfig): void;
+    mount(targetElement: TTargetElement, config: TValidShadowConfig): void;
     unmount(): void;
     reset(): void;
 }

@@ -1,9 +1,9 @@
-import { IShadow, TElement, TValidShadowConfig } from '../../Interfaces';
+import { IShadow, TTargetElement, TValidShadowConfig } from '../../Interfaces';
 
 export abstract class Shadow implements IShadow {
     protected _config: TValidShadowConfig | null = null;
 
-    public mount(_: TElement, config: TValidShadowConfig): void {
+    public mount(_: TTargetElement, config: TValidShadowConfig): void {
         this._config = config;
 
         if (this._config.disableScroll) {

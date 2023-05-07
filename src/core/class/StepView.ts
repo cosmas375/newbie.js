@@ -197,9 +197,6 @@ export class StepView {
     }
 
     private _mountShadow(): void {
-        if (!this._targetElement) {
-            return;
-        }
         this._shadow.mount(this._targetElement, this._config.shadow);
     }
     private _unmountShadow(): void {
