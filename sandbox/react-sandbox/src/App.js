@@ -15,8 +15,6 @@ function doStart() {
     newbie.start();
 }
 
-document.querySelector('#start').addEventListener('click', doStart);
-
 function App() {
     useNewbie({ ReactDOM });
 
@@ -27,6 +25,14 @@ function App() {
                 component: Hint,
             },
         });
+
+        document.querySelector('#start').addEventListener('click', doStart);
+
+        return () => {
+            document
+                .querySelector('#start')
+                .removeEventListener('click', doStart);
+        };
     }, []);
 
     return <></>;
