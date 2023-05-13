@@ -1,15 +1,16 @@
+import { TCallback } from '../Interfaces';
 import _warn from './warn';
 
-export default function getCallback(f) {
+export default function getCallback(f?: TCallback): TCallback {
     if (typeof f !== 'function') {
-        return () => {};
+        return async () => {};
     }
 
-    return (...args) => {
+    return async (...args) => {
         try {
-            return f(...args);
+            return await f(...args);
         } catch (e) {
-            _warn(e);
+            _warn((e as Error).message);
         }
     };
 }

@@ -1,43 +1,40 @@
 import {
-    IStepView,
-    IStepConfig,
-    IHint,
-    IShadow,
-    IArrow,
-    TElement,
-    IHintSettings,
+    IArrow, IHint, IShadow, TElement, THintSettings, TTargetElement, TValidStepConfig
 } from '../Interfaces';
-import { StepContainer } from './StepContainer/StepContainer';
+import { Position } from '../Position';
 import { Globals } from './Globals';
+import { StepContainer } from './StepContainer/StepContainer';
 
-export class StepView implements IStepView {
-    private _config: IStepConfig;
-    private _hintSettings: IHintSettings;
+export class StepView {
+    private _config: TValidStepConfig;
+    private _hintSettings: THintSettings;
 
-    private _targetElement: TElement;
+    private _targetElement: TTargetElement = null;
+    private _hintElement: TElement | null = null;
+    private _arrowElement: TElement | null = null;
 
     private _stepContainer: StepContainer;
     private _shadow: IShadow;
     private _hint: IHint;
     private _arrow: IArrow;
 
-    constructor(config: IStepConfig, hintSettings: IHintSettings) {
+    constructor(config: TValidStepConfig, hintSettings: THintSettings) {
         this._config = config;
         this._hintSettings = hintSettings;
 
-        this._createStepContainer();
-        this._createShadow();
-        this._createHint();
-        this._createArrow();
+        this._stepContainer = this._createStepContainer();
+        this._shadow = this._createShadow();
+        this._hint = this._createHint();
+        this._arrow = this._createArrow();
     }
 
-    public async mount(): Promise<HTMLElement> {
+    public async mount(): Promise<TTargetElement> {
         this._setTargetElement();
-        this._scrollToTarget();
-        this._mountShadow();
         await this._mountHint();
         this._mountArrow();
         this._mountStepContainer();
+        this._scrollToTarget();
+        this._mountShadow();
         return this._targetElement;
     }
 
@@ -52,29 +49,29 @@ export class StepView implements IStepView {
         this._shadow.reset();
     }
 
-    private _createStepContainer() {
-        this._stepContainer = Globals.componentsFactory.createStepContainer({
+    private _createStepContainer(): StepContainer {
+        return Globals.componentsFactory.createStepContainer({
             transitionDuration: this._config.transitionDuration,
         });
     }
 
-    private _createShadow() {
-        this._shadow = Globals.componentsFactory.createShadow(
-            this._config.shadow,
-            { transitionDuration: this._config.transitionDuration }
-        );
+    private _createShadow(): IShadow {
+        return Globals.componentsFactory.createShadow(this._config.shadow, {
+            transitionDuration: this._config.transitionDuration,
+        });
     }
 
-    private _createHint() {
-        this._hint = Globals.componentsFactory.createHint(
+    private _createHint(): IHint {
+        const hint = Globals.componentsFactory.createHint(
             this._config.hint,
             this._hintSettings
         );
-        this._hint.setContent(this._config.content);
+        hint.setContent(this._config.content);
+        return hint;
     }
 
-    private _createArrow() {
-        this._arrow = Globals.componentsFactory.createArrow(this._config.arrow);
+    private _createArrow(): IArrow {
+        return Globals.componentsFactory.createArrow(this._config.arrow);
     }
 
     private _setTargetElement(): void {
@@ -87,29 +84,103 @@ export class StepView implements IStepView {
     }
 
     private _scrollToTarget(): void {
-        if (!this._targetElement) {
+        if (!this._targetElement || !this._hintElement || !this._arrowElement) {
             return;
         }
 
         const targetRect = this._targetElement.getBoundingClientRect();
+        const hintRect = this._hintElement.getBoundingClientRect();
+        const arrowRect = this._arrowElement.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const windowWidth = window.innerWidth;
 
-        const beautifyingFactor = 0.8;
         let offsetTop = 0;
-        if (window.innerHeight > targetRect.height) {
+        let offsetLeft = 0;
+        const scrollTop = document.documentElement.scrollTop;
+        const scrollLeft = document.documentElement.scrollLeft;
+        const beautifyingOffset = 10;
+
+        if (targetRect.height + hintRect.height > windowHeight) {
+            switch (this._config.position) {
+                case Position.Top:
+                case Position.TopLeft:
+                case Position.TopRight:
+                    offsetTop =
+                        scrollTop +
+                        targetRect.top -
+                        hintRect.height -
+                        arrowRect.height -
+                        this._config.offsetY -
+                        beautifyingOffset;
+                    break;
+
+                case Position.Bottom:
+                case Position.BottomLeft:
+                case Position.BottomRight:
+                    offsetTop =
+                        scrollTop +
+                        targetRect.top +
+                        targetRect.height +
+                        hintRect.height +
+                        arrowRect.height +
+                        this._config.offsetY +
+                        beautifyingOffset -
+                        windowHeight +
+                        beautifyingOffset;
+                    break;
+            }
+        } else {
             offsetTop =
-                ((window.innerHeight - targetRect.height) / 2) *
-                beautifyingFactor;
+                scrollTop +
+                targetRect.top -
+                (windowHeight - targetRect.height) / 2;
+        }
+
+        if (targetRect.width + hintRect.width > windowWidth) {
+            switch (this._config.position) {
+                case Position.Left:
+                case Position.LeftTop:
+                case Position.LeftBottom:
+                    offsetLeft =
+                        scrollLeft +
+                        targetRect.left -
+                        hintRect.width -
+                        arrowRect.width -
+                        this._config.offsetX -
+                        beautifyingOffset;
+                    break;
+                case Position.Right:
+                case Position.RightTop:
+                case Position.RightBottom:
+                    offsetLeft =
+                        scrollLeft +
+                        targetRect.left +
+                        targetRect.width +
+                        hintRect.width +
+                        arrowRect.width +
+                        this._config.offsetX +
+                        beautifyingOffset -
+                        windowWidth +
+                        beautifyingOffset;
+                    break;
+            }
+        } else {
+            offsetLeft =
+                scrollLeft +
+                targetRect.left -
+                (windowWidth - targetRect.width) / 2;
         }
 
         const top = Math.min(
             document.documentElement.scrollHeight,
-            Math.max(
-                0,
-                document.documentElement.scrollTop + targetRect.top - offsetTop
-            )
+            Math.max(0, offsetTop)
+        );
+        const left = Math.min(
+            document.documentElement.scrollHeight,
+            Math.max(0, offsetLeft)
         );
 
-        window.scrollTo({ top });
+        window.scrollTo({ top, left });
     }
 
     private _mountStepContainer() {
@@ -133,8 +204,8 @@ export class StepView implements IStepView {
     }
 
     private async _mountHint(): Promise<void> {
-        const component = await this._hint.mount();
-        this._stepContainer.appendHint(component);
+        this._hintElement = await this._hint.mount();
+        this._stepContainer.appendHint(this._hintElement);
     }
     private _unmountHint(): void {
         this._hint.unmount();
@@ -145,7 +216,8 @@ export class StepView implements IStepView {
             return;
         }
 
-        this._stepContainer.appendArrow(this._arrow.mount(this._config.arrow));
+        this._arrowElement = this._arrow.mount(this._config.arrow);
+        this._stepContainer.appendArrow(this._arrowElement);
     }
     private _unmountArrow(): void {
         this._arrow.unmount();

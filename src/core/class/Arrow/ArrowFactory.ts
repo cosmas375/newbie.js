@@ -1,12 +1,12 @@
-import { IArrow, IArrowConfig } from '../../Interfaces';
+import { IArrow, TArrowConfig } from '../../Interfaces';
 import { NullArrow } from './NullArrow';
 import { TriangleArrow } from './TriangleArrow';
 
 export class ArrowFactory {
-    private static _triangleArrow: IArrow = null;
-    private static _nullArrow: IArrow = null;
+    private static _triangleArrow: IArrow | null = null;
+    private static _nullArrow: IArrow | null = null;
 
-    static create(config: IArrowConfig): IArrow {
+    static create(config: TArrowConfig): IArrow {
         if (config.enabled) {
             if (!this._triangleArrow) {
                 this._triangleArrow = new TriangleArrow();

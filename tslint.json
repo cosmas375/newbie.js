@@ -1,5 +1,8 @@
 {
     "extends": "tslint:recommended",
+    "linterOptions": {
+        "exclude": ["dist"]
+    },
     "rules": {
         "no-console": [true, "log", "error"],
         "no-empty": [true, "allow-empty-functions"],

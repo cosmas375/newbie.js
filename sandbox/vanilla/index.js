@@ -1,58 +1,20 @@
+import config from '../config';
+
+const hintComponent = createHint();
+document.body.append(hintComponent);
+
 const instance = new Newbie({
+    ...config,
+    steps: config.steps.map(step => {
+        step.content = Object.keys(step.content).reduce((obj, key) => {
+            obj[`[data-newbie-step-${key}]`] = step.content[key];
+            return obj;
+        }, {});
+        return step;
+    }),
     hint: {
-        component: document.getElementById('newbie-hint'),
+        component: hintComponent,
     },
-    steps: [
-        {
-            id: '0',
-            target: '[data-newbie-target="1"]',
-            content: {
-                '[data-newbie-step-title]':
-                    'Commodo duis cillum magna pariatur aute sint.',
-                '[data-newbie-step-content]':
-                    'Officia Lorem consequat sit pariatur. Labore culpa elit consectetur nostrud aliqua veniam et qui proident incididunt pariatur minim. Eu amet aliquip do non qui enim qui. Do deserunt incididunt pariatur aliqua. Aliqua duis quis cillum excepteur nulla ex mollit irure non reprehenderit.',
-            },
-            position: 'bottom-right',
-            shadow: {
-                offset: 10,
-                borderRadius: 10,
-            },
-        },
-        {
-            id: '1',
-            target: document.querySelector('[data-newbie-target="1"]'),
-            content: {
-                '[data-newbie-step-title]':
-                    'Consectetur cupidatat sit cupidatat ullamco nostrud ut aliqua.',
-                '[data-newbie-step-content]': `
-                    Exercitation ut non laborum voluptate mollit. Nulla aute qui nulla culpa aliquip ipsum occaecat ad eu voluptate Lorem. Quis aliqua eu consectetur consectetur veniam. Non velit officia id nisi esse duis est occaecat excepteur aute in labore eiusmod.
-                    Aliquip tempor fugiat sit labore aliqua. Esse nostrud dolor velit Lorem veniam est ex commodo cillum non commodo adipisicing. Elit anim dolor enim commodo pariatur commodo sunt cillum aliqua fugiat aute pariatur dolore dolore. Sunt proident consectetur dolor elit in tempor excepteur non exercitation officia. Anim ullamco elit mollit exercitation anim quis et. Magna laboris qui non reprehenderit elit sit est excepteur.
-                    Minim ullamco cillum excepteur eiusmod aliqua aute proident tempor. Eu adipisicing et quis ex esse cupidatat deserunt consequat proident laborum est. Ad ipsum non consectetur aliqua irure excepteur. Nisi eiusmod ipsum proident id tempor sunt. Aliqua dolore excepteur nulla ad mollit commodo.
-                `,
-            },
-            position: 'bottom-right',
-        },
-        {
-            id: '2',
-            target: '[data-newbie-target="2"]',
-            content: {
-                '[data-newbie-step-content]':
-                    'Amet nulla voluptate ipsum et irure. Anim magna nostrud occaecat aute id ullamco laboris elit mollit esse cillum proident ullamco reprehenderit. Irure eiusmod irure labore sit occaecat dolore. In dolor commodo esse mollit dolor quis magna culpa Lorem eu reprehenderit. Minim nostrud officia id mollit voluptate esse qui commodo. Sit aliqua in nisi qui labore eu laborum aliquip ipsum non. Voluptate sint irure tempor nulla velit eiusmod consequat dolore aute sint veniam voluptate nulla.',
-            },
-            position: 'left-top',
-        },
-        {
-            id: '3',
-            target: '[data-newbie-target="3"]',
-            content: {
-                '[data-newbie-step-title]':
-                    'Incididunt ea magna sit ea officia excepteur deserunt et mollit consectetur aliqua commodo mollit quis. Velit culpa sint cupidatat consequat ut ut laboris ipsum. Adipisicing sint amet amet nisi voluptate excepteur. Officia dolor ipsum excepteur Lorem aute deserunt ut tempor sunt pariatur proident commodo nulla velit.',
-                '[data-newbie-step-content]':
-                    'Dolore aliquip fugiat aliqua nulla quis.',
-            },
-            position: 'right-bottom',
-        },
-    ],
 });
 
 const startButton = document.getElementById('start');
@@ -60,3 +22,25 @@ const startButton = document.getElementById('start');
 startButton.addEventListener('click', () => {
     instance.start();
 });
+
+function createHint() {
+    const elem = document.createElement('div');
+    elem.innerHTML = `
+        <div class="custom-newbie-hint">
+            <div data-newbie-step-title class="custom-newbie-hint__title"></div>
+            <div
+                data-newbie-step-content
+                class="custom-newbie-hint__content"
+            ></div>
+            <div class="custom-newbie-hint__controls">
+                <button data-newbie-go-previous>prev</button>
+                <button data-newbie-go-next>next</button>
+                <button data-newbie-stop>stop</button>
+                <button data-newbie-go-to data-newbie-target-step-id="3">
+                    last
+                </button>
+            </div>
+        </div>
+    `;
+    return elem;
+}

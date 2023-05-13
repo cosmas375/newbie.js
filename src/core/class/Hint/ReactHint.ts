@@ -1,14 +1,14 @@
-import { IHintConfig, IHintSettings } from '../../Interfaces';
-import { ClassNames } from '../../ClassName';
+import { ClassName } from '../../ClassName';
+import { THintConfig, THintSettings } from '../../Interfaces';
 import { Hint } from './Hint';
 
 export class ReactHint extends Hint {
     private _reactComponent: any;
-    private _settings: IHintSettings;
+    private _settings: THintSettings;
 
     private _ReactDOM: any;
 
-    constructor(config: IHintConfig, settings: IHintSettings, ReactDom: any) {
+    constructor(config: THintConfig, settings: THintSettings, ReactDom: any) {
         super(config);
 
         this._reactComponent = config.component;
@@ -18,8 +18,8 @@ export class ReactHint extends Hint {
     }
 
     public async mount() {
-        this._component = await this._getHintHTMLElement();
-        return this._component;
+        this._element = await this._getHintHTMLElement();
+        return this._element;
     }
 
     private _getHintHTMLElement(): Promise<HTMLElement> {
@@ -37,11 +37,9 @@ export class ReactHint extends Hint {
 
             root.render(this._reactComponent(props));
 
-            setTimeout(() => {
-                const elem = div;
-                elem.classList.add(ClassNames.HINT);
-                resolve(elem);
-            });
+            const elem = div;
+            elem.classList.add(ClassName.HINT);
+            resolve(elem);
         });
     }
 }

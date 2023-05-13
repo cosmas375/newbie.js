@@ -1,3 +1,5 @@
-export default value => {
-    return typeof value !== 'undefined';
-};
+export function assertIsDefined<T>(value?: T): asserts value is NonNullable<T> {
+    if (typeof value === 'undefined') {
+        throw new Error();
+    }
+}

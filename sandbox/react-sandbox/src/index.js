@@ -4,12 +4,18 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+if (!window.isReactAppCreated) {
+    // idk how to prevent the stupid refresh
+    const root = ReactDOM.createRoot(document.getElementById('app'));
+
+    root.render(
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>
+    );
+
+    window.isReactAppCreated = true;
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

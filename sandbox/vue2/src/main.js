@@ -3,6 +3,7 @@ import App from './App.vue';
 import { NewbiePlugin } from '../../../src/entry-vue2';
 
 Vue.use(NewbiePlugin);
+
 Vue.config.productionTip = false;
 
 new Vue({

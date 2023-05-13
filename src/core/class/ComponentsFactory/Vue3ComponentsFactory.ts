@@ -1,27 +1,23 @@
 import {
-    IHintFactory,
     IHint,
-    IHintConfig,
-    IHintSettings,
+    IHintFactory,
+    THintConfig,
+    THintSettings,
 } from '../../Interfaces';
 import { Vue3HintFactory } from '../HintFactory/Vue3HintFactory';
 import { ComponentsFactory } from './ComponentsFactory';
 
 export class Vue3ComponentsFactory extends ComponentsFactory {
-    private _createApp;
     private _hintFactory: IHintFactory;
 
-    constructor({ createApp }) {
+    constructor({ createApp }: { createApp: any }) {
         super();
-        this._createApp = createApp;
+        this._hintFactory = new Vue3HintFactory({
+            createApp,
+        });
     }
 
-    public createHint(config: IHintConfig, settings: IHintSettings): IHint {
-        if (!this._hintFactory) {
-            this._hintFactory = new Vue3HintFactory({
-                createApp: this._createApp,
-            });
-        }
+    public createHint(config: THintConfig, settings: THintSettings): IHint {
         return this._hintFactory.create(config, settings);
     }
 }

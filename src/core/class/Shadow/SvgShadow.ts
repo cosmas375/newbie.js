@@ -1,43 +1,58 @@
-import { Shadow } from './Shadow';
-import { ClassNames } from '../../ClassName';
-import getTransitionDuration from '../../utils/getTransitionDuration';
+import { ClassName } from '../../ClassName';
+import {
+    TColor,
+    TElement,
+    TTargetElement,
+    TValidShadowConfig,
+} from '../../Interfaces';
 import debounce from '../../utils/debounce';
-import { IShadowConfig } from '../../Interfaces';
+import getTransitionDuration from '../../utils/getTransitionDuration';
 import px from '../../utils/px';
+import _warn from '../../utils/warn';
+import { Shadow } from './Shadow';
 
 export class SvgShadow extends Shadow {
-    private _targetElement: HTMLElement;
+    private _targetElement: TTargetElement = null;
 
     private _transitionDuration: number;
 
-    private _block: HTMLElement;
-    private _svgRoot: HTMLElement;
+    private _block: TElement;
+    private _svgRoot: TElement;
     private _svgRootId: string = 'shadow_root';
     private _maskId: string = 'shadow_mask';
     private _blackId: string = 'shadow_mask_black';
     private _shadowId: string = 'shadow';
     private _resizeCallback: any;
 
-    private _overlayBlockT: HTMLElement;
-    private _overlayBlockR: HTMLElement;
-    private _overlayBlockB: HTMLElement;
-    private _overlayBlockL: HTMLElement;
+    private _overlayBlockT: TElement;
+    private _overlayBlockR: TElement;
+    private _overlayBlockB: TElement;
+    private _overlayBlockL: TElement;
 
-    private _x: string = null;
-    private _y: string = null;
-    private _width: string = null;
-    private _height: string = null;
-    private _rx: string = null;
-    private _ry: string = null;
-    private _color: string = null;
+    private _x: string = '';
+    private _y: string = '';
+    private _width: string = '';
+    private _height: string = '';
+    private _rx: string = '';
+    private _ry: string = '';
+    private _color: TColor = '';
 
     constructor({ transitionDuration }: any) {
         super();
         this._transitionDuration = transitionDuration || 1;
-        this._createElements();
+        const { svg, block, topBlock, rightBlock, bottomBlock, leftBlock } =
+            this._createElements();
+
+        this._svgRoot = svg;
+        this._block = block;
+
+        this._overlayBlockT = topBlock;
+        this._overlayBlockR = rightBlock;
+        this._overlayBlockB = bottomBlock;
+        this._overlayBlockL = leftBlock;
     }
 
-    public mount(targetElement: HTMLElement, config: IShadowConfig) {
+    public mount(targetElement: TTargetElement, config: TValidShadowConfig) {
         this._targetElement = targetElement;
         super.mount(targetElement, config);
         this._update();
@@ -54,19 +69,21 @@ export class SvgShadow extends Shadow {
     }
 
     public reset() {
-        this._x = null;
-        this._y = null;
-        this._width = null;
-        this._height = null;
-        this._rx = null;
-        this._ry = null;
-        this._color = null;
+        this._x = '';
+        this._y = '';
+        this._width = '';
+        this._height = '';
+        this._rx = '';
+        this._ry = '';
+        this._color = '';
         this._resetAnimations();
     }
 
     private _createElements() {
-        this._createSvgElements();
-        this._createOverlayElements();
+        return {
+            ...this._createSvgElements(),
+            ...this._createOverlayElements(),
+        };
     }
 
     private _update() {
@@ -86,44 +103,63 @@ export class SvgShadow extends Shadow {
 
     private _createSvgElements() {
         const block = document.createElement('div');
-        block.classList.add(ClassNames.SHADOW);
+        block.classList.add(ClassName.SHADOW);
 
         const svg = document.createElement('svg');
-        svg.classList.add(ClassNames.SHADOW_SVG);
+        svg.classList.add(ClassName.SHADOW_SVG);
         svg.setAttribute('id', this._svgRootId);
         svg.setAttribute('width', '100%');
         svg.setAttribute('height', '100%');
 
-        const shadow = document.createElement('rect');
+        const shadow = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'rect'
+        );
         shadow.setAttribute('id', this._shadowId);
         shadow.setAttribute('width', '100%');
         shadow.setAttribute('height', '100%');
         shadow.setAttribute('mask', `url(#${this._maskId})`);
 
-        const defs = document.createElement('defs');
-        const mask = document.createElement('mask');
+        const defs = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'defs'
+        );
+        const mask = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'mask'
+        );
         mask.setAttribute('id', this._maskId);
 
-        const white = document.createElement('rect');
+        const white = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'rect'
+        );
         white.setAttribute('x', '0');
         white.setAttribute('y', '0');
         white.setAttribute('width', '100%');
         white.setAttribute('height', '100%');
         white.setAttribute('fill', '#ffffff');
 
-        const black = document.createElement('rect');
+        const black = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'rect'
+        );
         black.setAttribute('id', this._blackId);
         black.setAttribute('fill', '#000000');
 
-        block.append(svg);
-        svg.append(shadow, defs);
-        defs.append(mask);
-        mask.append(white, black);
+        block.appendChild(svg);
+        svg.appendChild(shadow);
+        svg.appendChild(defs);
+        defs.appendChild(mask);
+        mask.appendChild(white);
+        mask.appendChild(black);
 
-        document.body.append(block);
+        document.body.appendChild(block);
 
-        this._svgRoot = svg;
-        this._block = block;
+        return {
+            svg,
+            block,
+        };
     }
 
     private _createOverlayElements() {
@@ -133,107 +169,122 @@ export class SvgShadow extends Shadow {
         const leftBlock = document.createElement('div');
 
         topBlock.classList.add(
-            ClassNames.SHADOW_OVERLAY,
-            ClassNames.SHADOW_OVERLAY_TOP
+            ClassName.SHADOW_OVERLAY,
+            ClassName.SHADOW_OVERLAY_TOP
         );
         rightBlock.classList.add(
-            ClassNames.SHADOW_OVERLAY,
-            ClassNames.SHADOW_OVERLAY_RIGHT
+            ClassName.SHADOW_OVERLAY,
+            ClassName.SHADOW_OVERLAY_RIGHT
         );
         bottomBlock.classList.add(
-            ClassNames.SHADOW_OVERLAY,
-            ClassNames.SHADOW_OVERLAY_BOTTOM
+            ClassName.SHADOW_OVERLAY,
+            ClassName.SHADOW_OVERLAY_BOTTOM
         );
         leftBlock.classList.add(
-            ClassNames.SHADOW_OVERLAY,
-            ClassNames.SHADOW_OVERLAY_LEFT
+            ClassName.SHADOW_OVERLAY,
+            ClassName.SHADOW_OVERLAY_LEFT
         );
 
-        this._block.append(topBlock, rightBlock, bottomBlock, leftBlock);
+        if (this._block) {
+            this._block.append(topBlock, rightBlock, bottomBlock, leftBlock);
+        }
 
-        this._overlayBlockT = topBlock;
-        this._overlayBlockR = rightBlock;
-        this._overlayBlockB = bottomBlock;
-        this._overlayBlockL = leftBlock;
+        return {
+            topBlock,
+            rightBlock,
+            bottomBlock,
+            leftBlock,
+        };
     }
 
     private _updateSvg() {
-        const color = this._config.color;
-        let x = null;
-        let y = null;
-        let width = null;
-        let height = null;
-        let rx = null;
-        let ry = null;
+        const config = this._config;
+        if (!config) {
+            _warn('missing svg shadow config!');
+            return;
+        }
+        const color = config.color;
+        let x = '';
+        let y = '';
+        let width = '';
+        let height = '';
+        let rx = '';
+        let ry = '';
 
         this._resetAnimations();
 
         if (this._targetElement) {
             const targetRect = this._targetElement.getBoundingClientRect();
-            x = String(targetRect.left - this._config.offset);
-            y = String(targetRect.top - this._config.offset);
-            width = String(targetRect.width + 2 * this._config.offset);
-            height = String(targetRect.height + 2 * this._config.offset);
-            rx = String(this._config.borderRadius);
-            ry = String(this._config.borderRadius);
+            x = String(targetRect.left - config.offset);
+            y = String(targetRect.top - config.offset);
+            width = String(targetRect.width + 2 * config.offset);
+            height = String(targetRect.height + 2 * config.offset);
+            rx = String(config.borderRadius);
+            ry = String(config.borderRadius);
 
             this._svgRoot.append(
                 this._createAnimation({
                     targetId: `#${this._shadowId}`,
                     attribute: 'fill',
-                    from: this._color === null ? color : this._color,
+                    from: !this._color ? color : this._color,
                     to: color,
                     duration: getTransitionDuration(this._transitionDuration),
                 }),
                 this._createAnimation({
                     targetId: `#${this._blackId}`,
                     attribute: 'x',
-                    from: this._x === null ? x : this._x,
+                    from: !this._x ? x : this._x,
                     to: x,
                     duration: getTransitionDuration(this._transitionDuration),
                 }),
                 this._createAnimation({
                     targetId: `#${this._blackId}`,
                     attribute: 'y',
-                    from: this._y === null ? y : this._y,
+                    from: !this._y ? y : this._y,
                     to: y,
                     duration: getTransitionDuration(this._transitionDuration),
                 }),
                 this._createAnimation({
                     targetId: `#${this._blackId}`,
                     attribute: 'width',
-                    from: this._width === null ? width : this._width,
+                    from: !this._width ? width : this._width,
                     to: width,
                     duration: getTransitionDuration(this._transitionDuration),
                 }),
                 this._createAnimation({
                     targetId: `#${this._blackId}`,
                     attribute: 'height',
-                    from: this._height === null ? height : this._height,
+                    from: !this._height ? height : this._height,
                     to: height,
                     duration: getTransitionDuration(this._transitionDuration),
                 }),
                 this._createAnimation({
                     targetId: `#${this._blackId}`,
                     attribute: 'rx',
-                    from: this._rx === null ? rx : this._rx,
+                    from: !this._rx ? rx : this._rx,
                     to: rx,
                     duration: getTransitionDuration(this._transitionDuration),
                 }),
                 this._createAnimation({
                     targetId: `#${this._blackId}`,
                     attribute: 'ry',
-                    from: this._ry === null ? ry : this._ry,
+                    from: !this._ry ? ry : this._ry,
                     to: ry,
                     duration: getTransitionDuration(this._transitionDuration),
                 })
             );
         } else {
+            x = String(window.innerWidth / 2);
+            y = String(window.innerHeight / 2);
+            width = String(0);
+            height = String(0);
+            rx = String(0);
+            ry = String(0);
             this._svgRoot.append(
                 this._createAnimation({
                     targetId: `#${this._shadowId}`,
                     attribute: 'fill',
-                    from: this._color === null ? color : this._color,
+                    from: !this._color ? color : this._color,
                     to: color,
                     duration: getTransitionDuration(this._transitionDuration),
                 })
@@ -249,7 +300,9 @@ export class SvgShadow extends Shadow {
         this._color = color;
 
         this._svgRoot.outerHTML += '';
-        this._svgRoot = this._block.querySelector(`#${this._svgRootId}`);
+        this._svgRoot = this._block.querySelector(
+            `#${this._svgRootId}`
+        ) as TElement;
     }
 
     _updateOverlay() {
@@ -284,29 +337,44 @@ export class SvgShadow extends Shadow {
     }
 
     private _showSvg() {
-        this._block.classList.add(ClassNames.SHADOW_VISIBLE);
+        this._block.classList.add(ClassName.SHADOW_VISIBLE);
     }
 
     private _showOverlay() {
-        this._overlayBlockT.classList.add(ClassNames.SHADOW_VISIBLE);
-        this._overlayBlockR.classList.add(ClassNames.SHADOW_VISIBLE);
-        this._overlayBlockB.classList.add(ClassNames.SHADOW_VISIBLE);
-        this._overlayBlockL.classList.add(ClassNames.SHADOW_VISIBLE);
+        this._overlayBlockT.classList.add(ClassName.SHADOW_VISIBLE);
+        this._overlayBlockR.classList.add(ClassName.SHADOW_VISIBLE);
+        this._overlayBlockB.classList.add(ClassName.SHADOW_VISIBLE);
+        this._overlayBlockL.classList.add(ClassName.SHADOW_VISIBLE);
     }
 
     private _hideSvg() {
-        this._block.classList.remove(ClassNames.SHADOW_VISIBLE);
+        this._block.classList.remove(ClassName.SHADOW_VISIBLE);
     }
 
     private _hideOverlay() {
-        this._overlayBlockT.classList.remove(ClassNames.SHADOW_VISIBLE);
-        this._overlayBlockR.classList.remove(ClassNames.SHADOW_VISIBLE);
-        this._overlayBlockB.classList.remove(ClassNames.SHADOW_VISIBLE);
-        this._overlayBlockL.classList.remove(ClassNames.SHADOW_VISIBLE);
+        this._overlayBlockT.classList.remove(ClassName.SHADOW_VISIBLE);
+        this._overlayBlockR.classList.remove(ClassName.SHADOW_VISIBLE);
+        this._overlayBlockB.classList.remove(ClassName.SHADOW_VISIBLE);
+        this._overlayBlockL.classList.remove(ClassName.SHADOW_VISIBLE);
     }
 
-    private _createAnimation({ targetId, attribute, from, to, duration }) {
-        const animation = document.createElement('animate');
+    private _createAnimation({
+        targetId,
+        attribute,
+        from,
+        to,
+        duration,
+    }: {
+        targetId: string;
+        attribute: string;
+        from: string;
+        to: string;
+        duration: string;
+    }) {
+        const animation = document.createElementNS(
+            'http://www.w3.org/2000/svg ',
+            'animate'
+        );
         animation.setAttribute('xlink:href', targetId);
         animation.setAttribute('attributeName', attribute);
         animation.setAttribute('from', from);

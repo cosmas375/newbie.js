@@ -1,4 +1,4 @@
-# newbie
+# vue2
 
 ## Project setup
 ```

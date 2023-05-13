@@ -1,28 +1,28 @@
-import { ShadowFactory } from '../Shadow/ShadowFactory';
-import { ArrowFactory } from '../Arrow/ArrowFactory';
-import { StepContainerFactory } from '../StepContainer/StepContainerFactory';
 import {
     IArrow,
-    IArrowConfig,
     IComponentsFactory,
     IHint,
-    IHintConfig,
-    IHintSettings,
-    IShadowConfig,
+    TArrowConfig,
+    THintConfig,
+    THintSettings,
+    TShadowConfig,
 } from '../../Interfaces';
+import { ArrowFactory } from '../Arrow/ArrowFactory';
+import { ShadowFactory } from '../Shadow/ShadowFactory';
+import { StepContainerFactory } from '../StepContainer/StepContainerFactory';
 
 export abstract class ComponentsFactory implements IComponentsFactory {
     constructor() {
         /* continue regardless of error */
     }
 
-    abstract createHint(config: IHintConfig, settings: IHintSettings): IHint;
+    abstract createHint(config: THintConfig, settings: THintSettings): IHint;
 
-    public createShadow(config: IShadowConfig, settings: object) {
+    public createShadow(config: TShadowConfig, settings: object) {
         return ShadowFactory.create(config, settings);
     }
 
-    public createArrow(config: IArrowConfig): IArrow {
+    public createArrow(config: TArrowConfig): IArrow {
         return ArrowFactory.create(config);
     }
 

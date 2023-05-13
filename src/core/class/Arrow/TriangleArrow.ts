@@ -1,19 +1,19 @@
-import { IArrow, IArrowConfig } from '../../Interfaces';
-import { ClassNames } from '../../ClassName';
+import { ClassName } from '../../ClassName';
+import { IArrow, TArrowConfig, TElement } from '../../Interfaces';
 import px from '../../utils/px';
 
 export class TriangleArrow implements IArrow {
-    private _component: HTMLElement;
+    private _element: TElement;
 
     constructor() {
-        this._createElement();
+        this._element = this._createElement();
     }
 
-    public mount(config: IArrowConfig) {
+    public mount(config: TArrowConfig) {
         this._updateSize(config.size);
         this._updateColor(config.color);
         this._show();
-        return this._component;
+        return this._element;
     }
 
     public unmount(): void {
@@ -21,25 +21,37 @@ export class TriangleArrow implements IArrow {
     }
 
     private _show() {
-        this._component.classList.add(ClassNames.ARROW_VISIBLE);
+        if (!this._element) {
+            return;
+        }
+        this._element.classList.add(ClassName.ARROW_VISIBLE);
     }
     private _hide() {
-        this._component.classList.remove(ClassNames.ARROW_VISIBLE);
+        if (!this._element) {
+            return;
+        }
+        this._element.classList.remove(ClassName.ARROW_VISIBLE);
     }
 
-    private _createElement() {
+    private _createElement(): TElement {
         const component = document.createElement('div');
-        component.classList.add(ClassNames.ARROW);
-        this._component = component;
+        component.classList.add(ClassName.ARROW);
+        return component;
     }
 
-    private _updateSize(size: number) {
-        this._component.style.borderBottomWidth = px(size);
-        this._component.style.borderLeftWidth = px(size / 2);
-        this._component.style.borderRightWidth = px(size / 2);
+    private _updateSize(size: number = 0) {
+        if (!this._element) {
+            return;
+        }
+        this._element.style.borderBottomWidth = px(size);
+        this._element.style.borderLeftWidth = px(size / 2);
+        this._element.style.borderRightWidth = px(size / 2);
     }
 
-    private _updateColor(color: string) {
-        this._component.style.borderBottomColor = color;
+    private _updateColor(color: string = '#ffffff') {
+        if (!this._element) {
+            return;
+        }
+        this._element.style.borderBottomColor = color;
     }
 }

@@ -1,25 +1,33 @@
-export default function debounce(func, wait = 50, immediate?: boolean) {
-    let timeout;
+import { TCallback } from '../Interfaces';
 
-    return function executedFunction() {
+export default function debounce(
+    func: TCallback,
+    wait = 50,
+    immediate?: boolean
+) {
+    let timer: ReturnType<typeof setTimeout> | null;
+
+    return function executedFunction(this: object) {
         const context = this;
         const args = arguments;
 
         const later = () => {
-            timeout = null;
+            timer = null;
             if (!immediate) {
-                func.apply(context, args);
+                func.apply<object, any, void>(context, Array.from(args));
             }
         };
 
-        const callNow = immediate && !timeout;
+        const callNow = immediate && !timer;
 
-        clearTimeout(timeout);
+        if (timer) {
+            clearTimeout(timer);
+        }
 
-        timeout = setTimeout(later, wait);
+        timer = setTimeout(later, wait);
 
         if (callNow) {
-            func.apply(context, args);
+            func.apply<object, any, void>(context, Array.from(args));
         }
     };
 }

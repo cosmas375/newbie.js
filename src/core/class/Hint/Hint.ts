@@ -1,22 +1,26 @@
-import { IHint } from '../../Interfaces';
+import { IHint, TElement, TStepContent } from '../../Interfaces';
 
-export class Hint implements IHint {
-    protected _component: HTMLElement;
-    protected _content: object = {};
+export abstract class Hint implements IHint {
+    protected _element: TElement;
+    protected _content: TStepContent = {};
 
     constructor(config: object) {
         /* continue regardless of error */
+        this._element = document.createElement('div');
     }
 
     public async mount() {
-        return null;
+        return this._element;
     }
 
     public unmount() {
-        this._component.remove();
+        if (!this._element) {
+            return;
+        }
+        this._element.remove();
     }
 
-    public setContent(content: object): void {
+    public setContent(content: TStepContent): void {
         this._content = content;
     }
 }

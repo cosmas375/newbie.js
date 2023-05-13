@@ -15,7 +15,7 @@
 
 <script>
 export default {
-    name: 'Hint',
+    name: 'MyHint',
     props: {
         title: String,
         content: String,

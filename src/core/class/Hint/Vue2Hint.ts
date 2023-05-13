@@ -1,13 +1,13 @@
-import { IHintConfig, IHintSettings } from '../../Interfaces';
-import { ClassNames } from '../../ClassName';
+import { ClassName } from '../../ClassName';
+import { TElement, THintConfig, THintSettings } from '../../Interfaces';
 import { Hint } from './Hint';
 
 export class Vue2Hint extends Hint {
     private _vueComponent: object;
     private _Vue: any;
-    private _settings: IHintSettings;
+    private _settings: THintSettings;
 
-    constructor(config: IHintConfig, settings: IHintSettings, Vue: object) {
+    constructor(config: THintConfig, settings: THintSettings, Vue: object) {
         super(config);
 
         this._Vue = Vue;
@@ -16,11 +16,11 @@ export class Vue2Hint extends Hint {
     }
 
     public async mount() {
-        this._component = this._getHintHTMLElement();
-        return this._component;
+        this._element = this._getHintHTMLElement();
+        return this._element;
     }
 
-    private _getHintHTMLElement(): HTMLElement {
+    private _getHintHTMLElement(): TElement {
         const component = this._Vue.extend(this._vueComponent);
         const hint = new component({
             propsData: { ...this._content, ...this._settings },
@@ -32,7 +32,7 @@ export class Vue2Hint extends Hint {
         hint.$on('go-to', this._settings.goTo);
 
         const elem = hint.$el;
-        elem.classList.add(ClassNames.HINT);
+        elem.classList.add(ClassName.HINT);
         return elem;
     }
 }
