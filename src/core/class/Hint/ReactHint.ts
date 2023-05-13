@@ -1,5 +1,5 @@
 import { ClassName } from '../../ClassName';
-import { TElement, THintConfig, THintSettings } from '../../Interfaces';
+import { THintConfig, THintSettings } from '../../Interfaces';
 import { Hint } from './Hint';
 
 export class ReactHint extends Hint {
@@ -37,11 +37,9 @@ export class ReactHint extends Hint {
 
             root.render(this._reactComponent(props));
 
-            setTimeout(() => {
-                const elem = div;
-                elem.classList.add(ClassName.HINT);
-                resolve(elem);
-            });
+            const elem = div;
+            elem.classList.add(ClassName.HINT);
+            resolve(elem);
         });
     }
 }
