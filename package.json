@@ -1,10 +1,10 @@
 {
     "scripts": {
         "build": "npm run build:vanilla && npm run build:vue2 && npm run build:vue3 && npm run build:react",
-        "build:vanilla": "sh build-vanilla.sh",
-        "build:vue2": "sh build-vue2.sh",
-        "build:vue3": "sh build-vue3.sh",
-        "build:react": "sh build-react.sh",
+        "build:vanilla": "sh ./script/build-vanilla.sh",
+        "build:vue2": "sh ./script/build-vue2.sh",
+        "build:vue3": "sh ./script/build-vue3.sh",
+        "build:react": "sh ./script/build-react.sh",
         "serve:vanilla": "./node_modules/.bin/webpack serve --config ./sandbox/vanilla/webpack.config.js --mode=development",
         "serve:vue2": "cd sandbox/vue2 && npm run serve",
         "serve:vue3": "cd sandbox/vue3 && npm run serve",
