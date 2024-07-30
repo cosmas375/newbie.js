@@ -30,10 +30,6 @@ export interface IComponentsFactory {
   createArrow(config: TArrowConfig): IArrow;
 }
 
-export interface IHintFactory {
-  create(config: THintConfig, payload: object): IHint;
-}
-
 export interface IHint {
   mount(): Promise<TElement>;
   unmount(): void;

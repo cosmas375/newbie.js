@@ -1,14 +1,9 @@
-import {
-  IHint,
-  IHintFactory,
-  THintConfig,
-  THintSettings
-} from '../../Interfaces';
+import { IHint, THintConfig, THintSettings } from '../../Interfaces';
 import { ReactHintFactory } from '../HintFactory/ReactHintFactory';
 import { ComponentsFactory } from './ComponentsFactory';
 
 export class ReactComponentsFactory extends ComponentsFactory {
-  private _hintFactory: IHintFactory;
+  private _hintFactory: ReactHintFactory;
 
   constructor({ ReactDOM }: { ReactDOM: any }) {
     super();

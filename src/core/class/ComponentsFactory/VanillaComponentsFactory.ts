@@ -1,14 +1,9 @@
-import {
-  IHint,
-  IHintFactory,
-  THintConfig,
-  THintSettings
-} from '../../Interfaces';
+import { IHint, THintConfig, THintSettings } from '../../Interfaces';
 import { VanillaHintFactory } from '../HintFactory/VanillaHintFactory';
 import { ComponentsFactory } from './ComponentsFactory';
 
 export class VanillaComponentsFactory extends ComponentsFactory {
-  private _hintFactory: IHintFactory;
+  private _hintFactory: VanillaHintFactory;
 
   constructor() {
     super();

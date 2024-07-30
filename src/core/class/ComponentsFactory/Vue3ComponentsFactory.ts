@@ -1,14 +1,9 @@
-import {
-  IHint,
-  IHintFactory,
-  THintConfig,
-  THintSettings
-} from '../../Interfaces';
+import { IHint, THintConfig, THintSettings } from '../../Interfaces';
 import { Vue3HintFactory } from '../HintFactory/Vue3HintFactory';
 import { ComponentsFactory } from './ComponentsFactory';
 
 export class Vue3ComponentsFactory extends ComponentsFactory {
-  private _hintFactory: IHintFactory;
+  private _hintFactory: Vue3HintFactory;
 
   constructor({ createApp }: { createApp: any }) {
     super();
