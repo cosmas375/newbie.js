@@ -2,11 +2,11 @@
 
 ## Newbie methods:
 
--   **start**() - starts the tour and displays the first hint;
--   **goNext**() - displays the next step;
--   **goPrevious**() - displays the previous step;
--   **goTo**(id: _string_) - displays step with given id;
--   **stop**() - finishes the tour.
+- **start**() - starts the tour and displays the first hint;
+- **goNext**() - displays the next step;
+- **goPrevious**() - displays the previous step;
+- **goTo**(id: _string_) - displays step with given id;
+- **stop**() - finishes the tour.
 
 ---
 

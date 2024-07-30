@@ -3,16 +3,16 @@ import { NullShadow } from './NullShadow';
 import { SvgShadow } from './SvgShadow';
 
 export class ShadowFactory {
-    private static _svgShadow: SvgShadow | null = null;
+  private static _svgShadow: SvgShadow | null = null;
 
-    public static create(config: TShadowConfig, settings: object): IShadow {
-        if (config.enabled) {
-            if (!this._svgShadow) {
-                this._svgShadow = new SvgShadow(settings);
-            }
-            return this._svgShadow;
-        } else {
-            return new NullShadow();
-        }
+  public static create(config: TShadowConfig, settings: object): IShadow {
+    if (config.enabled) {
+      if (!this._svgShadow) {
+        this._svgShadow = new SvgShadow(settings);
+      }
+      return this._svgShadow;
+    } else {
+      return new NullShadow();
     }
+  }
 }

@@ -1,3 +1,3 @@
 export default function _warn(message: string) {
-    throw console.warn(message);
+  throw console.warn(message);
 }

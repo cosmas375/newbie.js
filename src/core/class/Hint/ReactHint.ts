@@ -3,43 +3,43 @@ import { THintConfig, THintSettings } from '../../Interfaces';
 import { Hint } from './Hint';
 
 export class ReactHint extends Hint {
-    private _reactComponent: any;
-    private _settings: THintSettings;
+  private _reactComponent: any;
+  private _settings: THintSettings;
 
-    private _ReactDOM: any;
+  private _ReactDOM: any;
 
-    constructor(config: THintConfig, settings: THintSettings, ReactDom: any) {
-        super(config);
+  constructor(config: THintConfig, settings: THintSettings, ReactDom: any) {
+    super(config);
 
-        this._reactComponent = config.component;
-        this._settings = settings;
+    this._reactComponent = config.component;
+    this._settings = settings;
 
-        this._ReactDOM = ReactDom;
-    }
+    this._ReactDOM = ReactDom;
+  }
 
-    public async mount() {
-        this._element = await this._getHintHTMLElement();
-        return this._element;
-    }
+  public async mount() {
+    this._element = await this._getHintHTMLElement();
+    return this._element;
+  }
 
-    private _getHintHTMLElement(): Promise<HTMLElement> {
-        return new Promise(resolve => {
-            const div = document.createElement('div');
-            const root = this._ReactDOM.createRoot(div);
-            const props = {
-                ...this._content,
-                ...this._settings,
-                goNext: this._settings.goNext,
-                goPrevious: this._settings.goPrevious,
-                stop: this._settings.stop,
-                goTo: this._settings.goTo,
-            };
+  private _getHintHTMLElement(): Promise<HTMLElement> {
+    return new Promise((resolve) => {
+      const div = document.createElement('div');
+      const root = this._ReactDOM.createRoot(div);
+      const props = {
+        ...this._content,
+        ...this._settings,
+        goNext: this._settings.goNext,
+        goPrevious: this._settings.goPrevious,
+        stop: this._settings.stop,
+        goTo: this._settings.goTo
+      };
 
-            root.render(this._reactComponent(props));
+      root.render(this._reactComponent(props));
 
-            const elem = div;
-            elem.classList.add(ClassName.HINT);
-            resolve(elem);
-        });
-    }
+      const elem = div;
+      elem.classList.add(ClassName.HINT);
+      resolve(elem);
+    });
+  }
 }

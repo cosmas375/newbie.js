@@ -6,7 +6,7 @@ import { Position } from './core/Position';
 export default Newbie;
 
 export function useNewbie({ ReactDOM }: { ReactDOM: any }) {
-    Globals.componentsFactory = new ReactComponentsFactory({ ReactDOM });
+  Globals.componentsFactory = new ReactComponentsFactory({ ReactDOM });
 }
 
 export const NewbiePosition = Position;

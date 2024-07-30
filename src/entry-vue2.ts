@@ -6,9 +6,9 @@ import { Position } from './core/Position';
 export default Newbie;
 
 export const NewbiePlugin = {
-    install(Vue: any) {
-        Globals.componentsFactory = new Vue2ComponentsFactory(Vue);
-    },
+  install(Vue: any) {
+    Globals.componentsFactory = new Vue2ComponentsFactory(Vue);
+  }
 };
 
 export const NewbiePosition = Position;

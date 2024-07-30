@@ -12,30 +12,28 @@ import config from '../../config';
 let newbie = null;
 
 function doStart() {
-    newbie.start();
+  newbie.start();
 }
 
 function App() {
-    useNewbie({ ReactDOM });
+  useNewbie({ ReactDOM });
 
-    useEffect(() => {
-        newbie = new Newbie({
-            ...config,
-            hint: {
-                component: Hint,
-            },
-        });
+  useEffect(() => {
+    newbie = new Newbie({
+      ...config,
+      hint: {
+        component: Hint
+      }
+    });
 
-        document.querySelector('#start').addEventListener('click', doStart);
+    document.querySelector('#start').addEventListener('click', doStart);
 
-        return () => {
-            document
-                .querySelector('#start')
-                .removeEventListener('click', doStart);
-        };
-    }, []);
+    return () => {
+      document.querySelector('#start').removeEventListener('click', doStart);
+    };
+  }, []);
 
-    return <></>;
+  return <></>;
 }
 
 export default App;

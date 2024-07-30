@@ -5,9 +5,9 @@ import { VanillaComponentsFactory } from './core/class/ComponentsFactory/Vanilla
 import './assets/scss/style.scss';
 
 declare global {
-    interface Window {
-        Newbie: any;
-    }
+  interface Window {
+    Newbie: any;
+  }
 }
 
 Globals.componentsFactory = new VanillaComponentsFactory();

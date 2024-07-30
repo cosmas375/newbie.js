@@ -2,20 +2,20 @@
 $size: 2rem;
 
 .newbie-arrow {
-    display: none;
-    transform-origin: center;
-    z-index: $z-index-arrow;
-    width: 0;
-    height: 0;
+  display: none;
+  transform-origin: center;
+  z-index: $z-index-arrow;
+  width: 0;
+  height: 0;
 
-    background-color: transparent;
+  background-color: transparent;
 
-    border-top: none;
-    border-bottom: $size solid black;
-    border-left: $size solid transparent;
-    border-right: $size solid transparent;
+  border-top: none;
+  border-bottom: $size solid black;
+  border-left: $size solid transparent;
+  border-right: $size solid transparent;
 
-    &_visible {
-        display: block;
-    }
+  &_visible {
+    display: block;
+  }
 }

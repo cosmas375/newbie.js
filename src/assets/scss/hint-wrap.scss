@@ -1,32 +1,32 @@
 @import './variables';
 
 .newbie-hint-wrap {
+  position: absolute;
+  display: flex;
+  width: 0;
+  height: 0;
+  z-index: $z-index-hint-wrap;
+  opacity: 0;
+
+  &_visible {
+    opacity: 1;
+  }
+
+  &__container {
     position: absolute;
     display: flex;
-    width: 0;
-    height: 0;
-    z-index: $z-index-hint-wrap;
-    opacity: 0;
+    transition: all;
+    z-index: $z-index-hint;
+  }
 
-    &_visible {
-        opacity: 1;
-    }
+  &__arrow {
+    position: absolute;
+    transition: all;
+    z-index: $z-index-arrow;
+  }
 
-    &__container {
-        position: absolute;
-        display: flex;
-        transition: all;
-        z-index: $z-index-hint;
-    }
-
-    &__arrow {
-        position: absolute;
-        transition: all;
-        z-index: $z-index-arrow;
-    }
-
-    .newbie-hint {
-        display: block;
-        z-index: $z-index-hint;
-    }
+  .newbie-hint {
+    display: block;
+    z-index: $z-index-hint;
+  }
 }

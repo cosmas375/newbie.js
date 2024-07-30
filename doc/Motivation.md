@@ -4,7 +4,7 @@ There are a few things which I don't like in existing tour libraries.
 
 ---
 
--   ## Relying on z-index of target element
+- ## Relying on z-index of target element
 
 Some libraries are trying to increase z-index of target element to make it greater than z-index of "shadow". It won't work if we've set z-index for any of its parent elements.  
 Let's say we have an HTML structure like this:
@@ -25,7 +25,7 @@ To avoid this kind of situations we use SVG to draw a shadow. It allows you not 
 
 ---
 
--   ## Lack of customization
+- ## Lack of customization
 
 All the libraries provides us with their own popups for hints. In most cases they allow us to:
 
@@ -63,7 +63,7 @@ Moreover, we've allowed you to use different popups for different steps, so you 
 
 ---
 
--   ## Weird event handlig
+- ## Weird event handlig
 
 You've probably seen API that allows you to handle _change_ events without knowing which step is active and which is about to be active.
 
@@ -73,7 +73,7 @@ That's why we decided to use lifecycle hooks for steps and tour in general. Thes
 
 ---
 
--   ## $$$
+- ## $$$
 
 **newbie.js** is completely free ;)
 

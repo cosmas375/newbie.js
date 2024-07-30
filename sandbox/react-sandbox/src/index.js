@@ -5,16 +5,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 if (!window.isReactAppCreated) {
-    // idk how to prevent the stupid refresh
-    const root = ReactDOM.createRoot(document.getElementById('app'));
+  // idk how to prevent the stupid refresh
+  const root = ReactDOM.createRoot(document.getElementById('app'));
 
-    root.render(
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>
-    );
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
 
-    window.isReactAppCreated = true;
+  window.isReactAppCreated = true;
 }
 
 // If you want to start measuring performance in your app, pass a function

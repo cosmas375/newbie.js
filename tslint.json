@@ -1,12 +1,12 @@
 {
-    "extends": "tslint:recommended",
-    "linterOptions": {
-        "exclude": ["dist"]
-    },
-    "rules": {
-        "no-console": [true, "log", "error"],
-        "no-empty": [true, "allow-empty-functions"],
-        "max-classes-per-file": false,
-        "no-angle-bracket-type-assertion": false
-    }
+  "extends": "tslint:recommended",
+  "linterOptions": {
+    "exclude": ["dist"]
+  },
+  "rules": {
+    "no-console": [true, "log", "error"],
+    "no-empty": [true, "allow-empty-functions"],
+    "max-classes-per-file": false,
+    "no-angle-bracket-type-assertion": false
+  }
 }
